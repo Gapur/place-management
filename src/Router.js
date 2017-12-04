@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import MainLayout from './shared/components/Layout';
+import MainLayout from './shared/components/MainLayout';
 import NotFoundScreen from './shared/components/NotFoundScreen';
 
 const RouterComponent = () => (
