@@ -1,0 +1,22 @@
+.header {
+  background: #fff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  .profile-status {
+    .ant-menu {
+      border: none;
+    }
+    
+    .ant-menu-item {
+      display: flex;
+      align-items: center;
+      border: none !important;
+    }
+  }
+  
+  .search-box {
+    display: flex;
+    align-items: center;
+  }
+}

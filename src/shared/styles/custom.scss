@@ -1,0 +1,23 @@
+.circle {
+  border-radius: 50%;
+	width: 14px;
+  height: 14px;
+  
+  &.online {
+    background: green;
+  }
+  &.offline {
+    background: silver;
+  }
+}
+
+.is-right {
+  float: right;
+}
+
+.main-content {
+  background: #fff;
+  padding: 2%;
+  min-height: 360px;
+  margin-top: 5px;
+}
