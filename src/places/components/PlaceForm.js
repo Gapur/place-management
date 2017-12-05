@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
 import { Form, Button, Icon, Row, Col } from 'antd';
 import { Field, reduxForm } from 'redux-form';
-import { renderInput } from '../../shared/utils/form_components';
+import {
+  renderInput,
+  renderSelect,
+  renderDateTime,
+  renderLabel,
+  renderTextarea,
+  renderInputUpload,
+} from '../../shared/utils/form_components';
 import { required, email, password } from '../../shared/utils/form_validations';
 
 const FormItem = Form.Item;
+const options = ['Thailand', 'Qazakhstan', 'Japan'];
+const genders = ['male', 'female'];
 
 class PlaceForm extends Component {
   render() {
     const { handleSubmit, error, submitting } = this.props;
+    const buttonAfter = <Button type="primary">Generate</Button>
 
     return (
       <Form onSubmit={handleSubmit}>
-        <Row>
+        <Row gutter={32}>
           <Col span={8}>
             <Field
               name="first_name"
@@ -21,6 +31,7 @@ class PlaceForm extends Component {
               placeholder="First Name"
               validate={required}
             />
+
             <Field
               name="last_name"
               label="Last Name"
@@ -28,6 +39,7 @@ class PlaceForm extends Component {
               placeholder="Last Name"
               validate={required}
             />
+
             <Field
               name="email"
               label="Email"
@@ -35,38 +47,96 @@ class PlaceForm extends Component {
               placeholder="email"
               validate={[required, email]}
             />
+
+            <div className="input-button-suffix">
+              <Field
+                name="password"
+                label="Password"
+                type="password"
+                component={renderInput}
+                placeholder="At least 8 Characters"
+                validate={[required, password]}
+                suffix={buttonAfter}
+              />
+            </div>
+
             <Field
-              name="password"
-              label="Password"
-              type="password"
-              component={renderInput}
-              placeholder="At least 8 Characters"
-              validate={[required, password]}
+              name="gender"
+              label="I'am"
+              component={renderSelect}
+              placeholder="Select Sex"
+              options={genders}
             />
+
+            <Field
+              name="birthdate"
+              label="Birthdate"
+              component={renderDateTime}
+              placeholder="Birth date"
+            />
+
             <Field
               name="living_in"
               label="Living In"
               component={renderInput}
               placeholder="City"
             />
+
             <Field
               name="country"
               label="Country"
-              component={renderInput}
+              component={renderSelect}
               placeholder="Select Country"
+              options={options}
             />
+
             <Field
               name="phone"
               label="Mobile"
               component={renderInput}
               placeholder="Mobile Number"
             />
+
             <Field
               name="user_name"
               label="User Name"
               component={renderInput}
               placeholder="@cristian"
               validate={required}
+            />
+          </Col>
+
+          <Col span={8}>
+            <Field
+              name="picture"
+              label="Profile Picture"
+              component={renderInputUpload}
+              placeholder="Upload Picture"
+            />
+
+            <Field
+              name="bio"
+              label="BIO"
+              component={renderTextarea}
+              placeholder="BIO"
+            />
+
+            <Field
+              name="registration_date"
+              label="Registration Date"
+              component={renderLabel}
+            />
+
+            <Field
+              name="create_date"
+              label="Create Date"
+              component={renderLabel}
+            />
+            
+            <Field
+              name="create_by"
+              label="Create by"
+              component={renderLabel}
             />
           </Col>
         </Row>

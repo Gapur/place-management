@@ -21,3 +21,9 @@
   min-height: 360px;
   margin-top: 5px;
 }
+
+.input-button-suffix {
+  .ant-input-suffix {
+    right: 0;
+  }
+}

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import PlaceForm from './components/PlaceForm';
 
 class NewPlace extends Component {
@@ -15,6 +16,11 @@ class NewPlace extends Component {
   }
 
   render() {
+    const initialValues = {
+      create_date: moment().format('MMMM Do YYYY, hh:mm'),
+      create_by: 'gkassym',
+      registration_date: moment().format('MMMM Do YYYY, hh:mm'),
+    }
     return (
       <div id="new-place">
         <Breadcrumb>
@@ -25,7 +31,10 @@ class NewPlace extends Component {
         <div className="container">
           <h3>New Place</h3>
 
-          <PlaceForm onSubmit={this.handleSubmit} />
+          <PlaceForm
+            initialValues={initialValues}
+            onSubmit={this.handleSubmit}
+          />
         </div>
       </div>
     );
