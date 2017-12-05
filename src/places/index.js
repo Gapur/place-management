@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Table, Button, Icon } from 'antd';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 const columns = [{
@@ -121,13 +122,13 @@ class Places extends Component {
         <Breadcrumb>
           <Breadcrumb.Item>Places</Breadcrumb.Item>
         </Breadcrumb>
-        <div className="main-content">
+        <div className="container">
           <h4>
             Manage Places
             <div className="is-right">
               <Button.Group size="small">
                 <Button>
-                  <Icon type="plus" />New Place
+                  <Link to="/places/new"><Icon type="plus" />New Place</Link>
                 </Button>
                 <Button>
                   Report<Icon type="down" />

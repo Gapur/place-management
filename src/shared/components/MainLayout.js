@@ -5,6 +5,7 @@ import { Layout } from 'antd';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import PlacesScreen from '../../places';
+import NewPlaceScreen from '../../places/NewPlace';
 import UsersScreen from '../../users';
 
 const { Content } = Layout;
@@ -19,6 +20,7 @@ class MainLayout extends Component {
           <Content style={{ margin: '24px 16px 0' }}>
             <Route exact path="/users" component={UsersScreen} />
             <Route exact path="/places" component={PlacesScreen} />
+            <Route exact path="/places/new" component={NewPlaceScreen} />
             <Route exact path="/dashboard" component={UsersScreen} />
             <Route exact path="/stories" component={UsersScreen} />
           </Content>
