@@ -82,7 +82,7 @@ class Stories extends Component {
             <div className="is-right">
               <Button.Group size="small">
                 <Button>
-                  <Link to="/places/new"><Icon type="plus" />New Story</Link>
+                  <Link to="/stories/new"><Icon type="plus" />New Story</Link>
                 </Button>
                 <Button>
                   Report<Icon type="down" />

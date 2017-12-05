@@ -41,7 +41,7 @@ const columns = [{
     text: 'Tokyo',
     value: 'Tokyo',
   }],
-  onFilter: (value, record) => record.status.indexOf(value) === 0,
+  onFilter: (value, record) => record.city.indexOf(value) === 0,
   sorter: (a, b) => a.city - b.city,
 }, {
   title: 'Country',
@@ -57,7 +57,7 @@ const columns = [{
     text: 'Thailand',
     value: 'Thailand',
   }],
-  onFilter: (value, record) => record.status.indexOf(value) === 0,
+  onFilter: (value, record) => record.country.indexOf(value) === 0,
 }, {
   title: 'Source',
   dataIndex: 'source',
@@ -69,7 +69,7 @@ const columns = [{
     text: 'OneMap',
     value: 'OneMap',
   }],
-  onFilter: (value, record) => record.status.indexOf(value) === 0,
+  onFilter: (value, record) => record.source.indexOf(value) === 0,
 }];
 
 const data = [{

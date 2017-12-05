@@ -7,7 +7,9 @@ import Header from './Header';
 import PlacesScreen from '../../places';
 import NewPlaceScreen from '../../places/NewPlace';
 import UsersScreen from '../../users';
+import NewUserScreen from '../../users/NewUser';
 import StoriesScreen from '../../stories';
+import NewStoryScreen from '../../stories/NewStory';
 
 const { Content } = Layout;
 
@@ -19,11 +21,15 @@ class MainLayout extends Component {
         <Layout>
           <Header />
           <Content style={{ margin: '24px 16px 0' }}>
-            <Route exact path="/users" component={UsersScreen} />
+            <Route exact path="/dashboard" component={UsersScreen} />
+            <Route exact path="/users/one-mappers/regulars" component={UsersScreen} />
+            <Route exact path="/users/one-mappers/bloggers" component={UsersScreen} />
+            <Route exact path="/users/one-mappers/partners" component={UsersScreen} />
+            <Route exact path="/users/one-mappers/new" component={NewUserScreen} />
             <Route exact path="/places" component={PlacesScreen} />
             <Route exact path="/places/new" component={NewPlaceScreen} />
-            <Route exact path="/dashboard" component={UsersScreen} />
             <Route exact path="/stories" component={StoriesScreen} />
+            <Route exact path="/stories/new" component={NewStoryScreen} />
           </Content>
         </Layout>
       </Layout>

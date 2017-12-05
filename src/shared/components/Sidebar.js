@@ -26,13 +26,13 @@ const Sidebar = () => {
           title={<span><Icon type="user" /><span>Users</span></span>}
         >
           <Menu.Item key="admins">
-            <Link to="/places">Admins</Link>
+            Admins
           </Menu.Item>
           <SubMenu
             key="onemappers"
             title={<span>OneMappers</span>}
           >
-            <Menu.Item key="admins">
+            <Menu.Item key="bloggers">
               <Link to="/users/one-mappers/bloggers">Bloggers</Link>
             </Menu.Item>
             <Menu.Item key="regulars">
