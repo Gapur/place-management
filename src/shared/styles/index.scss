@@ -1,0 +1,33 @@
+.circle {
+  border-radius: 50%;
+	width: 14px;
+  height: 14px;
+  
+  &.online {
+    background: green;
+  }
+  &.offline {
+    background: silver;
+  }
+}
+
+.is-right {
+  float: right;
+}
+
+.profile-box {
+  .ant-menu {
+    border: none;
+  }
+  
+  .ant-menu-item {
+    display: flex;
+    align-items: center;
+    border: none !important;
+  }
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+}

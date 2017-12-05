@@ -3,10 +3,11 @@ import { Route } from 'react-router-dom';
 import { Layout } from 'antd';
 
 import Sidebar from './Sidebar';
+import Header from './Header';
 import PlacesScreen from '../../places';
 import UsersScreen from '../../users';
 
-const { Header, Content } = Layout;
+const { Content } = Layout;
 
 class MainLayout extends Component {
   render() {
@@ -14,7 +15,7 @@ class MainLayout extends Component {
       <Layout style={{ height: "100vh" }}>
         <Sidebar />
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
+          <Header />
           <Content style={{ margin: '24px 16px 0' }}>
             <Route exact path="/users" component={UsersScreen} />
             <Route exact path="/places" component={PlacesScreen} />
