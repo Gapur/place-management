@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const storiesColumns = [{
   title: 'Place Name',
   dataIndex: 'place_name',
