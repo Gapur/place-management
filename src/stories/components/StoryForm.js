@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Icon, Row, Col } from 'antd';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
 import {
   renderInput,
   renderSelect,
@@ -59,6 +60,9 @@ class PlaceForm extends Component {
             />
 
             <FormItem {...tailFormItemLayout}>
+              <Button style={{ marginRight: 5 }}>
+                <Link to="/stories">Cancel</Link>
+              </Button>
               <Button type="primary" htmlType="submit">
                 <Icon type="save" />Save
               </Button>

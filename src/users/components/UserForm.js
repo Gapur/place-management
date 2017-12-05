@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, Icon, Row, Col } from 'antd';
 import { Field, reduxForm } from 'redux-form';
+import { Link } from 'react-router-dom';
 import {
   renderInput,
   renderSelect,
@@ -139,13 +140,18 @@ class UserForm extends Component {
               component={renderLabel}
             />
           </Col>
-        </Row>
 
-        <FormItem>
-          <Button type="primary" htmlType="submit">
-            <Icon type="save" />Save
-          </Button>
-        </FormItem>
+          <Col span={8}>
+            <FormItem>
+              <Button style={{ marginRight: 5 }}>
+                <Link to="/users/one-mappers/regulars">Cancel</Link>
+              </Button>
+              <Button type="primary" htmlType="submit">
+                <Icon type="save" />Save
+              </Button>
+            </FormItem>
+          </Col>
+        </Row>
       </Form>
     )
   }
