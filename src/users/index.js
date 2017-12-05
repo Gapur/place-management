@@ -83,6 +83,7 @@ const data = [{
   user_name: '@donutfino',
   city: 'Bangkok',
   country: 'Thailand',
+  role: 'Bloggers',
 }, {
   key: '2',
   place_name: 'Astana Arena',
@@ -91,6 +92,7 @@ const data = [{
   user_name: '@gkassym',
   city: 'Qaragandy',
   country: 'Qazakhstan',
+  role: 'Partners',
 }, {
   key: '3',
   place_name: 'Tokya Tower',
@@ -99,6 +101,7 @@ const data = [{
   user_name: '@kassym',
   city: 'Astana',
   country: 'Qazakhstan',
+  role: 'Regulars',
 }, {
   key: '4',
   place_name: 'Qaragandy Opera',
@@ -107,6 +110,7 @@ const data = [{
   user_name: '@gafur',
   city: 'Tokyo',
   country: 'Japan',
+  role: 'Regulars',
 }];
 
 class Users extends Component {
@@ -129,7 +133,7 @@ class Users extends Component {
         <div className="container">
           <h4>
             Manage Users
-          <div className="is-right">
+            <div className="is-right">
               <Button.Group size="small">
                 <Button>
                   <Link to="/users/one-mappers/new"><Icon type="plus" />New User</Link>

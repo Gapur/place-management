@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+
 import PlaceForm from './components/PlaceForm';
 
 class NewPlace extends Component {

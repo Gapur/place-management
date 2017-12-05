@@ -15,7 +15,7 @@ const FormItem = Form.Item;
 const options = ['Thailand', 'Qazakhstan', 'Japan'];
 const genders = ['male', 'female'];
 
-class UserForm extends Component {
+class PlaceForm extends Component {
   render() {
     const { handleSubmit, error, submitting } = this.props;
     const buttonAfter = <Button type="primary">Generate</Button>
@@ -132,7 +132,7 @@ class UserForm extends Component {
               label="Create Date"
               component={renderLabel}
             />
-
+            
             <Field
               name="create_by"
               label="Create by"
@@ -151,4 +151,4 @@ class UserForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'userForm' })(UserForm);
+export default reduxForm({ form: 'placeForm' })(PlaceForm);
