@@ -3,6 +3,8 @@ import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
+import StoryForm from './components/StoryForm';
+
 class NewStory extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +26,8 @@ class NewStory extends Component {
 
         <div className="container">
           <h3>New Story</h3>
+
+          <StoryForm onSubmit={this.handleSubmit} />
         </div>
       </div>
     );

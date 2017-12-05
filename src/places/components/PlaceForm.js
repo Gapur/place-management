@@ -4,7 +4,6 @@ import { Field, reduxForm } from 'redux-form';
 import {
   renderInput,
   renderSelect,
-  renderDateTime,
   renderLabel,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
