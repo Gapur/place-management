@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import { Route } from 'react-router-dom';
+import { Layout } from 'antd';
 
 import Sidebar from './Sidebar';
+import PlacesScreen from '../../places';
+import UsersScreen from '../../users';
 
 const { Header, Content } = Layout;
 
@@ -13,9 +16,10 @@ class MainLayout extends Component {
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />
           <Content style={{ margin: '24px 16px 0' }}>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              content
-            </div>
+            <Route exact path="/users" component={UsersScreen} />
+            <Route exact path="/places" component={PlacesScreen} />
+            <Route exact path="/dashboard" component={UsersScreen} />
+            <Route exact path="/stories" component={UsersScreen} />
           </Content>
         </Layout>
       </Layout>
