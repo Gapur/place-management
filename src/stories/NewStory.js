@@ -17,6 +17,10 @@ class NewStory extends Component {
   }
 
   render() {
+    const initialValues = {
+      create_date: moment().format('MMMM Do YYYY, hh:mm'),
+      create_by: 'gkassym',
+    }
     return (
       <div id="new-story">
         <Breadcrumb>
@@ -27,7 +31,10 @@ class NewStory extends Component {
         <div className="container">
           <h3>New Story</h3>
 
-          <StoryForm onSubmit={this.handleSubmit} />
+          <StoryForm
+            initialValues={initialValues}
+            onSubmit={this.handleSubmit}
+          />
         </div>
       </div>
     );
