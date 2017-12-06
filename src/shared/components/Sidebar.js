@@ -12,7 +12,9 @@ const Sidebar = () => {
       collapsedWidth="0"
       onCollapse={(collapsed, type) => { console.log(collapsed, type); }}
     >
-      <div className="logo" />
+      <div className="logo">
+        <Link to="/" className="ic-logo" />
+      </div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
         <SubMenu
           key="dashboard"
