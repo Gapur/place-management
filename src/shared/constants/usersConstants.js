@@ -81,6 +81,7 @@ export const data = [{
   city: 'Bangkok',
   country: 'Thailand',
   role: 'Bloggers',
+  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
 }, {
   key: '2',
   place_name: 'Astana Arena',
@@ -90,6 +91,7 @@ export const data = [{
   city: 'Qaragandy',
   country: 'Qazakhstan',
   role: 'Partners',
+  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
 }, {
   key: '3',
   place_name: 'Tokya Tower',
@@ -99,6 +101,7 @@ export const data = [{
   city: 'Astana',
   country: 'Qazakhstan',
   role: 'Regulars',
+  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
 }, {
   key: '4',
   place_name: 'Qaragandy Opera',
@@ -108,4 +111,5 @@ export const data = [{
   city: 'Tokyo',
   country: 'Japan',
   role: 'Regulars',
+  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
 }];

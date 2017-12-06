@@ -125,6 +125,8 @@ class UserForm extends Component {
               label="Profile Picture"
               component={renderInputUpload}
               placeholder="Upload Picture"
+              multiple
+              listType="picture-card"
             />
 
             <Field

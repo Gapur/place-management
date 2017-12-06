@@ -16,7 +16,7 @@ export const storiesColumns = [{
   }],
   filterMultiple: false,
   onFilter: (value, record) => record.status.indexOf(value) === 0,
-  sorter: (a, b) => a.status.length - b.address.length,
+  sorter: (a, b) => a.status.length - b.status.length,
 }, {
   title: 'Modified Date',
   dataIndex: 'modified_date',
@@ -38,6 +38,7 @@ export const data = [{
   modified_date: moment().format(),
   created_by: '@donutfino',
   display_name: 'Nuttawuth Chainilphan',
+  description: '400 Read, 233 Liked',
 }, {
   key: '2',
   place_name: 'Astana Arena',
@@ -45,6 +46,7 @@ export const data = [{
   modified_date: moment().format(),
   created_by: '@gkassym',
   display_name: 'Gapur Kassym',
+  description: '400 Read, 233 Liked',
 }, {
   key: '3',
   place_name: 'Tokya Tower',
@@ -52,11 +54,13 @@ export const data = [{
   modified_date: moment().format(),
   created_by: '@kassym',
   display_name: 'Tulebay Erbolat',
+  description: '400 Read, 233 Liked',
 }, {
   key: '4',
   place_name: 'Qaragandy Opera',
   status: 'Verified',
   modified_date: moment().format(),
+  description: '400 Read, 233 Liked',
   created_by: '@gafur',
   display_name: 'John Terry',
 }];

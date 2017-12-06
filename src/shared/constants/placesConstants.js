@@ -16,7 +16,7 @@ export const placeColumns = [{
   }],
   filterMultiple: false,
   onFilter: (value, record) => record.status.indexOf(value) === 0,
-  sorter: (a, b) => a.status.length - b.address.length,
+  sorter: (a, b) => a.status.length - b.status.length,
 }, {
   title: 'Created Date',
   dataIndex: 'created_date',
@@ -78,6 +78,7 @@ export const data = [{
   city: 'Bangkok',
   country: 'Thailand',
   source: 'Google',
+  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
 }, {
   key: '2',
   place_name: 'Astana Arena',
@@ -87,6 +88,7 @@ export const data = [{
   city: 'Qaragandy',
   country: 'Qazakhstan',
   source: 'Google',
+  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
 }, {
   key: '3',
   place_name: 'Tokya Tower',
@@ -96,6 +98,7 @@ export const data = [{
   city: 'Astana',
   country: 'Qazakhstan',
   source: 'Google',
+  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
 }, {
   key: '4',
   place_name: 'Qaragandy Opera',
@@ -105,4 +108,5 @@ export const data = [{
   city: 'Tokyo',
   country: 'Japan',
   source: 'OneMap',
+  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
 }];

@@ -129,9 +129,7 @@ export const renderInputUpload = (props) => {
       validateStatus={validateStatus}
       help={meta.touched && meta.error && meta.error || ''}
     >
-      <Upload {...inputProps}
-        listType="picture-card"
-      >
+      <Upload {...inputProps}>
         {input.value ? <img src={input.value.file} alt="image" /> : uploadButton}
       </Upload>
     </FormItem>
