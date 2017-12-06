@@ -24,6 +24,18 @@ class UserForm extends Component {
     return (
       <Form onSubmit={handleSubmit}>
         <Row gutter={32}>
+          <div className="is-right">
+            <FormItem>
+              <Button style={{ marginRight: 5 }}>
+                <Link to="/users/one-mappers/regulars">Cancel</Link>
+              </Button>
+              <Button type="primary" htmlType="submit">
+                <Icon type="save" />Save
+              </Button>
+            </FormItem>
+          </div>
+        </Row>
+        <Row gutter={32}>
           <Col span={8}>
             <Field
               name="first_name"
@@ -139,17 +151,6 @@ class UserForm extends Component {
               label="Create by"
               component={renderLabel}
             />
-          </Col>
-
-          <Col span={8}>
-            <FormItem>
-              <Button style={{ marginRight: 5 }}>
-                <Link to="/users/one-mappers/regulars">Cancel</Link>
-              </Button>
-              <Button type="primary" htmlType="submit">
-                <Icon type="save" />Save
-              </Button>
-            </FormItem>
           </Col>
         </Row>
       </Form>
