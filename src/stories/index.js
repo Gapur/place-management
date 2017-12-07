@@ -36,7 +36,7 @@ class Stories extends Component {
           <Table
             columns={storiesColumns}
             dataSource={data}
-            expandedRowRender={record => <p style={{ margin: 0 }}>{record.description}</p>}
+            expandedRowRender={record => <p className="no-margin">{record.description}</p>}
             onChange={this.handleChange}
           />
         </div>

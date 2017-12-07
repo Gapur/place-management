@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Form, Button, Icon, Row, Col, Tag, Input } from 'antd';
+import { Form, Button, Icon, Row, Col, Input } from 'antd';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
+import _ from 'lodash';
 import {
   renderInput,
   renderSelect,
@@ -10,6 +11,7 @@ import {
   renderInputUpload,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
+import CustomTags from './CustomTags';
 
 const FormItem = Form.Item;
 const users = ['Nuttawuth Chainilphan', 'Gapur Kassym', 'John Terry'];
@@ -30,57 +32,32 @@ class PlaceForm extends Component {
 
     this.state = {
       tags: [],
-      inputVisible: false,
-      inputValue: '',
+      newTag: null,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-    this.renderTags = this.renderTags.bind(this);
-    this.handleShowInput = this.handleShowInput.bind(this);
-    this.handleInputConfirm = this.handleInputConfirm.bind(this);
+    this.handleDeleteTag = this.handleDeleteTag.bind(this);
+    this.handleUpdateTags = this.handleUpdateTags.bind(this);
   }
 
   onSubmit(values) {
     this.props.onSubmit({ ...values, tags: this.state.tags });
   }
 
-  handleClose = (removedTag) => {
-    const tags = this.state.tags.filter(tag => tag !== removedTag);
+  handleDeleteTag = (removedTag) => {
+    const tags = this.state.tags.filter(tag => tag != removedTag);
     this.setState({ tags });
   }
 
-  renderTags() {
-    return (
-      this.state.tags.map(tag =>
-        <Tag key={tag} closable afterClose={() => this.handleClose(tag)}>
-          {tag}
-        </Tag>
-      )
-    );
-  }
-
-  handleShowInput = () => {
-    this.setState({ inputVisible: true }, () => this.input.focus());
-  }
-
-  handleInputConfirm = () => {
-    const state = this.state;
-    const inputValue = state.inputValue;
-    let tags = state.tags;
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      tags = [...tags, inputValue];
-    }
-    this.setState({
-      tags,
-      inputVisible: false,
-      inputValue: '',
-    });
+  handleUpdateTags = () => {
+    const { newTag, tags } = this.state;
+    const newTags = _.uniq(tags.concat(newTag))
+    this.setState({ tags: newTags, newTag: null });
   }
 
   render() {
     const { handleSubmit, error, submitting } = this.props;
-    const { inputValue, inputVisible } = this.state;
+    const { tags, newTag } = this.state;
 
     return (
       <Form onSubmit={handleSubmit(this.onSubmit)}>
@@ -132,28 +109,14 @@ class PlaceForm extends Component {
             />
 
             <FormItem {...tailFormItemLayout}>
-              <div className="tag-wrapper">
-                {this.renderTags()}
-                {inputVisible && (
-                  <Input
-                    ref={input => this.input = input}
-                    size="small"
-                    style={{ width: 78 }}
-                    value={inputValue}
-                    onChange={(e) => this.setState({ inputValue: e.target.value })}
-                    onBlur={this.handleInputConfirm}
-                    onPressEnter={this.handleInputConfirm}
-                  />
-                )}
-                {!inputVisible && (
-                  <Tag
-                    onClick={this.handleShowInput}
-                    style={{ background: '#fff', borderStyle: 'dashed' }}
-                  >
-                    <Icon type="plus" /> New Tag
-                  </Tag>
-                )}
-              </div>
+              <CustomTags
+                tags={tags}
+                isCreating={newTag != null}
+                onChange={(e) => this.setState({ newTag: e.target.value })}
+                onUpdate={this.handleUpdateTags}
+                onDelete={this.handleDeleteTag}
+                onClick={() => this.setState({ newTag: '' })}
+              />
             </FormItem>
           </Col>
 

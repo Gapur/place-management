@@ -33,6 +33,11 @@
   border-radius: 4px;
   padding-left: 2px;
   padding-right: 2px;
+
+  .button-new-tag {
+    background: #fff;
+    border-style: dashed;
+  }
 }
 
 .logo {
@@ -47,4 +52,8 @@
     background-image: url(../src/shared/img/logo.png);
     background-repeat: no-repeat;
   }
+}
+
+.no-margin {
+  margin: 0;
 }
