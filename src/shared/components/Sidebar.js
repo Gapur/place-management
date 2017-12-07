@@ -46,7 +46,7 @@ const Sidebar = () => {
           </SubMenu>
         </SubMenu>
         <Menu.Item key="places">
-          <Link to="/places"><Icon type="save" />Places</Link>
+          <Link to="/places"><Icon type="book" />Places</Link>
         </Menu.Item>
         <Menu.Item key="stories">
           <Link to="/stories"><Icon type="setting" />Stories</Link>
