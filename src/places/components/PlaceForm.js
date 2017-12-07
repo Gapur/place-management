@@ -3,7 +3,7 @@ import { Form, Button, Icon, Row, Col } from 'antd';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps";
+import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import {
   renderInput,
   renderSelect,
@@ -15,7 +15,11 @@ import {
 import { required } from '../../shared/utils/form_validations';
 
 const FormItem = Form.Item;
-const options = ['Thailand', 'Qazakhstan', 'Japan'];
+const options = [
+  { value: 'Thailand', label: 'Thailand' },
+  { value: 'Qazakhstan', label: 'Qazakhstan' },
+  { value: 'Japan', label: 'Japan' },
+];
 
 const PlaceMap = compose(
   withGoogleMap,
@@ -120,8 +124,8 @@ class PlaceForm extends Component {
 
           <Col span={8}>
             <Row>
-              <Col span={8}>
-                <span>Location:</span>
+              <Col span={8} className="ant-form-item-label">
+                <label>Location</label>
               </Col>
               <Col span={8}>
                 <Field

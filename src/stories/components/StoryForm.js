@@ -14,8 +14,17 @@ import { required } from '../../shared/utils/form_validations';
 import CustomTags from './CustomTags';
 
 const FormItem = Form.Item;
-const users = ['Nuttawuth Chainilphan', 'Gapur Kassym', 'John Terry'];
-const places = ['Sidney Oper House', 'Astana Arena', 'Tokya Tower', 'Qaragandy Opera'];
+const users = [
+  { value: 'nuttawuth', label: 'Nuttawuth Chainilphan' },
+  { value: 'gapur', label: 'Gapur Kassym' },
+  { value: 'john', label: 'John Terry' }
+];
+const places = [
+  { value: 1, label: 'Sidney Oper House' },
+  { value: 2, label: 'Astana Arena' },
+  { value: 3, label: 'Tokya Tower' },
+  { value: 4, label: 'Qaragandy Opera' },
+];
 
 const tailFormItemLayout = {
   wrapperCol: {
@@ -26,7 +35,7 @@ const tailFormItemLayout = {
   },
 };
 
-class PlaceForm extends Component {
+class StoryForm extends Component {
   constructor(props) {
     super(props);
 
@@ -148,4 +157,4 @@ class PlaceForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'placeForm' })(PlaceForm);
+export default reduxForm({ form: 'storyForm' })(StoryForm);

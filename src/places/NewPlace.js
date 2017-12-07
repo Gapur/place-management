@@ -18,8 +18,8 @@ class NewPlace extends Component {
 
   render() {
     const initialValues = {
-      create_date: moment().format('MMMM Do YYYY, hh:mm'),
-      create_by: 'gkassym',
+      created_date: moment().format('MMMM Do YYYY, hh:mm'),
+      created_by: 'gkassym',
       registration_date: moment().format('MMMM Do YYYY, hh:mm'),
     }
     return (

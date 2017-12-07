@@ -15,106 +15,65 @@ const formItemLayout = {
   },
 };
 
-export function getValidationState({ error, warning, touched }) {
+export const getValidationState = ({ error, warning, touched }) => {
   if (touched && error) return "error";
   if (touched && warning) return "warning";
   return 'success';
-}
+};
 
-export const renderInput = (props) => {
-  const { input, label, meta, placeholder } = props;
+const render = ({ input, label, meta, ...props }, renderInput) => {
   const id = `${meta.form}_${input.name}`;
-  const inputProps = { ...input, id: id, placeholder };
+  const inputProps = { ...input, id, ...props };
   const validateStatus = getValidationState(meta);
 
   return (
     <FormItem
       {...formItemLayout}
-      label={label ? label : ''}
+      label={label || ''}
       validateStatus={validateStatus}
-      help={meta.touched && meta.error && meta.error || ''}
+      help={meta.touched && meta.error || ''}
     >
-      <Input {...inputProps} />
+      {renderInput(inputProps)}
     </FormItem>
   );
 };
 
-export const renderSelect = (props) => {
-  const { input, label, meta, options, placeholder } = props;
-  const id = `${meta.form}_${input.name}`;
-  const onChange = (value) => input.onChange(value);
-  const onBlur = () => input.onBlur(inputProps.value);
-  const inputProps = { id: id, name: input.name, onChange, onBlur, placeholder };
-  const validateStatus = getValidationState(meta);
+export const renderInput = (props) => render(props, (inputProps) => {
+  return (
+    <Input {...inputProps} />
+  );
+});
+
+export const renderSelect = ({ options, ...props }) => render(props, (inputProps) => {
+  return (
+    <Select {...inputProps}>
+      {options.map(({ value, label }) => <Option key={value} value={value}>{label}</Option>)}
+    </Select>
+  );
+});
+
+export const renderDateTime = (props) => render(props, (inputProps) => {
+  const { name, id, placeholder } = inputProps;
+  const onChange = (date, dateString) => inputProps.onChange(dateString);
 
   return (
-    <FormItem
-      {...formItemLayout}
-      label={label ? label : ''}
-      validateStatus={validateStatus}
-      help={meta.touched && meta.error && meta.error || ''}
-    >
-      <Select {...inputProps}>
-        {options.map(opt => <Option key={opt} value={opt}>{opt}</Option>)}
-      </Select>
-    </FormItem>
+    <DatePicker name id placeholder={placeholder} onChange={onChange} />
   );
-};
+});
 
-export const renderDateTime = (props) => {
-  const { input, label, meta } = props;
-  const id = `${meta.form}_${input.name}`;
-  const onChange = (date, dateString) => input.onChange(dateString);
-  const inputProps = { name: input.name, onChange, id: id };
-  const validateStatus = getValidationState(meta);
-
+export const renderLabel = (props) => render(props, ({ value }) => {
   return (
-    <FormItem
-      {...formItemLayout}
-      label={label ? label : ''}
-      validateStatus={validateStatus}
-      help={meta.touched && meta.error && meta.error || ''}
-    >
-      <DatePicker {...inputProps} />
-    </FormItem>
+    <span className="ant-form-text">{value}</span>
   );
-};
+});
 
-export const renderLabel = (props) => {
-  const { input, label, meta } = props;
-  const id = `${meta.form}_${input.name}`;
-  const inputProps = { ...input, id: id };
-
+export const renderTextarea = (props) => render(props, (inputProps) => {
   return (
-    <FormItem {...formItemLayout} label={label ? label : ''}>
-      <span {...inputProps}>{input.value}</span>
-    </FormItem>
+    <textarea className="ant-input is-fullwidth" {...inputProps} />
   );
-};
+});
 
-export const renderTextarea = (props) => {
-  const { input, label, meta, placeholder } = props;
-  const id = `${meta.form}_${input.name}`;
-  const inputProps = { ...input, id: id, placeholder };
-  const validateStatus = getValidationState(meta);
-
-  return (
-    <FormItem
-      {...formItemLayout}
-      label={label ? label : ''}
-      validateStatus={validateStatus}
-      help={meta.touched && meta.error && meta.error || ''}
-    >
-      <textarea className="ant-input" style={{ width: '100%' }} {...inputProps} />
-    </FormItem>
-  );
-};
-
-export const renderInputUpload = (props) => {
-  const { input, label, meta, ...custom } = props;
-  const id = `${meta.form}_${input.name}`;
-  const inputProps = { ...input, id: id, ...custom };
-  const validateStatus = getValidationState(meta);
+export const renderInputUpload = (props) => render(props, (inputProps) => {
   const uploadButton = (
     <div>
       <Icon type="plus" />
@@ -123,43 +82,22 @@ export const renderInputUpload = (props) => {
   );
 
   return (
-    <FormItem
-      {...formItemLayout}
-      label={label ? label : ''}
-      validateStatus={validateStatus}
-      help={meta.touched && meta.error && meta.error || ''}
-    >
-      <Upload {...inputProps}>
-        {input.value ? <img src={input.value.file} alt="image" /> : uploadButton}
-      </Upload>
-    </FormItem>
+    <Upload {...inputProps}>{uploadButton}</Upload>
   );
-};
+});
 
-export const renderPlacesAutocomplete = (props) => {
-  const { input, label, meta, placeholder } = props;
-  const id = `${meta.form}_${input.name}`;
-  const inputProps = { ...input, id: id, placeholder };
-  const validateStatus = getValidationState(meta);
-
+export const renderPlacesAutocomplete = (props) => render(props, (inputProps) => {
   return (
-    <FormItem
-      {...formItemLayout}
-      label={label ? label : ''}
-      validateStatus={validateStatus}
-      help={meta.touched && meta.error && meta.error || ''}
-    >
-      <PlacesAutocomplete
-        inputProps={inputProps}
-        classNames={{
-          input: "ant-input",
-        }}
-        styles={{
-          autocompleteContainer: {
-            zIndex: 2,
-          }
-        }}
-      />
-    </FormItem>
+    <PlacesAutocomplete
+      inputProps={inputProps}
+      classNames={{
+        input: "ant-input",
+      }}
+      styles={{
+        autocompleteContainer: {
+          zIndex: 2,
+        }
+      }}
+    />
   );
-};
+});

@@ -13,8 +13,15 @@ import {
 import { required, email, password } from '../../shared/utils/form_validations';
 
 const FormItem = Form.Item;
-const options = ['Thailand', 'Qazakhstan', 'Japan'];
-const genders = ['male', 'female'];
+const options = [
+  { value: 'Thailand', label: 'Thailand' },
+  { value: 'Qazakhstan', label: 'Qazakhstan' },
+  { value: 'Japan', label: 'Japan' },
+];
+const genders = [
+  { value: 1, label: 'male' },
+  { value: 2, label: 'female' },
+];
 
 class UserForm extends Component {
   render() {
@@ -35,6 +42,7 @@ class UserForm extends Component {
             </FormItem>
           </div>
         </Row>
+        
         <Row gutter={32}>
           <Col span={8}>
             <Field
