@@ -18,7 +18,6 @@ const FormItem = Form.Item;
 const options = ['Thailand', 'Qazakhstan', 'Japan'];
 
 const PlaceMap = compose(
-  withScriptjs,
   withGoogleMap,
 )(({ input: { onChange, value }, isMarkerShown }) => (
   <GoogleMap
@@ -147,7 +146,6 @@ class PlaceForm extends Component {
                 name="place_loc"
                 component={PlaceMap}
                 isMarkerShown
-                googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
                 loadingElement={<div style={{ height: `100%` }} />}
                 containerElement={<div style={{ height: `300px` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
