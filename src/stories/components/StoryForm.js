@@ -52,8 +52,8 @@ class PlaceForm extends Component {
 
   renderTags() {
     return (
-      this.state.tags.map((tag, index) =>
-        <Tag key={tag} closable={index !== 0} afterClose={() => this.handleClose(tag)}>
+      this.state.tags.map(tag =>
+        <Tag key={tag} closable afterClose={() => this.handleClose(tag)}>
           {tag}
         </Tag>
       )
@@ -80,6 +80,7 @@ class PlaceForm extends Component {
 
   render() {
     const { handleSubmit, error, submitting } = this.props;
+    const { inputValue, inputVisible } = this.state;
 
     return (
       <Form onSubmit={handleSubmit(this.onSubmit)}>
@@ -133,19 +134,18 @@ class PlaceForm extends Component {
             <FormItem {...tailFormItemLayout}>
               <div className="tag-wrapper">
                 {this.renderTags()}
-                {this.state.inputVisible && (
+                {inputVisible && (
                   <Input
                     ref={input => this.input = input}
-                    type="text"
                     size="small"
                     style={{ width: 78 }}
-                    value={this.state.inputValue}
+                    value={inputValue}
                     onChange={(e) => this.setState({ inputValue: e.target.value })}
                     onBlur={this.handleInputConfirm}
                     onPressEnter={this.handleInputConfirm}
                   />
                 )}
-                {!this.state.inputVisible && (
+                {!inputVisible && (
                   <Tag
                     onClick={this.handleShowInput}
                     style={{ background: '#fff', borderStyle: 'dashed' }}

@@ -143,13 +143,13 @@ class UserForm extends Component {
             />
 
             <Field
-              name="create_date"
+              name="created_date"
               label="Create Date"
               component={renderLabel}
             />
 
             <Field
-              name="create_by"
+              name="created_by"
               label="Create by"
               component={renderLabel}
             />
