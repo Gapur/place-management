@@ -1,9 +1,12 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 export const placeColumns = [{
   title: 'Place Name',
   dataIndex: 'place_name',
   sorter: (a, b) => a.place_name.length - b.place_name.length,
+  render: (text, record) => <Link to={`/places/edit/${record.key}`}>{record.place_name}</Link>,
 }, {
   title: 'Status',
   dataIndex: 'status',

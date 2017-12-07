@@ -159,8 +159,8 @@ class PlaceForm extends Component {
 
           <Col span={8}>
             <Field
-              name="profile_picture"
-              label="Profile Picture"
+              name="story_picture"
+              label="Story Picture"
               component={renderInputUpload}
               placeholder="Upload Picture"
               multiple
@@ -168,13 +168,13 @@ class PlaceForm extends Component {
             />
 
             <Field
-              name="create_date"
+              name="created_date"
               label="Create Date"
               component={renderLabel}
             />
 
             <Field
-              name="create_by"
+              name="created_by"
               label="Create by"
               component={renderLabel}
             />
