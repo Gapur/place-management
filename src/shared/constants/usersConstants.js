@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 export const usersColumns = [{
-  title: 'Place Name',
-  dataIndex: 'place_name',
-  sorter: (a, b) => a.place_name.length - b.place_name.length,
+  title: 'Display Name',
+  dataIndex: 'display_name',
+  sorter: (a, b) => a.display_name.length - b.display_name.length,
   render: (text, record) => 
-    <Link to={`/users/one-mappers/edit/${record.key}`}>{record.place_name}</Link>,
+    <Link to={`/users/one-mappers/edit/${record.key}`}>{record.display_name}</Link>,
 }, {
   title: 'Status',
   dataIndex: 'status',
@@ -78,7 +78,7 @@ export const usersColumns = [{
 
 export const data = [{
   key: '1',
-  place_name: 'Sidney Oper House',
+  display_name: 'Nuttawuth Chainilphan',
   status: 'Verified',
   last_login: moment().format(),
   user_name: '@donutfino',
@@ -88,7 +88,7 @@ export const data = [{
   description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
 }, {
   key: '2',
-  place_name: 'Astana Arena',
+  display_name: 'Gapur Kassym',
   status: 'Review',
   last_login: moment().format(),
   user_name: '@gkassym',
@@ -98,7 +98,7 @@ export const data = [{
   description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
 }, {
   key: '3',
-  place_name: 'Tokya Tower',
+  display_name: 'Tulebay Erbolat',
   status: 'Verified',
   last_login: moment().format(),
   user_name: '@kassym',
@@ -108,7 +108,7 @@ export const data = [{
   description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
 }, {
   key: '4',
-  place_name: 'Qaragandy Opera',
+  display_name: 'John Terry',
   status: 'Verified',
   last_login: moment().format(),
   user_name: '@gafur',
