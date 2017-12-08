@@ -32,7 +32,10 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
     "node-sass": "^4.7.2",
-    "npm-run-all": "^4.1.2"
+    "npm-run-all": "^4.1.2",
+    "react-test-renderer": "^16.2.0"
   }
 }
