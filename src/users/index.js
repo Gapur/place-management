@@ -5,6 +5,12 @@ import moment from 'moment';
 
 import { usersColumns, data } from '../shared/constants/usersConstants';
 
+const USER_TYPES = [
+  { value: 'regulars', label: 'Regulars' },
+  { value: 'bloggers', label: 'Bloggers' },
+  { value: 'partners', label: 'Partners' },
+];
+
 class Users extends Component {
 
   handleChange(pagination, filters, sorter) {
@@ -12,14 +18,17 @@ class Users extends Component {
   }
 
   render() {
+    const { match: { params } } = this.props;
+    const userType = USER_TYPES.find(type => type.value == params.type);
+
     return (
       <div id="users">
         <Breadcrumb>
           <Breadcrumb.Item>Users</Breadcrumb.Item>
+          <Breadcrumb.Item>OneMappers</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to="/users/one-mappers">OneMappers</Link>
+            {userType && userType.label}
           </Breadcrumb.Item>
-          <Breadcrumb.Item>Regulars</Breadcrumb.Item>
         </Breadcrumb>
 
         <div className="container">

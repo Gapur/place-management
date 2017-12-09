@@ -25,9 +25,7 @@ class MainLayout extends Component {
           <Header />
           <Content style={{ margin: '24px 16px 0' }}>
             <Route exact path="/dashboard" component={UsersScreen} />
-            <Route exact path="/users/one-mappers/regulars" component={UsersScreen} />
-            <Route exact path="/users/one-mappers/bloggers" component={UsersScreen} />
-            <Route exact path="/users/one-mappers/partners" component={UsersScreen} />
+            <Route exact path="/users/one-mappers/:type(bloggers|partners|regulars)" component={UsersScreen} />
             <Route exact path="/users/one-mappers/new" component={NewUserScreen} />
             <Route exact path="/users/one-mappers/edit/:id" component={EditUserScreen} />
             <Route exact path="/places" component={PlacesScreen} />
