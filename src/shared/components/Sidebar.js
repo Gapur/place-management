@@ -51,6 +51,9 @@ const Sidebar = () => {
         <Menu.Item key="stories">
           <Link to="/stories"><Icon type="setting" />Stories</Link>
         </Menu.Item>
+        <Menu.Item key="campaign">
+          <Link to="/campaign"><Icon type="tool" />Campaign</Link>
+        </Menu.Item>
       </Menu>
     </Sider>
   );
