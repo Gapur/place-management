@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Select, Checkbox, DatePicker, Upload, Icon } from 'antd';
+import { Form, Input, Select, Checkbox, DatePicker, Upload, Icon, Switch } from 'antd';
 import PlacesAutocomplete from 'react-places-autocomplete';
 
 const FormItem = Form.Item;
@@ -100,4 +100,20 @@ export const renderPlacesAutocomplete = (props) => render(props, (inputProps) =>
       }}
     />
   );
+});
+
+export const renderRangePicker = (props) => render(props, (inputProps) => {
+  const { name, id } = inputProps;
+  const onChange = (date, dateString) => inputProps.onChange(dateString);
+  return (
+    <DatePicker.RangePicker
+      name={name}
+      id={id}
+      onChange={onChange}
+    />
+  );
+});
+
+export const renderSwitch = (props) => render(props, (inputProps) => {
+  return <Switch defaultChecked {...inputProps} />
 });

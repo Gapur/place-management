@@ -80,3 +80,13 @@
     margin: 24px 16px 0;
   }
 }
+
+.custom-switch {
+  .ant-row.ant-form-item {
+    display: flex;
+    align-items: center;
+  }
+  .ant-form-item-label {
+    padding: 0;
+  }
+}
