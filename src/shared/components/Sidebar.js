@@ -52,7 +52,7 @@ const Sidebar = () => {
           <Link to="/stories"><Icon type="setting" />Stories</Link>
         </Menu.Item>
         <Menu.Item key="campaign">
-          <Link to="/campaign"><Icon type="tool" />Campaign</Link>
+          <Link to="/campaigns"><Icon type="tool" />Campaigns</Link>
         </Menu.Item>
       </Menu>
     </Sider>

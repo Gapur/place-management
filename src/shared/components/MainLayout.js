@@ -13,7 +13,7 @@ import EditUserScreen from '../../users/EditUser';
 import StoriesScreen from '../../stories';
 import NewStoryScreen from '../../stories/NewStory';
 import EditStoryScreen from '../../stories/EditStory';
-import CampaignScreen from '../../campaign/Campaign';
+import CampaignsScreen from '../../campaigns';
 
 const { Content } = Layout;
 
@@ -35,7 +35,7 @@ class MainLayout extends Component {
             <Route exact path="/stories" component={StoriesScreen} />
             <Route exact path="/stories/new" component={NewStoryScreen} />
             <Route exact path="/stories/edit/:id" component={EditStoryScreen} />
-            <Route exact path="/campaign" component={CampaignScreen} />
+            <Route exact path="/campaigns" component={CampaignsScreen} />
           </Content>
         </Layout>
       </Layout>
