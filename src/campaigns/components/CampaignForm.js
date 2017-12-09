@@ -69,14 +69,27 @@ class CampaignForm extends Component {
         </Row>
         <Row gutter={32}>
           <Col span={12}>
-            <Field
-              name="partner_account"
-              label="Partner Account"
-              component={renderSelect}
-              placeholder="Partner Account"
-              options={partnerAccounts}
-              validate={required}
-            />
+            <Row>
+              <Col span={8} className="ant-form-item-label">
+                <label>Partner Account</label>
+              </Col>
+              <Col span={10}>
+                <Field
+                  name="partner_account"
+                  component={renderSelect}
+                  placeholder="Partner Account"
+                  options={partnerAccounts}
+                  validate={required}
+                />
+              </Col>
+              <Col span={6} className="custom-switch">
+                <Field
+                  name="is_partner_account"
+                  label="Active"
+                  component={renderSwitch}
+                />
+              </Col>
+            </Row>
 
             <Row>
               <Col span={8} className="ant-form-item-label">

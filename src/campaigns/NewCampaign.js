@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Breadcrumb, Button, Icon } from 'antd';
+import { Breadcrumb, Button, Icon, Divider, Table } from 'antd';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
 
 import CampaignForm from './components/CampaignForm';
+
+import { ruleColumns, ruleData, eventColumns, eventData } from '../shared/constants/campaignConstants';
 
 class NewCampaign extends Component {
   constructor(props) {
@@ -17,11 +18,6 @@ class NewCampaign extends Component {
   }
 
   render() {
-    const initialValues = {
-      created_date: moment().format('MMMM Do YYYY, hh:mm'),
-      created_by: 'gkassym',
-      registration_date: moment().format('MMMM Do YYYY, hh:mm'),
-    }
     return (
       <div id="new-campaign">
         <Breadcrumb>
@@ -32,9 +28,24 @@ class NewCampaign extends Component {
         <div className="container">
           <h3>New Campaign</h3>
 
-          <CampaignForm
-            initialValues={initialValues}
-            onSubmit={this.handleSubmit}
+          <CampaignForm onSubmit={this.handleSubmit} />
+
+          <Divider />
+
+          <h4>Events Calendar</h4>
+          
+          <Table
+            columns={eventColumns}
+            dataSource={eventData}
+          />
+
+          <Divider />
+
+          <h4>Rules</h4>
+
+          <Table
+            columns={ruleColumns}
+            dataSource={ruleData}
           />
         </div>
       </div>
