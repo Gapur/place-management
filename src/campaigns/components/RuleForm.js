@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Icon, Row, Col, Input } from 'antd';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, FieldArray } from 'redux-form';
 import { Link } from 'react-router-dom';
 import {
   renderInput,
@@ -8,6 +8,7 @@ import {
   renderSwitch,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
+import PlaceFields from './PlaceFields';
 
 const FormItem = Form.Item;
 const notifications = [
@@ -31,7 +32,7 @@ class RuleForm extends Component {
     const { handleSubmit, error, submitting } = this.props;
 
     return (
-      <Form layout="vertical" onSubmit={handleSubmit(this.onSubmit)}>
+      <Form onSubmit={handleSubmit(this.onSubmit)}>
         <Row>
           <div className="is-right">
             <FormItem>
@@ -92,6 +93,13 @@ class RuleForm extends Component {
               label="Distance (m)"
               component={renderInput}
               placeholder="3000"
+            />
+          </Col>
+
+          <Col span={18}>
+            <FieldArray
+              name="places"
+              component={PlaceFields}
             />
           </Col>
         </Row>
