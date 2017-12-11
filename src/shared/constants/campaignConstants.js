@@ -10,7 +10,7 @@ export const eventColumns = [{
   title: 'Event Name',
   dataIndex: 'event_name',
   sorter: (a, b) => a.event_name.length - b.event_name.length,
-  render: (text, record) => <Link to={`/campaign/rules/edit/${record.key}`}>{record.event_name}</Link>,
+  render: (text, record) => <Link to={`/campaigns/edit/${record.key}/event/edit/${record.key}`}>{record.event_name}</Link>,
 }, {
   title: 'City',
   dataIndex: 'city',
@@ -48,6 +48,10 @@ export const eventData = [{
 }];
 
 export const ruleColumns = [{
+  title: 'Rule',
+  dataIndex: 'rule',
+  render: (text, record) => <Link to={`/campaigns/edit/${record.key}/rule/edit/${record.key}`}>{record.rule}</Link>,
+}, {
   title: 'Place(s)',
   dataIndex: 'place',
   sorter: (a, b) => a.place.length - b.place.length,
@@ -76,6 +80,7 @@ export const ruleColumns = [{
 
 export const ruleData = [{
   key: '1',
+  rule: '#RO1234',
   place: 'Startup Cafe, Chiang Mai',
   notification: 'Nearby 300m',
   event: 'Check in 30s',
@@ -85,6 +90,7 @@ export const ruleData = [{
   active: true,
 }, {
   key: '2',
+  rule: '#RO1234',
   place: 'Startup Cafe, Chiang Mai',
   notification: 'Nearby 300m',
   event: 'Sognkran',
@@ -94,6 +100,7 @@ export const ruleData = [{
   active: false,
 }, {
   key: '3',
+  rule: '#RO1234',
   place: 'Startup Cafe, Chiang Mai',
   notification: 'Nearby 300m',
   event: 'Naurys',
@@ -103,6 +110,7 @@ export const ruleData = [{
   active: true,
 }, {
   key: '4',
+  rule: '#RO1234',
   place: 'Startup Cafe, Chiang Mai',
   notification: 'Nearby 300m',
   event: 'Toy',
@@ -110,4 +118,59 @@ export const ruleData = [{
   point: '500',
   badge: 'online',
   active: true,
+}];
+
+
+export const campaignColumns = [{
+  title: 'Campaign Name',
+  dataIndex: 'campaign_name',
+  sorter: (a, b) => a.campaign_name.length - b.campaign_name.length,
+  render: (text, record) => <Link to={`/campaigns/edit/${record.key}`}>{record.campaign_name}</Link>,
+},{
+  title: 'Partner Account',
+  dataIndex: 'partner_account',
+  sorter: (a, b) => a.partner_account.length - b.partner_account.length,
+}, {
+  title: 'From Date To Date',
+  dataIndex: 'from_date_to_date',
+}, {
+  title: 'Push Notification',
+  dataIndex: 'push_notification',
+}, {
+  title: 'Available in Countries',
+  dataIndex: 'avaiable_in_countries',
+}];
+
+export const campaingData = [{
+  key: '1',
+  campaign_name: 'Air Campaign',
+  partner_account: 'AirAsia',
+  from_date_to_date: moment().format(),
+  push_notification: 'notification',
+  avaiable_in_countries: 'Thailand',
+  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
+}, {
+  key: '2',
+  campaign_name: 'Air Campaign',
+  partner_account: 'AirAsia',
+  from_date_to_date: moment().format(),
+  push_notification: 'notification',
+  avaiable_in_countries: 'Thailand',
+  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
+}, {
+  key: '3',
+  campaign_name: 'Air Campaign',
+  partner_account: 'AirAsia',
+  from_date_to_date: moment().format(),
+  push_notification: 'notification',
+  avaiable_in_countries: 'Thailand',
+  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
+}, {
+  key: '4',
+  campaign_name: 'Air Campaign',
+  partner_account: 'AirAsia',
+  from_date_to_date: moment().format(),
+  push_notification: 'notification',
+  avaiable_in_countries: 'Thailand',
+  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
 }];

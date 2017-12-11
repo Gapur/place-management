@@ -16,6 +16,10 @@ import EditStoryScreen from '../../stories/EditStory';
 import CampaignsScreen from '../../campaigns';
 import NewCampaignScreen from '../../campaigns/NewCampaign';
 import EditCampaignScreen from '../../campaigns/EditCampaign';
+import NewEventScreen from '../../campaigns/NewEvent';
+import EditEventScreen from '../../campaigns/EditEvent';
+import NewRuleScreen from '../../campaigns/NewRule';
+import EditRuleScreen from '../../campaigns/EditRule';
 
 const { Content } = Layout;
 
@@ -38,8 +42,12 @@ class MainLayout extends Component {
             <Route exact path="/stories/new" component={NewStoryScreen} />
             <Route exact path="/stories/edit/:id" component={EditStoryScreen} />
             <Route exact path="/campaigns" component={CampaignsScreen} />
-            <Route exact path="/campaigns/new/" component={NewCampaignScreen} />
+            <Route exact path="/campaigns/new" component={NewCampaignScreen} />
             <Route exact path="/campaigns/edit/:id" component={EditCampaignScreen} />
+            <Route exact path="/campaigns/edit/:id/event/new" component={NewEventScreen} />
+            <Route exact path="/campaigns/edit/:id/event/edit/:eventId" component={EditEventScreen} />
+            <Route exact path="/campaigns/edit/:id/rule/new" component={NewRuleScreen} />
+            <Route exact path="/campaigns/edit/:id/rule/edit/:ruleId" component={EditRuleScreen} />
           </Content>
         </Layout>
       </Layout>

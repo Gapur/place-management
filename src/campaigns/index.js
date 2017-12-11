@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Breadcrumb, Table, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 
+import { campaignColumns, campaingData } from '../shared/constants/campaignConstants';
+
 class Campaigns extends Component {
   render() {
     return (
@@ -24,6 +26,12 @@ class Campaigns extends Component {
               </Button.Group>
             </div>
           </h4>
+
+          <Table
+            columns={campaignColumns}
+            dataSource={campaingData}
+            expandedRowRender={record => <p className="no-margin">{record.description}</p>}
+          />
         </div>
       </div>
     )
