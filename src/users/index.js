@@ -88,6 +88,6 @@ const UsersScreen = graphql(FETCH_USERS, {
   options: {
     fetchPolicy: 'network-only',
   },
-})(Users)
+})(Users);
 
 export default UsersScreen;

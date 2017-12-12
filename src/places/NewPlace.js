@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
+import { push } from 'react-router-redux';
 import moment from 'moment';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import PlaceForm from './components/PlaceForm';
 
@@ -18,9 +22,8 @@ class NewPlace extends Component {
 
   render() {
     const initialValues = {
-      created_date: moment().format('MMMM Do YYYY, hh:mm'),
       created_by: 'gkassym',
-      registration_date: moment().format('MMMM Do YYYY, hh:mm'),
+      registrationDate: moment().format('MMMM Do YYYY, hh:mm'),
     }
     return (
       <div id="new-place">
@@ -41,5 +44,57 @@ class NewPlace extends Component {
     );
   }
 }
+
+const CREATE_USER = gql`
+  mutation CreateUser(
+      $firstName: String!,
+      $lastName: String!,
+      $email: String!,
+      $password: String!,
+      $gender: String,
+      $birthDate: String,
+      $country: String,
+      $city: String,
+      $phone: String,
+      $userName: String!,
+      $picture: String,
+      $bio: String,
+      $registrationDate: DateTime!
+      $createdBy: String!,
+      $lastLogin: DateTime
+      $status: String!
+      $role: String!
+  ) {
+    createUser(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+      gender: $gender
+      birthDate: $birthDate
+      country: $country
+      city: $city
+      phone: $phone
+      userName: $userName
+      picture: $picture
+      bio: $bio
+      registrationDate: $registrationDate
+      createdBy: $createdBy
+      lastLogin: $lastLogin
+      status: $status
+      role: $role
+      story: []
+    ) {
+      id
+    }
+  }
+`
+
+const NewUserScreen = graphql(CREATE_USER, {
+  name: 'createUser',
+  options: {
+    fetchPolicy: 'network-only',
+  },
+})(NewUser);
 
 export default NewPlace;

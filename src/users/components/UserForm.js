@@ -13,12 +13,12 @@ import {
 import { required, email, password } from '../../shared/utils/form_validations';
 
 const FormItem = Form.Item;
-const options = [
+const countryOptions = [
   { value: 'Thailand', label: 'Thailand' },
   { value: 'Qazakhstan', label: 'Qazakhstan' },
   { value: 'Japan', label: 'Japan' },
 ];
-const genders = [
+const genderOptions = [
   { value: 'male', label: 'male' },
   { value: 'female', label: 'female' },
 ];
@@ -86,7 +86,7 @@ class UserForm extends Component {
               label="I'am"
               component={renderSelect}
               placeholder="Select Sex"
-              options={genders}
+              options={genderOptions}
             />
 
             <Field
@@ -108,7 +108,7 @@ class UserForm extends Component {
               label="Country"
               component={renderSelect}
               placeholder="Select Country"
-              options={options}
+              options={countryOptions}
             />
 
             <Field

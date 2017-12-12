@@ -18,7 +18,6 @@ class EditUser extends Component {
   }
 
   handleSubmit(values) {
-    console.log(values);
     const { match: { params }, updateUser, push } = this.props;
     const userType = USER_TYPES.find(type => type.value == params.type);
     updateUser({ variables: { ...values, id: params.id } })
@@ -33,9 +32,6 @@ class EditUser extends Component {
     if (fetchUser.loading) {
       return <div className="loader-indicator" />;
     }
-
-    const user = fetchUser.User;
-    console.log(user);
 
     return (
       <div id="edit-place">
@@ -54,7 +50,7 @@ class EditUser extends Component {
           <h3>Edit User</h3>
 
           <UserForm
-            initialValues={user}
+            initialValues={fetchUser.User}
             onSubmit={this.handleSubmit}
           />
         </div>

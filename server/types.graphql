@@ -29,9 +29,10 @@ type Story @model {
   id: ID! @isUnique
   createdAt: DateTime!
   updatedAt: DateTime!
-  createdBy: Int!
+  createdBy: String!
   storyTitle: String!
   story: String!
+  storyPicture: String
   tags: [Tag!]! @relation(name: "StoryTag")
   place: Place @relation(name: "StoryPlace")
   user: User @relation(name: "StoryUser")
@@ -50,5 +51,19 @@ type Place @model {
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
+  description: String!
+  address: String!
+  street: String
+  arrea: String
+  city: String
+  state: String
+  country: String!
+  placeId: String!
+  lat: String!
+  long: String!
+  source: String
+  profilePicture: String
+  createdBy: String!
+  status: String!
   story: [Story!]! @relation(name: "StoryPlace") 
 }

@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Table, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
-import { placeColumns, data } from '../shared/constants/placesConstants';
+import { placeColumns } from '../shared/constants/placesConstants';
 
 class Places extends Component {
 
-  handleChange(pagination, filters, sorter) {
-    console.log('params', pagination, filters, sorter);
-  }
-
   render() {
+    if (this.props.fetchPlaces.loading) {
+      return <div className="loader-indicator" />;
+    }
+    
+    const places = this.props.fetchPlaces.allPlaces;
+    const dataSource = places.map(place => ({ ...place, key: place.id }));
+
     return (
       <div id="places">
         <Breadcrumb>
@@ -35,7 +39,7 @@ class Places extends Component {
 
           <Table
             columns={placeColumns}
-            dataSource={data}
+            dataSource={dataSource}
             expandedRowRender={record => <p className="no-margin">{record.description}</p>}
             onChange={this.handleChange}
           />
@@ -45,4 +49,35 @@ class Places extends Component {
   }
 }
 
-export default Places;
+const FETCH_PLACES = gql`
+  query FetchPlaces {
+    allPlaces {
+      id
+      createdAt
+      name
+      description
+      address
+      street
+      arrea
+      city
+      state
+      country
+      placeId
+      lat
+      long
+      source
+      profilePicture
+      createdBy
+      status
+    }
+  }
+`
+
+const PlacesScreen = graphql(FETCH_PLACES, {
+  name: 'fetchPlaces',
+  options: {
+    fetchPolicy: 'network-only',
+  },
+})(Places);
+
+export default PlacesScreen;

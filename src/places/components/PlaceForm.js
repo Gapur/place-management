@@ -15,7 +15,7 @@ import {
 import { required } from '../../shared/utils/form_validations';
 
 const FormItem = Form.Item;
-const options = [
+const countryOptions = [
   { value: 'Thailand', label: 'Thailand' },
   { value: 'Qazakhstan', label: 'Qazakhstan' },
   { value: 'Japan', label: 'Japan' },
@@ -53,7 +53,7 @@ class PlaceForm extends Component {
         <Row gutter={32}>
           <Col span={8}>
             <Field
-              name="place_name"
+              name="name"
               label="Place Name"
               component={renderInput}
               placeholder="Place Name"
@@ -84,14 +84,14 @@ class PlaceForm extends Component {
             />
 
             <Field
-              name="arrea_or_district"
+              name="arrea"
               label="Arrea / District"
               component={renderInput}
               placeholder="City Arrea / District"
             />
 
             <Field
-              name="city_town"
+              name="city"
               label="City / Town"
               component={renderInput}
               placeholder="City / Town"
@@ -109,7 +109,7 @@ class PlaceForm extends Component {
               label="Country"
               component={renderSelect}
               placeholder="Select Country"
-              options={options}
+              options={countryOptions}
               validate={required}
             />
 
@@ -166,7 +166,7 @@ class PlaceForm extends Component {
 
           <Col span={8}>
             <Field
-              name="profile_picture"
+              name="profilePicture"
               label="Profile Picture"
               component={renderInputUpload}
               placeholder="Upload Picture"
@@ -175,13 +175,13 @@ class PlaceForm extends Component {
             />
 
             <Field
-              name="created_date"
+              name="createdAt"
               label="Create Date"
               component={renderLabel}
             />
 
             <Field
-              name="created_by"
+              name="createdBy"
               label="Create by"
               component={renderLabel}
             />
