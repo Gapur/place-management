@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Table, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import { usersColumns, data } from '../shared/constants/usersConstants';
 
@@ -18,6 +19,12 @@ class Users extends Component {
   }
 
   render() {
+    if (this.props.fetchUsers.loading) {
+      return <div className="loader-indicator" />;
+    }
+
+    const users = this.props.fetchUsers.allUsers;
+    console.log(users);
     const { match: { params } } = this.props;
     const userType = USER_TYPES.find(type => type.value == params.type);
 
@@ -37,7 +44,9 @@ class Users extends Component {
             <div className="is-right">
               <Button.Group size="small">
                 <Button>
-                  <Link to="/users/one-mappers/new"><Icon type="plus" />New User</Link>
+                  <Link to={`/users/one-mappers/${userType.value}/new`}>
+                    <Icon type="plus" />New User
+                  </Link>
                 </Button>
                 <Button>
                   Report<Icon type="down" />
@@ -48,7 +57,7 @@ class Users extends Component {
 
           <Table
             columns={usersColumns}
-            dataSource={data}
+            dataSource={users}
             expandedRowRender={record => <p className="no-margin">{record.description}</p>}
             onChange={this.handleChange}
           />
@@ -58,4 +67,36 @@ class Users extends Component {
   }
 }
 
-export default Users;
+const FETCH_USERS = gql`
+  query FetchUsers {
+    allUsers {
+      id
+      createdAt
+      firstName
+      lastName
+      email
+      password
+      gender
+      birthDate
+      city
+      country
+      phone
+      userName
+      picture
+      registrationDate
+      createdBy
+      lastLogin
+      status
+      role
+    }
+  }
+`
+
+const UsersScreen = graphql(FETCH_USERS, {
+  name: 'fetchUsers',
+  options: {
+    fetchPolicy: 'network-only',
+  },
+})(Users)
+
+export default UsersScreen;

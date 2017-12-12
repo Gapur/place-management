@@ -8,6 +8,20 @@ type User @model {
   firstName: String!
   lastName: String!
   email: String!
+  password: String!
+  gender: String
+  birthDate: String
+  city: String
+  country: String
+  phone: String
+  userName: String!
+  picture: String
+  bio: String
+  registrationDate: DateTime!
+  createdBy: String!
+  lastLogin: DateTime
+  status: String!
+  role: String!
   story: [Story!]! @relation(name: "StoryUser")
 }
 
