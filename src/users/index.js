@@ -4,19 +4,10 @@ import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { usersColumns, data } from '../shared/constants/usersConstants';
-
-const USER_TYPES = [
-  { value: 'regulars', label: 'Regulars' },
-  { value: 'bloggers', label: 'Bloggers' },
-  { value: 'partners', label: 'Partners' },
-];
+import { usersColumns } from '../shared/constants/usersConstants';
+import { USER_TYPES } from '../shared/constants/constants';
 
 class Users extends Component {
-
-  handleChange(pagination, filters, sorter) {
-    console.log('params', pagination, filters, sorter);
-  }
 
   render() {
     if (this.props.fetchUsers.loading) {
@@ -24,7 +15,7 @@ class Users extends Component {
     }
 
     const users = this.props.fetchUsers.allUsers;
-    console.log(users);
+    const dataSource = users.map(user => ({ ...user, key: user.id }));
     const { match: { params } } = this.props;
     const userType = USER_TYPES.find(type => type.value == params.type);
 
@@ -56,8 +47,8 @@ class Users extends Component {
           </h4>
 
           <Table
-            columns={usersColumns}
-            dataSource={users}
+            columns={usersColumns(userType.value)}
+            dataSource={dataSource}
             expandedRowRender={record => <p className="no-margin">{record.description}</p>}
             onChange={this.handleChange}
           />

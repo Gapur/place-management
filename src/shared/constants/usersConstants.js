@@ -2,12 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-export const usersColumns = [{
+export const usersColumns = (userType) => [{
   title: 'Display Name',
   dataIndex: 'displayName',
   sorter: (a, b) => a.displayName.length - b.displayName.length,
   render: (text, record) =>
-    <Link to={`/users/one-mappers/edit/${record.id}`}>
+    <Link to={`/users/one-mappers/${userType}/edit/${record.id}`}>
       {`${record.firstName} ${record.lastName}`}
     </Link>,
 }, {
@@ -77,46 +77,4 @@ export const usersColumns = [{
     value: 'Bloggers',
   }],
   onFilter: (value, record) => record.role.indexOf(value) === 0,
-}];
-
-export const data = [{
-  key: '1',
-  displayName: 'Nuttawuth Chainilphan',
-  status: 'Verified',
-  lastLogin: moment().format(),
-  userName: '@donutfino',
-  city: 'Bangkok',
-  country: 'Thailand',
-  role: 'Bloggers',
-  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
-}, {
-  key: '2',
-  displayName: 'Gapur Kassym',
-  status: 'Review',
-  lastLogin: moment().format(),
-  userName: '@gkassym',
-  city: 'Qaragandy',
-  country: 'Qazakhstan',
-  role: 'Partners',
-  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
-}, {
-  key: '3',
-  displayName: 'Tulebay Erbolat',
-  status: 'Verified',
-  lastLogin: moment().format(),
-  userName: '@kassym',
-  city: 'Astana',
-  country: 'Qazakhstan',
-  role: 'Regulars',
-  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
-}, {
-  key: '4',
-  displayName: 'John Terry',
-  status: 'Verified',
-  lastLogin: moment().format(),
-  userName: '@gafur',
-  city: 'Tokyo',
-  country: 'Japan',
-  role: 'Regulars',
-  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
 }];

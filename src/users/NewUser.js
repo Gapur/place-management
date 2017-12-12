@@ -8,12 +8,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import UserForm from './components/UserForm';
-
-const USER_TYPES = [
-  { value: 'regulars', label: 'Regulars' },
-  { value: 'bloggers', label: 'Bloggers' },
-  { value: 'partners', label: 'Partners' },
-];
+import { USER_TYPES } from '../shared/constants/constants';
 
 class NewUser extends Component {
   constructor(props) {
@@ -23,16 +18,16 @@ class NewUser extends Component {
   }
 
   handleSubmit(values) {
-    console.log(values);
-    this.props.createUser({ variables: { ...values } })
-      .then(() => this.props.push('/users'))
+    const { match: { params }, createUser, push } = this.props;
+    const userType = USER_TYPES.find(type => type.value == params.type);
+    createUser({ variables: { ...values } })
+      .then(() => push(`/users/one-mappers/${userType.value}`))
       .catch(err => console.log(err.message));
   }
 
   render() {
     const { match: { params } } = this.props;
     const userType = USER_TYPES.find(type => type.value == params.type);
-    console.log(userType);
     const initialValues = {
       registrationDate: moment().format(),
       createdBy: 'Test',
