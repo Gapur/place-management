@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
-import moment from 'moment';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -17,13 +16,15 @@ class NewPlace extends Component {
   }
 
   handleSubmit(values) {
-    console.log(values);
+    this.props.createPlace({ variables: { ...values } })
+      .then(() => push('/places'))
+      .catch(err => console.log(err.message));
   }
 
   render() {
     const initialValues = {
-      created_by: 'gkassym',
-      registrationDate: moment().format('MMMM Do YYYY, hh:mm'),
+      createdBy: 'gkassym',
+      status: 'Verified',
     }
     return (
       <div id="new-place">
@@ -45,56 +46,51 @@ class NewPlace extends Component {
   }
 }
 
-const CREATE_USER = gql`
-  mutation CreateUser(
-      $firstName: String!,
-      $lastName: String!,
-      $email: String!,
-      $password: String!,
-      $gender: String,
-      $birthDate: String,
-      $country: String,
+const CREATE_PLACE = gql`
+  mutation CreatePlace(
+      $name: String!,
+      $description: String!,
+      $address: String!,
+      $street: String,
+      $arrea: String,
       $city: String,
-      $phone: String,
-      $userName: String!,
-      $picture: String,
-      $bio: String,
-      $registrationDate: DateTime!
+      $state: String,
+      $country: String!,
+      $placeId: String!,
+      $lat: String!,
+      $long: String!,
+      $source: String,
+      $profilePicture: String,
       $createdBy: String!,
-      $lastLogin: DateTime
-      $status: String!
-      $role: String!
+      $status: String!,
   ) {
-    createUser(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-      gender: $gender
-      birthDate: $birthDate
-      country: $country
+    createPlace(
+      name: $name
+      description: $description
+      address: $address
+      street: $street
+      arrea: $arrea
       city: $city
-      phone: $phone
-      userName: $userName
-      picture: $picture
-      bio: $bio
-      registrationDate: $registrationDate
+      state: $state
+      country: $country
+      placeId: $placeId
+      lat: $lat
+      long: $long
+      source: $source
+      profilePicture: $profilePicture
       createdBy: $createdBy
-      lastLogin: $lastLogin
       status: $status
-      role: $role
-      story: []
     ) {
       id
     }
   }
 `
 
-const NewUserScreen = graphql(CREATE_USER, {
-  name: 'createUser',
+const NewPlaceScreen = graphql(CREATE_PLACE, {
+  name: 'createPlace',
   options: {
     fetchPolicy: 'network-only',
   },
-})(NewUser);
+})(NewPlace);
 
-export default NewPlace;
+export default connect(null, { push })(NewPlaceScreen);

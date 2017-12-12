@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 export const placeColumns = [{
   title: 'Place Name',
@@ -23,6 +24,7 @@ export const placeColumns = [{
   title: 'Created Date',
   dataIndex: 'createdAt',
   sorter: (a, b) => a.createdAt - b.createdAt,
+  render: (text) => text && moment(text).format('L'),
 }, {
   title: 'Created By',
   dataIndex: 'createdBy',
