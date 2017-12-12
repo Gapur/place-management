@@ -14,17 +14,6 @@ import { required } from '../../shared/utils/form_validations';
 import CustomTags from './CustomTags';
 
 const FormItem = Form.Item;
-const users = [
-  { value: 'nuttawuth', label: 'Nuttawuth Chainilphan' },
-  { value: 'gapur', label: 'Gapur Kassym' },
-  { value: 'john', label: 'John Terry' }
-];
-const places = [
-  { value: 1, label: 'Sidney Oper House' },
-  { value: 2, label: 'Astana Arena' },
-  { value: 3, label: 'Tokya Tower' },
-  { value: 4, label: 'Qaragandy Opera' },
-];
 
 const tailFormItemLayout = {
   wrapperCol: {
@@ -65,8 +54,12 @@ class StoryForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting } = this.props;
+    const { handleSubmit, error, submitting, places, users } = this.props;
     const { tags, newTag } = this.state;
+    const placeOptions = places.map(({ id, name }) => ({ value: id, label: name }));
+    const userOptions = users.map(
+      ({ id, firstName, lastName }) =>
+        ({ value: id, label: `${firstName} ${lastName}` }));
 
     return (
       <Form onSubmit={handleSubmit(this.onSubmit)}>
@@ -85,25 +78,25 @@ class StoryForm extends Component {
         <Row gutter={32}>
           <Col span={8}>
             <Field
-              name="user_name"
+              name="userId"
               label="User Name"
               component={renderSelect}
               placeholder="User Name"
-              options={users}
+              options={userOptions}
               validate={required}
             />
 
             <Field
-              name="place_name"
+              name="placeId"
               label="Place Name"
               component={renderSelect}
               placeholder="Place Name"
-              options={places}
+              options={placeOptions}
               validate={required}
             />
 
             <Field
-              name="story_title"
+              name="storyTitle"
               label="Story Title"
               component={renderInput}
               placeholder="Story Title"
@@ -131,7 +124,7 @@ class StoryForm extends Component {
 
           <Col span={8}>
             <Field
-              name="story_picture"
+              name="storyPicture"
               label="Story Picture"
               component={renderInputUpload}
               placeholder="Upload Picture"
@@ -140,13 +133,13 @@ class StoryForm extends Component {
             />
 
             <Field
-              name="created_date"
+              name="createdAt"
               label="Create Date"
               component={renderLabel}
             />
 
             <Field
-              name="created_by"
+              name="createdBy"
               label="Create by"
               component={renderLabel}
             />

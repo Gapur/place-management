@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { push } from 'react-router-redux';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import StoryForm from './components/StoryForm';
 
@@ -13,19 +16,19 @@ class EditStory extends Component {
   }
 
   handleSubmit(values) {
-    console.log(values);
+    const { match: { params }, updateStory, push } = this.props;
+    updateStory({ variables: { ...values, id: params.id } })
+      .then(() => push('/stories'))
+      .catch(err => console.log(err.message));
   }
 
   render() {
-    const initialValues = {
-      place_name: 'Astana Arena',
-      modified_date: moment().format(),
-      created_by: '@gkassym',
-      display_name: 'Gapur Kassym',
-      created_date: moment().format('MMMM Do YYYY, hh:mm'),
-      user_name: 'Gapur Kassym',
-      story_title: 'story title',
+    const { match: { params }, fetchStory, fetchUsers, fetchPlaces } = this.props;
+
+    if (fetchPlaces.loading || fetchUsers.loading || fetchStory.loading) {
+      return <div className="loader-indicator" />;
     }
+
     return (
       <div id="edit-story">
         <Breadcrumb>
@@ -37,7 +40,9 @@ class EditStory extends Component {
           <h3>Edit Story</h3>
 
           <StoryForm
-            initialValues={initialValues}
+            initialValues={fetchStory.Story}
+            users={fetchUsers.allUsers}
+            places={fetchPlaces.allPlaces}
             onSubmit={this.handleSubmit}
           />
         </div>
@@ -46,4 +51,103 @@ class EditStory extends Component {
   }
 }
 
-export default EditStory;
+const FETCH_PLACES = gql`
+  query FetchPlaces {
+    allPlaces {
+      id
+      name
+    }
+  }
+`
+
+const FETCH_USERS = gql`
+  query FetchUsers {
+    allUsers {
+      id
+      firstName
+      lastName
+    }
+  }
+`
+
+const FETCH_STORY = gql`
+  query FetchStory($id: ID!) {
+    Story(id: $id) {
+      id
+      createdAt
+      createdBy
+      storyTitle
+      story
+      storyPicture
+      tags {
+        name
+      }
+      user {
+        id
+        firstName
+        lastName
+      }
+      place {
+        id
+        name
+      }
+    }
+  }
+`
+const UPDATE_STORY = gql`
+  mutation UpdateStory(
+    $id: ID!,
+    $storyTitle: String!,
+    $story: String!,
+    $storyPicture: String,
+    $placeId: ID,
+    $userId: ID,
+  ) {
+    updateStory (
+      id: $id
+      storyTitle: $storyTitle
+      story: $story
+      storyPicture: $storyPicture
+      placeId: $placeId
+      userId: $userId
+    ) {
+      storyTitle
+      story
+      storyPicture
+      placeId
+      userId
+    }
+  }
+`
+
+const EditStoryScreen = compose(
+  graphql(FETCH_PLACES, {
+    name: 'fetchPlaces',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(FETCH_USERS, {
+    name: 'fetchUsers',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(FETCH_STORY, {
+    name: 'fetchStory',
+    options: ({ match }) => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        id: match.params.id,
+      },
+    }),
+  }),
+  graphql(UPDATE_STORY, {
+    name: 'updateStory',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  })
+)(EditStory);
+
+export default connect(null, { push })(EditStoryScreen);

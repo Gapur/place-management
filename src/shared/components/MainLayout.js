@@ -33,8 +33,8 @@ class MainLayout extends Component {
           <Content>
             <Route exact path="/dashboard" component={UsersScreen} />
             <Route exact path="/users/one-mappers/:type(bloggers|partners|regulars)" component={UsersScreen} />
-            <Route exact path="/users/one-mappers/new" component={NewUserScreen} />
-            <Route exact path="/users/one-mappers/edit/:id" component={EditUserScreen} />
+            <Route exact path="/users/one-mappers/:type(bloggers|partners|regulars)/new" component={NewUserScreen} />
+            <Route exact path="/users/one-mappers/:type(bloggers|partners|regulars)/edit/:id" component={EditUserScreen} />
             <Route exact path="/places" component={PlacesScreen} />
             <Route exact path="/places/new" component={NewPlaceScreen} />
             <Route exact path="/places/edit/:id" component={EditPlaceScreen} />

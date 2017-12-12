@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-export const usersColumns = [{
+export const usersColumns = (userType) => [{
   title: 'Display Name',
-  dataIndex: 'display_name',
-  sorter: (a, b) => a.display_name.length - b.display_name.length,
-  render: (text, record) => 
-    <Link to={`/users/one-mappers/edit/${record.key}`}>{record.display_name}</Link>,
+  dataIndex: 'displayName',
+  sorter: (a, b) => a.displayName.length - b.displayName.length,
+  render: (text, record) =>
+    <Link to={`/users/one-mappers/${userType}/edit/${record.id}`}>
+      {`${record.firstName} ${record.lastName}`}
+    </Link>,
 }, {
   title: 'Status',
   dataIndex: 'status',
@@ -20,15 +22,16 @@ export const usersColumns = [{
   }],
   filterMultiple: false,
   onFilter: (value, record) => record.status.indexOf(value) === 0,
-  sorter: (a, b) => a.status.length - b.address.length,
+  sorter: (a, b) => a.status.length - b.status.length,
 }, {
   title: 'Last Login',
-  dataIndex: 'last_login',
-  sorter: (a, b) => a.last_login - b.last_login,
+  dataIndex: 'lastLogin',
+  sorter: (a, b) => a.lastLogin - b.lastLogin,
+  render: (text) => text ? text : 'No logined',
 }, {
   title: 'User Name',
-  dataIndex: 'user_name',
-  sorter: (a, b) => a.user_name - b.user_name,
+  dataIndex: 'userName',
+  sorter: (a, b) => a.userName - b.userName,
 }, {
   title: 'City',
   dataIndex: 'city',
@@ -74,46 +77,4 @@ export const usersColumns = [{
     value: 'Bloggers',
   }],
   onFilter: (value, record) => record.role.indexOf(value) === 0,
-}];
-
-export const data = [{
-  key: '1',
-  display_name: 'Nuttawuth Chainilphan',
-  status: 'Verified',
-  last_login: moment().format(),
-  user_name: '@donutfino',
-  city: 'Bangkok',
-  country: 'Thailand',
-  role: 'Bloggers',
-  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
-}, {
-  key: '2',
-  display_name: 'Gapur Kassym',
-  status: 'Review',
-  last_login: moment().format(),
-  user_name: '@gkassym',
-  city: 'Qaragandy',
-  country: 'Qazakhstan',
-  role: 'Partners',
-  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
-}, {
-  key: '3',
-  display_name: 'Tulebay Erbolat',
-  status: 'Verified',
-  last_login: moment().format(),
-  user_name: '@kassym',
-  city: 'Astana',
-  country: 'Qazakhstan',
-  role: 'Regulars',
-  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
-}, {
-  key: '4',
-  display_name: 'John Terry',
-  status: 'Verified',
-  last_login: moment().format(),
-  user_name: '@gafur',
-  city: 'Tokyo',
-  country: 'Japan',
-  role: 'Regulars',
-  description: '10 Collections, 21 Checked In, 20 stories, 30 Followers, 12 Following',
 }];
