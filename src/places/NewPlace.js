@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { push } from 'react-router-redux';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import PlaceForm from './components/PlaceForm';
 
@@ -13,14 +16,15 @@ class NewPlace extends Component {
   }
 
   handleSubmit(values) {
-    console.log(values);
+    this.props.createPlace({ variables: { ...values } })
+      .then(() => push('/places'))
+      .catch(err => console.log(err.message));
   }
 
   render() {
     const initialValues = {
-      created_date: moment().format('MMMM Do YYYY, hh:mm'),
-      created_by: 'gkassym',
-      registration_date: moment().format('MMMM Do YYYY, hh:mm'),
+      createdBy: 'gkassym',
+      status: 'Verified',
     }
     return (
       <div id="new-place">
@@ -42,4 +46,51 @@ class NewPlace extends Component {
   }
 }
 
-export default NewPlace;
+const CREATE_PLACE = gql`
+  mutation CreatePlace(
+      $name: String!,
+      $description: String!,
+      $address: String!,
+      $street: String,
+      $arrea: String,
+      $city: String,
+      $state: String,
+      $country: String!,
+      $placeId: String!,
+      $lat: String!,
+      $long: String!,
+      $source: String,
+      $profilePicture: String,
+      $createdBy: String!,
+      $status: String!,
+  ) {
+    createPlace(
+      name: $name
+      description: $description
+      address: $address
+      street: $street
+      arrea: $arrea
+      city: $city
+      state: $state
+      country: $country
+      placeId: $placeId
+      lat: $lat
+      long: $long
+      source: $source
+      profilePicture: $profilePicture
+      createdBy: $createdBy
+      status: $status
+    ) {
+      id
+    }
+  }
+`
+
+const NewPlaceScreen = graphql(CREATE_PLACE, {
+  name: 'createPlace',
+  options: {
+    fetchPolicy: 'network-only',
+  },
+})(NewPlace);
+
+export default connect(null, { push })(NewPlaceScreen);

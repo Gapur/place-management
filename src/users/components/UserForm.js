@@ -13,14 +13,14 @@ import {
 import { required, email, password } from '../../shared/utils/form_validations';
 
 const FormItem = Form.Item;
-const options = [
+const countryOptions = [
   { value: 'Thailand', label: 'Thailand' },
   { value: 'Qazakhstan', label: 'Qazakhstan' },
   { value: 'Japan', label: 'Japan' },
 ];
-const genders = [
-  { value: 1, label: 'male' },
-  { value: 2, label: 'female' },
+const genderOptions = [
+  { value: 'male', label: 'male' },
+  { value: 'female', label: 'female' },
 ];
 
 class UserForm extends Component {
@@ -42,11 +42,11 @@ class UserForm extends Component {
             </FormItem>
           </div>
         </Row>
-        
+
         <Row gutter={32}>
           <Col span={8}>
             <Field
-              name="first_name"
+              name="firstName"
               label="First Name"
               component={renderInput}
               placeholder="First Name"
@@ -54,7 +54,7 @@ class UserForm extends Component {
             />
 
             <Field
-              name="last_name"
+              name="lastName"
               label="Last Name"
               component={renderInput}
               placeholder="Last Name"
@@ -86,18 +86,18 @@ class UserForm extends Component {
               label="I'am"
               component={renderSelect}
               placeholder="Select Sex"
-              options={genders}
+              options={genderOptions}
             />
 
             <Field
-              name="birthdate"
+              name="birthDate"
               label="Birthdate"
               component={renderDateTime}
               placeholder="Birth date"
             />
 
             <Field
-              name="living_in"
+              name="city"
               label="Living In"
               component={renderInput}
               placeholder="City"
@@ -108,7 +108,7 @@ class UserForm extends Component {
               label="Country"
               component={renderSelect}
               placeholder="Select Country"
-              options={options}
+              options={countryOptions}
             />
 
             <Field
@@ -119,7 +119,7 @@ class UserForm extends Component {
             />
 
             <Field
-              name="user_name"
+              name="userName"
               label="User Name"
               component={renderInput}
               placeholder="@cristian"
@@ -145,19 +145,19 @@ class UserForm extends Component {
             />
 
             <Field
-              name="registration_date"
+              name="registrationDate"
               label="Registration Date"
               component={renderLabel}
             />
 
             <Field
-              name="created_date"
+              name="createdAt"
               label="Create Date"
               component={renderLabel}
             />
 
             <Field
-              name="created_by"
+              name="createdBy"
               label="Create by"
               component={renderLabel}
             />
