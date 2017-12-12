@@ -4,20 +4,17 @@ import { Link } from 'react-router-dom';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import { storiesColumns, data } from '../shared/constants/storiesConstants';
+import { storiesColumns } from '../shared/constants/storiesConstants';
 
 class Stories extends Component {
 
-  handleChange(pagination, filters, sorter) {
-    console.log('params', pagination, filters, sorter);
-  }
-
   render() {
-    if (this.props.fetchStories.loading) {
+    const { fetchStories: { loading, allStories } } = this.props;
+    if (loading) {
       return <div className="loader-indicator" />;
     }
-    const stories = this.props.fetchStories.allStories;
-    console.log('stire', stories);
+    const dataSource = allStories.map(story => ({ ...story, key: story.id }));
+    console.log(dataSource);
     return (
       <div id="places">
         <Breadcrumb>
@@ -41,9 +38,8 @@ class Stories extends Component {
 
           <Table
             columns={storiesColumns}
-            dataSource={data}
+            dataSource={dataSource}
             expandedRowRender={record => <p className="no-margin">{record.description}</p>}
-            onChange={this.handleChange}
           />
         </div>
       </div>
@@ -56,20 +52,23 @@ const FETCH_STORIES = gql`
     allStories {
       id
       createdAt
+      updatedAt
+      createdBy
       storyTitle
       story
+      storyPicture
+      status
       tags {
-        id
         name
       }
       user {
         id
         firstName
         lastName
-        email
       }
       place {
         id
+        name
       }
     }
   }

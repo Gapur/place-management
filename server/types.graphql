@@ -33,6 +33,7 @@ type Story @model {
   storyTitle: String!
   story: String!
   storyPicture: String
+  status: String!
   tags: [Tag!]! @relation(name: "StoryTag")
   place: Place @relation(name: "StoryPlace")
   user: User @relation(name: "StoryUser")

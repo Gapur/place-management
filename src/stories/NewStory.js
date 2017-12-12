@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
-import moment from 'moment';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import StoryForm from './components/StoryForm';
@@ -17,16 +16,23 @@ class NewStory extends Component {
   }
 
   handleSubmit(values) {
-    console.log(values);
-    this.props.createStory({ variables: { ...values, placeId: "cjb36iucoqq3e0105fdbqt0hh", userId: null } })
-      .then(() => this.props.push('/stories'))
+    const { createStory, push } = this.props;
+    createStory({ variables: { ...values } })
+      .then(() => push('/stories'))
       .catch(err => console.log(err.message));
   }
 
   render() {
-    const initialValues = {
-      createdBy: 1,
+    const { fetchPlaces: { allPlaces }, fetchUsers: { allUsers } } = this.props;
+    if (this.props.fetchPlaces.loading || this.props.fetchUsers.loading) {
+      return <div className="loader-indicator" />;
     }
+
+    const initialValues = {
+      createdBy: 'test',
+      status: 'Verified',
+    };
+
     return (
       <div id="new-story">
         <Breadcrumb>
@@ -39,6 +45,8 @@ class NewStory extends Component {
 
           <StoryForm
             initialValues={initialValues}
+            places={allPlaces}
+            users={allUsers}
             onSubmit={this.handleSubmit}
           />
         </div>
@@ -47,18 +55,41 @@ class NewStory extends Component {
   }
 }
 
+const FETCH_PLACES = gql`
+  query FetchPlaces {
+    allPlaces {
+      id
+      name
+    }
+  }
+`
+
+const FETCH_USERS = gql`
+  query FetchUsers {
+    allUsers {
+      id
+      firstName
+      lastName
+    }
+  }
+`
+
 const CREATE_STORY = gql`
   mutation CreateStory(
-      $storyTitle: String!,
-      $story: String!,
-      $createdBy: Int!,
-      $placeId: ID,
-      $userId: ID
+    $storyTitle: String!,
+    $story: String!,
+    $storyPicture: String,
+    $createdBy: String!,
+    $status: String!,
+    $placeId: ID,
+    $userId: ID,
   ) {
     createStory(
       createdBy: $createdBy
       storyTitle: $storyTitle
       story: $story
+      storyPicture: $storyPicture
+      status: $status
       tags: []
       placeId: $placeId
       userId: $userId
@@ -68,11 +99,25 @@ const CREATE_STORY = gql`
   }
 `
 
-const NewStoryScreen = graphql(CREATE_STORY, {
-  name: 'createStory',
-  options: {
-    fetchPolicy: 'network-only',
-  },
-})(NewStory);
+const NewStoryScreen = compose(
+  graphql(FETCH_PLACES, {
+    name: 'fetchPlaces',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(FETCH_USERS, {
+    name: 'fetchUsers',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(CREATE_STORY, {
+    name: 'createStory',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+)(NewStory);
 
 export default connect(null, { push })(NewStoryScreen);
