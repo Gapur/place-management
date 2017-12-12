@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Breadcrumb, Table, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import { storiesColumns, data } from '../shared/constants/storiesConstants';
 
@@ -12,6 +14,11 @@ class Stories extends Component {
   }
 
   render() {
+    if (this.props.fetchStories.loading) {
+      return <div className="loader-indicator" />;
+    }
+    const stories = this.props.fetchStories.allStories;
+    console.log('stire', stories);
     return (
       <div id="places">
         <Breadcrumb>
@@ -45,4 +52,35 @@ class Stories extends Component {
   }
 }
 
-export default Stories;
+const FETCH_STORIES = gql`
+  query FetchStories {
+    allStories {
+      id
+      createdAt
+      storyTitle
+      story
+      tags {
+        id
+        name
+      }
+      user {
+        id
+        firstName
+        lastName
+        email
+      }
+      place {
+        id
+      }
+    }
+  }
+`
+
+const StoriesScreen = graphql(FETCH_STORIES, {
+  name: 'fetchStories',
+  options: {
+    fetchPolicy: 'network-only',
+  },
+})(Stories)
+
+export default StoriesScreen;

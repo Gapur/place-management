@@ -15,6 +15,7 @@
     "moment": "^2.19.3",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
+    "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",
     "react-google-maps": "^9.4.1",
     "react-places-autocomplete": "^5.4.3",

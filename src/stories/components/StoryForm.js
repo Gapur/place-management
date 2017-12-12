@@ -85,7 +85,7 @@ class StoryForm extends Component {
         <Row gutter={32}>
           <Col span={8}>
             <Field
-              name="user_name"
+              name="userName"
               label="User Name"
               component={renderSelect}
               placeholder="User Name"
@@ -94,7 +94,7 @@ class StoryForm extends Component {
             />
 
             <Field
-              name="place_name"
+              name="placeName"
               label="Place Name"
               component={renderSelect}
               placeholder="Place Name"
@@ -103,7 +103,7 @@ class StoryForm extends Component {
             />
 
             <Field
-              name="story_title"
+              name="storyTitle"
               label="Story Title"
               component={renderInput}
               placeholder="Story Title"
@@ -131,7 +131,7 @@ class StoryForm extends Component {
 
           <Col span={8}>
             <Field
-              name="story_picture"
+              name="storyPicture"
               label="Story Picture"
               component={renderInputUpload}
               placeholder="Upload Picture"
@@ -140,13 +140,13 @@ class StoryForm extends Component {
             />
 
             <Field
-              name="created_date"
+              name="createdAt"
               label="Create Date"
               component={renderLabel}
             />
 
             <Field
-              name="created_by"
+              name="createdBy"
               label="Create by"
               component={renderLabel}
             />

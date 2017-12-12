@@ -3,8 +3,12 @@
 
 type User @model {
   id: ID! @isUnique
-  name: String
-  dateOfBirth: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  firstName: String!
+  lastName: String!
+  email: String!
+  story: [Story!]! @relation(name: "StoryUser")
 }
 
 type Story @model {
@@ -12,17 +16,25 @@ type Story @model {
   createdAt: DateTime!
   updatedAt: DateTime!
   createdBy: Int!
-  userName: String!
-  placeName: String!
   storyTitle: String!
   story: String!
-  tags: [Tags!]! @relation(name: "StoryTags")
+  tags: [Tag!]! @relation(name: "StoryTag")
+  place: Place @relation(name: "StoryPlace")
+  user: User @relation(name: "StoryUser")
 }
 
-type Tags @model {
+type Tag @model {
   id: ID! @isUnique
   createdAt: DateTime!
   updatedAt: DateTime!
   name: String!
-  story: Story! @relation(name: "StoryTags")
+  story: Story @relation(name: "StoryTag")
+}
+
+type Place @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  story: [Story!]! @relation(name: "StoryPlace") 
 }
