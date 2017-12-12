@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
-import moment from 'moment';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -26,10 +25,10 @@ class EditUser extends Component {
   }
 
   render() {
-    const { match: { params }, fetchUser } = this.props;
+    const { match: { params }, fetchUser: { loading, User } } = this.props;
     const userType = USER_TYPES.find(type => type.value == params.type);
 
-    if (fetchUser.loading) {
+    if (loading) {
       return <div className="loader-indicator" />;
     }
 
@@ -50,7 +49,7 @@ class EditUser extends Component {
           <h3>Edit User</h3>
 
           <UserForm
-            initialValues={fetchUser.User}
+            initialValues={User}
             onSubmit={this.handleSubmit}
           />
         </div>

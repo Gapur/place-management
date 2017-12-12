@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Breadcrumb, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import { push } from 'react-router-redux';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import PlaceForm from './components/PlaceForm';
 
@@ -13,21 +16,18 @@ class EditPlace extends Component {
   }
 
   handleSubmit(values) {
-    console.log(values);
+    const { match: { params }, updatePlace, push } = this.props;
+    updatePlace({ variables: { ...values, id: params.id } })
+      .then(() => push('/places'))
+      .catch(err => console.log(err.message));
   }
 
   render() {
-    const initialValues = {
-      create_date: moment().format('MMMM Do YYYY, hh:mm'),
-      create_by: 'gkassym',
-      registration_date: moment().format('MMMM Do YYYY, hh:mm'),
-      place_name: 'Sidney Oper House',
-      created_date: moment().format(),
-      created_by: '@donutfino',
-      city: 'Bangkok',
-      country: 'Thailand',
-      description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
+    const { fetchPlace: { loading, Place } } = this.props;
+    if (loading) {
+      return <div className="loader-indicator" />;
     }
+
     return (
       <div id="edit-place">
         <Breadcrumb>
@@ -39,7 +39,7 @@ class EditPlace extends Component {
           <h3>Edit Place</h3>
 
           <PlaceForm
-            initialValues={initialValues}
+            initialValues={Place}
             onSubmit={this.handleSubmit}
           />
         </div>
@@ -48,4 +48,97 @@ class EditPlace extends Component {
   }
 }
 
-export default EditPlace;
+const FETCH_PLACE = gql`
+  query FetchPlace($id: ID!) {
+    Place(id: $id) {
+      createdAt
+      name
+      description
+      address
+      street
+      arrea
+      city
+      state
+      country
+      placeId
+      lat
+      long
+      source
+      profilePicture
+      createdBy
+      status
+    }
+  }
+`
+const UPDATE_PLACE = gql`
+  mutation UpdatePlace(
+    $id: ID!,
+    $name: String!,
+    $description: String!,
+    $address: String!,
+    $street: String,
+    $arrea: String,
+    $city: String,
+    $state: String,
+    $country: String!,
+    $placeId: String!,
+    $lat: String!,
+    $long: String!,
+    $source: String,
+    $profilePicture: String,
+  ) {
+    updatePlace (
+      id: $id
+      name: $name
+      description: $description
+      address: $address
+      street: $street
+      arrea: $arrea
+      city: $city
+      state: $state
+      country: $country
+      placeId: $placeId
+      lat: $lat
+      long: $long
+      source: $source
+      profilePicture: $profilePicture
+    ) {
+      name
+      description
+      address
+      street
+      arrea
+      city
+      state
+      country
+      placeId
+      lat
+      long
+      source
+      profilePicture
+      createdBy
+      createdAt
+      status
+    }
+  }
+`
+
+const EditPlaceScreen = compose(
+  graphql(FETCH_PLACE, {
+    name: 'fetchPlace',
+    options: ({ match }) => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        id: match.params.id,
+      },
+    }),
+  }),
+  graphql(UPDATE_PLACE, {
+    name: 'updatePlace',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  })
+)(EditPlace);
+
+export default connect(null, { push })(EditPlaceScreen);;
