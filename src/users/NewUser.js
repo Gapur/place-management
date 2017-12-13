@@ -61,24 +61,24 @@ class NewUser extends Component {
 
 const CREATE_USER = gql`
   mutation CreateUser(
-      $firstName: String!,
-      $lastName: String!,
-      $email: String,
-      $password: String,
-      $displayName: String
-      $gender: Gender,
-      $birthdate: String,
-      $country: String,
-      $city: String,
-      $mobile: String,
-      $username: String,
-      $photoURL: String,
-      $bio: String,
-      $registrationDate: String
-      $lastSeen: DateTime
-      $onlineStatus: OnlineStatus!
-      $group: [UserGroup!]
-      $accountStatus: Enabled!
+    $firstName: String!,
+    $lastName: String!,
+    $email: String,
+    $password: String,
+    $displayName: String
+    $gender: Gender,
+    $birthdate: String,
+    $country: String,
+    $city: String,
+    $mobile: String,
+    $username: String,
+    $photoURL: String,
+    $bio: String,
+    $registrationDate: String
+    $lastSeen: DateTime
+    $onlineStatus: OnlineStatus!
+    $group: [UserGroup!]
+    $accountStatus: Enabled!
   ) {
     createUser(
       firstName: $firstName
