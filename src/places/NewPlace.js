@@ -7,6 +7,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import PlaceForm from './components/PlaceForm';
+import { parseFormErrors } from '../shared/utils/form_errors';
 
 class NewPlace extends Component {
   constructor(props) {
@@ -16,9 +17,10 @@ class NewPlace extends Component {
   }
 
   handleSubmit(values) {
-    this.props.createPlace({ variables: { ...values } })
+    const { push, createPlace } = this.props;
+    return createPlace({ variables: { ...values } })
       .then(() => push('/places'))
-      .catch(err => console.log(err.message));
+      .catch(parseFormErrors);
   }
 
   render() {

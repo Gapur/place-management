@@ -7,6 +7,7 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import PlaceForm from './components/PlaceForm';
+import { parseFormErrors } from '../shared/utils/form_errors';
 
 class EditPlace extends Component {
   constructor(props) {
@@ -17,9 +18,9 @@ class EditPlace extends Component {
 
   handleSubmit(values) {
     const { match: { params }, updatePlace, push } = this.props;
-    updatePlace({ variables: { ...values, id: params.id } })
+    return updatePlace({ variables: { ...values, id: params.id } })
       .then(() => push('/places'))
-      .catch(err => console.log(err.message));
+      .catch(parseFormErrors);
   }
 
   render() {

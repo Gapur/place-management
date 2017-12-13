@@ -39,7 +39,7 @@ class StoryForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.onSubmit({ ...values, tags: this.state.tags });
+    return this.props.onSubmit({ ...values, tags: this.state.tags });
   }
 
   handleDeleteTag = (removedTag) => {
@@ -69,12 +69,15 @@ class StoryForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/stories">Cancel</Link>
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button disabled={submitting} type="primary" htmlType="submit">
                 <Icon type="save" />Save
               </Button>
             </FormItem>
           </div>
         </Row>
+
+        {error && <Row><FormItem><p className="is-danger">{error}</p></FormItem></Row>}
+        
         <Row gutter={32}>
           <Col span={8}>
             <Field

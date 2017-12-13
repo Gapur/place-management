@@ -9,6 +9,7 @@ import gql from 'graphql-tag';
 
 import UserForm from './components/UserForm';
 import { USER_TYPES } from '../shared/constants/constants';
+import { parseFormErrors } from '../shared/utils/form_errors';
 
 class NewUser extends Component {
   constructor(props) {
@@ -20,9 +21,9 @@ class NewUser extends Component {
   handleSubmit(values) {
     const { match: { params }, createUser, push } = this.props;
     const userType = USER_TYPES.find(type => type.value == params.type);
-    createUser({ variables: { ...values } })
+    return createUser({ variables: { ...values } })
       .then(() => push(`/users/one-mappers/${userType.value}`))
-      .catch(err => console.log(err.message));
+      .catch(parseFormErrors);
   }
 
   render() {

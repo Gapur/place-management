@@ -7,6 +7,7 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import StoryForm from './components/StoryForm';
+import { parseFormErrors } from '../shared/utils/form_errors';
 
 class NewStory extends Component {
   constructor(props) {
@@ -17,9 +18,9 @@ class NewStory extends Component {
 
   handleSubmit(values) {
     const { createStory, push } = this.props;
-    createStory({ variables: { ...values } })
+    return createStory({ variables: { ...values } })
       .then(() => push('/stories'))
-      .catch(err => console.log(err.message));
+      .catch(parseFormErrors);
   }
 
   render() {

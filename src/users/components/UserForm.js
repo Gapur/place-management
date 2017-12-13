@@ -36,12 +36,14 @@ class UserForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/users/one-mappers/regulars">Cancel</Link>
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button disabled={submitting} type="primary" htmlType="submit">
                 <Icon type="save" />Save
               </Button>
             </FormItem>
           </div>
         </Row>
+
+        {error && <Row><FormItem><p className="is-danger">{error}</p></FormItem></Row>}
 
         <Row gutter={32}>
           <Col span={8}>

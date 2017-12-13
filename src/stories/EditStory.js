@@ -7,6 +7,7 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import StoryForm from './components/StoryForm';
+import { parseFormErrors } from '../shared/utils/form_errors';
 
 class EditStory extends Component {
   constructor(props) {
@@ -17,9 +18,9 @@ class EditStory extends Component {
 
   handleSubmit(values) {
     const { match: { params }, updateStory, push } = this.props;
-    updateStory({ variables: { ...values, id: params.id } })
+    return updateStory({ variables: { ...values, id: params.id } })
       .then(() => push('/stories'))
-      .catch(err => console.log(err.message));
+      .catch(parseFormErrors);
   }
 
   render() {
@@ -111,11 +112,8 @@ const UPDATE_STORY = gql`
       placeId: $placeId
       userId: $userId
     ) {
-      storyTitle
-      story
-      storyPicture
+      id
       placeId
-      userId
     }
   }
 `
