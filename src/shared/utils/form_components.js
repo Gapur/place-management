@@ -1,6 +1,7 @@
 import React from 'react';
-import { Form, Input, Select, Checkbox, DatePicker, Upload, Icon, Switch } from 'antd';
+import { Form, Input, Select, DatePicker, Upload, Icon, Switch } from 'antd';
 import PlacesAutocomplete from 'react-places-autocomplete';
+import _ from 'lodash';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -45,8 +46,9 @@ export const renderInput = (props) => render(props, (inputProps) => {
 });
 
 export const renderSelect = ({ options, ...props }) => render(props, (inputProps) => {
+  const props = _.omit(inputProps, [inputProps.value ? null : 'value']);
   return (
-    <Select {...inputProps}>
+    <Select {...props}>
       {options.map(({ value, label }) => <Option key={value} value={value}>{label}</Option>)}
     </Select>
   );

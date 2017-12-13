@@ -9,12 +9,12 @@ import { placeColumns } from '../shared/constants/placesConstants';
 class Places extends Component {
 
   render() {
-    if (this.props.fetchPlaces.loading) {
+    const { fetchPlaces: { loading, allPlaces } } = this.props;
+    if (loading) {
       return <div className="loader-indicator" />;
     }
-    
-    const places = this.props.fetchPlaces.allPlaces;
-    const dataSource = places.map(place => ({ ...place, key: place.id }));
+
+    const dataSource = allPlaces.map(place => ({ ...place, key: place.id }));
 
     return (
       <div id="places">
@@ -41,7 +41,6 @@ class Places extends Component {
             columns={placeColumns}
             dataSource={dataSource}
             expandedRowRender={record => <p className="no-margin">{record.description}</p>}
-            onChange={this.handleChange}
           />
         </div>
       </div>

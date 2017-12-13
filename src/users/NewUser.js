@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Breadcrumb, Button, Icon } from 'antd';
+import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import moment from 'moment';
@@ -30,7 +30,7 @@ class NewUser extends Component {
     const { match: { params } } = this.props;
     const userType = USER_TYPES.find(type => type.value == params.type);
     const initialValues = {
-      registrationDate: moment().format(),
+      registrationDate: moment().format('L'),
       createdBy: 'Test',
       status: 'Review',
       role: userType && userType.value,
@@ -40,9 +40,7 @@ class NewUser extends Component {
       <div id="new-place">
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/users">Users</Link></Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Link to="/users/one-mappers">OneMappers</Link>
-          </Breadcrumb.Item>
+          <Breadcrumb.Item>OneMappers</Breadcrumb.Item>
           <Breadcrumb.Item>
             <Link to={`/users/one-mappers/${userType.value}`}>{userType.label}</Link>
           </Breadcrumb.Item>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Breadcrumb, Button, Icon } from 'antd';
+import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
@@ -24,11 +24,17 @@ class EditStory extends Component {
   }
 
   render() {
-    const { match: { params }, fetchStory, fetchUsers, fetchPlaces } = this.props;
+    const { fetchStory, fetchUsers, fetchPlaces } = this.props;
 
     if (fetchPlaces.loading || fetchUsers.loading || fetchStory.loading) {
       return <div className="loader-indicator" />;
     }
+
+    const initialValues = {
+      ...fetchStory.Story,
+      userId: fetchStory.Story.user.id,
+      placeId: fetchStory.Story.place.id,
+    };
 
     return (
       <div id="edit-story">
@@ -41,7 +47,7 @@ class EditStory extends Component {
           <h3>Edit Story</h3>
 
           <StoryForm
-            initialValues={fetchStory.Story}
+            initialValues={initialValues}
             users={fetchUsers.allUsers}
             places={fetchPlaces.allPlaces}
             onSubmit={this.handleSubmit}
@@ -113,7 +119,6 @@ const UPDATE_STORY = gql`
       userId: $userId
     ) {
       id
-      placeId
     }
   }
 `

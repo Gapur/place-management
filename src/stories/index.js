@@ -14,7 +14,7 @@ class Stories extends Component {
       return <div className="loader-indicator" />;
     }
     const dataSource = allStories.map(story => ({ ...story, key: story.id }));
-    console.log(dataSource);
+
     return (
       <div id="places">
         <Breadcrumb>

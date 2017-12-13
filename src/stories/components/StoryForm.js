@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Button, Icon, Row, Col, Input } from 'antd';
-import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux';
+import { Form, Button, Icon, Row, Col } from 'antd';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import {
@@ -54,7 +55,7 @@ class StoryForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting, places, users } = this.props;
+    const { handleSubmit, error, submitting, places, users, createdAt, createdBy } = this.props;
     const { tags, newTag } = this.state;
     const placeOptions = places.map(({ id, name }) => ({ value: id, label: name }));
     const userOptions = users.map(
@@ -77,7 +78,7 @@ class StoryForm extends Component {
         </Row>
 
         {error && <Row><FormItem><p className="is-danger">{error}</p></FormItem></Row>}
-        
+
         <Row gutter={32}>
           <Col span={8}>
             <Field
@@ -135,17 +136,21 @@ class StoryForm extends Component {
               listType="picture-card"
             />
 
-            <Field
-              name="createdAt"
-              label="Create Date"
-              component={renderLabel}
-            />
+            {createdAt &&
+              <Field
+                name="createdAt"
+                label="Create Date"
+                component={renderLabel}
+              />
+            }
 
-            <Field
-              name="createdBy"
-              label="Create by"
-              component={renderLabel}
-            />
+            {createdBy &&
+              <Field
+                name="createdBy"
+                label="Create by"
+                component={renderLabel}
+              />
+            }
           </Col>
         </Row>
       </Form>
@@ -153,4 +158,13 @@ class StoryForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'storyForm' })(StoryForm);
+const Story = reduxForm({ form: 'storyForm' })(StoryForm);
+
+const selector = formValueSelector('storyForm');
+
+export default connect(
+  state => ({
+    createdAt: selector(state, 'createdAt'),
+    createdBy: selector(state, 'createdBy'),
+  }),
+)(Story);

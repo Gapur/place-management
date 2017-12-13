@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Form, Button, Icon, Row, Col } from 'antd';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import {
   renderInput,
@@ -25,9 +26,9 @@ const genderOptions = [
 
 class UserForm extends Component {
   render() {
-    const { handleSubmit, error, submitting } = this.props;
+    const { handleSubmit, error, submitting, createdAt, createdBy, registrationDate } = this.props;
     const buttonAfter = <Button type="primary">Generate</Button>
-
+    console.log(createdAt);
     return (
       <Form onSubmit={handleSubmit}>
         <Row gutter={32}>
@@ -146,23 +147,29 @@ class UserForm extends Component {
               placeholder="BIO"
             />
 
-            <Field
-              name="registrationDate"
-              label="Registration Date"
-              component={renderLabel}
-            />
+            {registrationDate &&
+              <Field
+                name="registrationDate"
+                label="Registration Date"
+                component={renderLabel}
+              />
+            }
 
-            <Field
-              name="createdAt"
-              label="Create Date"
-              component={renderLabel}
-            />
+            {createdAt &&
+              <Field
+                name="createdAt"
+                label="Create Date"
+                component={renderLabel}
+              />
+            }
 
-            <Field
-              name="createdBy"
-              label="Create by"
-              component={renderLabel}
-            />
+            {createdBy &&
+              <Field
+                name="createdBy"
+                label="Create by"
+                component={renderLabel}
+              />
+            }
           </Col>
         </Row>
       </Form>
@@ -170,4 +177,14 @@ class UserForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'userForm' })(UserForm);
+const User = reduxForm({ form: 'userForm' })(UserForm);
+
+const selector = formValueSelector('userForm');
+
+export default connect(
+  state => ({
+    createdAt: selector(state, 'createdAt'),
+    createdBy: selector(state, 'createdBy'),
+    registrationDate: selector(state, 'registrationDate'),
+  }),
+)(User);

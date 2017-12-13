@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Breadcrumb, Button, Icon } from 'antd';
+import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
@@ -24,8 +24,8 @@ class NewStory extends Component {
   }
 
   render() {
-    const { fetchPlaces: { allPlaces }, fetchUsers: { allUsers } } = this.props;
-    if (this.props.fetchPlaces.loading || this.props.fetchUsers.loading) {
+    const { fetchPlaces, fetchUsers } = this.props;
+    if (fetchPlaces.loading || fetchUsers.loading) {
       return <div className="loader-indicator" />;
     }
 
@@ -46,8 +46,8 @@ class NewStory extends Component {
 
           <StoryForm
             initialValues={initialValues}
-            places={allPlaces}
-            users={allUsers}
+            places={fetchPlaces.allPlaces}
+            users={fetchUsers.allUsers}
             onSubmit={this.handleSubmit}
           />
         </div>

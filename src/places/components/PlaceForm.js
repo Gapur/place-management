@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Form, Button, Icon, Row, Col } from 'antd';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
@@ -23,19 +24,20 @@ const countryOptions = [
 
 const PlaceMap = compose(
   withGoogleMap,
-)(({ input: { onChange, value }, isMarkerShown }) => (
+)(({ input: { onChange, value }, isMarkerShown, coordinate }) => (
   <GoogleMap
     defaultZoom={4}
     defaultCenter={{ lat: -34.397, lng: 150.6449 }}
   >
-    {isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />}
+    {isMarkerShown &&
+      <Marker position={{ lat: coordinate.lat || -34, lng: coordinate.long || 150 }} />}
   </GoogleMap>
 ));
 
 class PlaceForm extends Component {
   render() {
-    const { handleSubmit, error, submitting } = this.props;
-
+    const { handleSubmit, error, submitting, createdAt, createdBy, lat, long } = this.props;
+    
     return (
       <Form onSubmit={handleSubmit}>
         <Row>
@@ -153,6 +155,7 @@ class PlaceForm extends Component {
                 name="place_loc"
                 component={PlaceMap}
                 isMarkerShown
+                coordinate={{ lat: +lat, long: +long }}
                 loadingElement={<div style={{ height: `100%` }} />}
                 containerElement={<div style={{ height: `300px` }} />}
                 mapElement={<div style={{ height: `100%` }} />}
@@ -177,17 +180,21 @@ class PlaceForm extends Component {
               listType="picture-card"
             />
 
-            <Field
-              name="createdAt"
-              label="Create Date"
-              component={renderLabel}
-            />
+            {createdAt &&
+              <Field
+                name="createdAt"
+                label="Create Date"
+                component={renderLabel}
+              />
+            }
 
-            <Field
-              name="createdBy"
-              label="Create by"
-              component={renderLabel}
-            />
+            {createdBy &&
+              <Field
+                name="createdBy"
+                label="Create by"
+                component={renderLabel}
+              />
+            }
           </Col>
         </Row>
       </Form>
@@ -195,4 +202,15 @@ class PlaceForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'placeForm' })(PlaceForm);
+const Place = reduxForm({ form: 'placeForm' })(PlaceForm);
+
+const selector = formValueSelector('placeForm');
+
+export default connect(
+  state => ({
+    createdAt: selector(state, 'createdAt'),
+    createdBy: selector(state, 'createdBy'),
+    lat: selector(state, 'lat'),
+    long: selector(state, 'long'),
+  }),
+)(Place);

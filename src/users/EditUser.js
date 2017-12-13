@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Breadcrumb, Button, Icon } from 'antd';
+import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
@@ -37,9 +37,7 @@ class EditUser extends Component {
       <div id="edit-place">
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/users">Users</Link></Breadcrumb.Item>
-          <Breadcrumb.Item>
-            <Link to="/users/one-mappers">OneMappers</Link>
-          </Breadcrumb.Item>
+          <Breadcrumb.Item>OneMappers</Breadcrumb.Item>
           <Breadcrumb.Item>
             <Link to={`/users/one-mappers/${userType.value}`}>{userType.label}</Link>
           </Breadcrumb.Item>
