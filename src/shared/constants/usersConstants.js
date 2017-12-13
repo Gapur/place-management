@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { USER_GROUP } from './constants';
+import { USER_GROUP, ONLINE_STATUS } from './constants';
 
 export const usersColumns = (userType) => [{
   title: 'Display Name',
@@ -14,13 +14,7 @@ export const usersColumns = (userType) => [{
 }, {
   title: 'Status',
   dataIndex: 'onlineStatus',
-  filters: [{
-    text: 'Verified',
-    value: 'Verified',
-  }, {
-    text: 'Review',
-    value: 'Review',
-  }],
+  filters: ONLINE_STATUS.map(({ label, value }) => ({ text: label, value })),
   filterMultiple: false,
   onFilter: (value, record) => record.onlineStatus.indexOf(value) === 0,
   sorter: (a, b) => a.onlineStatus.length - b.onlineStatus.length,

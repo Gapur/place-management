@@ -14,13 +14,9 @@ import {
   renderPlacesAutocomplete,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
+import { PLACE_SOURCE } from '../../shared/constants/constants';
 
 const FormItem = Form.Item;
-const countryOptions = [
-  { value: 'Thailand', label: 'Thailand' },
-  { value: 'Qazakhstan', label: 'Qazakhstan' },
-  { value: 'Japan', label: 'Japan' },
-];
 
 const PlaceMap = compose(
   withGoogleMap,
@@ -36,8 +32,8 @@ const PlaceMap = compose(
 
 class PlaceForm extends Component {
   render() {
-    const { handleSubmit, error, submitting, createdAt, createdBy, lat, long } = this.props;
-    
+    const { handleSubmit, error, submitting, createdAt, createBy, lat, long } = this.props;
+
     return (
       <Form onSubmit={handleSubmit}>
         <Row>
@@ -58,7 +54,7 @@ class PlaceForm extends Component {
         <Row gutter={32}>
           <Col span={8}>
             <Field
-              name="name"
+              name="placeName"
               label="Place Name"
               component={renderInput}
               placeholder="Place Name"
@@ -70,7 +66,6 @@ class PlaceForm extends Component {
               label="Description"
               component={renderTextarea}
               placeholder="Description"
-              validate={required}
             />
 
             <Field
@@ -89,41 +84,38 @@ class PlaceForm extends Component {
             />
 
             <Field
-              name="arrea"
+              name="addressAreaDistrict"
               label="Arrea / District"
               component={renderInput}
               placeholder="City Arrea / District"
             />
 
             <Field
-              name="city"
+              name="addressCityTown"
               label="City / Town"
               component={renderInput}
               placeholder="City / Town"
             />
 
             <Field
-              name="state"
+              name="addressStateProvince"
               label="State / Province"
               component={renderInput}
               placeholder="State / Province"
             />
 
             <Field
-              name="country"
+              name="addressCountry"
               label="Country"
-              component={renderSelect}
-              placeholder="Select Country"
-              options={countryOptions}
-              validate={required}
+              component={renderInput}
+              placeholder="Country"
             />
 
             <Field
-              name="placeId"
-              label="Place ID"
+              name="addressPostalCode"
+              label="Postal Code"
               component={renderInput}
               placeholder="@12x3jk9"
-              validate={required}
             />
           </Col>
 
@@ -134,7 +126,7 @@ class PlaceForm extends Component {
               </Col>
               <Col span={8}>
                 <Field
-                  name="lat"
+                  name="locationLat"
                   component={renderInput}
                   placeholder="lat"
                   validate={required}
@@ -142,7 +134,7 @@ class PlaceForm extends Component {
               </Col>
               <Col span={8}>
                 <Field
-                  name="long"
+                  name="locationLong"
                   component={renderInput}
                   placeholder="long"
                   validate={required}
@@ -163,16 +155,24 @@ class PlaceForm extends Component {
             </FormItem>
 
             <Field
-              name="source"
+              name="sourceId"
               label="Source"
               component={renderPlacesAutocomplete}
               placeholder="Google Place"
+            />
+
+            <Field
+              name="source"
+              label="Place Source"
+              component={renderSelect}
+              placeholder="Select Source"
+              options={PLACE_SOURCE}
             />
           </Col>
 
           <Col span={8}>
             <Field
-              name="profilePicture"
+              name="pictureURL"
               label="Profile Picture"
               component={renderInputUpload}
               placeholder="Upload Picture"
@@ -188,9 +188,9 @@ class PlaceForm extends Component {
               />
             }
 
-            {createdBy &&
+            {createBy &&
               <Field
-                name="createdBy"
+                name="createBy"
                 label="Create by"
                 component={renderLabel}
               />
@@ -209,8 +209,8 @@ const selector = formValueSelector('placeForm');
 export default connect(
   state => ({
     createdAt: selector(state, 'createdAt'),
-    createdBy: selector(state, 'createdBy'),
-    lat: selector(state, 'lat'),
-    long: selector(state, 'long'),
+    createdBy: selector(state, 'createBy'),
+    lat: selector(state, 'locationLat'),
+    long: selector(state, 'locationLong'),
   }),
 )(Place);

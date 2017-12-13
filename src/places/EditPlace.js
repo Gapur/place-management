@@ -53,73 +53,65 @@ const FETCH_PLACE = gql`
   query FetchPlace($id: ID!) {
     Place(id: $id) {
       createdAt
-      name
-      description
-      address
-      street
-      arrea
-      city
-      state
-      country
-      placeId
-      lat
-      long
+      placeName
+      addressAreaDistrict
+      addressCityTown
+      addressStateProvince
+      addressCountry
+      addressPostalCode
+      locationLat
+      locationLong
       source
-      profilePicture
-      createdBy
-      status
+      sourceId
+      pictureURL
     }
   }
 `
 const UPDATE_PLACE = gql`
   mutation UpdatePlace(
     $id: ID!,
-    $name: String!,
-    $description: String!,
-    $address: String!,
-    $street: String,
-    $arrea: String,
-    $city: String,
-    $state: String,
-    $country: String!,
-    $placeId: String!,
-    $lat: String!,
-    $long: String!,
-    $source: String,
-    $profilePicture: String,
+    $placeName: String!,
+    $addressAreaDistrict: String,
+    $addressCityTown: String,
+    $addressStateProvince: String,
+    $addressCountry: String,
+    $addressPostalCode: String,
+    $locationLat: Float,
+    $locationLong: Float,
+    $source: PlaceSource!,
+    $sourceId: String,
+    $pictureURL: String!,
   ) {
     updatePlace (
       id: $id
-      name: $name
-      description: $description
-      address: $address
-      street: $street
-      arrea: $arrea
-      city: $city
-      state: $state
-      country: $country
-      placeId: $placeId
-      lat: $lat
-      long: $long
+      placeName: $placeName
+      addressAreaDistrict: $addressAreaDistrict
+      addressCityTown: $addressCityTown
+      addressStateProvince: $addressStateProvince
+      addressCountry: $addressCountry
+      addressPostalCode: $addressPostalCode
+      locationLat: $locationLat
+      locationLong: $locationLong
       source: $source
-      profilePicture: $profilePicture
+      sourceId: $sourceId,
+      pictureURL: $pictureURL
     ) {
-      name
+      placeName
       description
       address
       street
-      arrea
-      city
-      state
-      country
-      placeId
-      lat
-      long
+      addressAreaDistrict
+      addressCityTown
+      addressStateProvince
+      addressCountry
+      addressPostalCode
+      locationLat
+      locationLong
       source
-      profilePicture
-      createdBy
+      sourceId
+      pictureURL
       createdAt
-      status
+      createBy
     }
   }
 `

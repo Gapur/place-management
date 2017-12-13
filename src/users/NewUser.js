@@ -8,7 +8,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import UserForm from './components/UserForm';
-import { USER_TYPES } from '../shared/constants/constants';
+import { USER_TYPES, ENABLED, ONLINE_STATUS } from '../shared/constants/constants';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
 class NewUser extends Component {
@@ -31,8 +31,8 @@ class NewUser extends Component {
     const userType = USER_TYPES.find(type => type.value == params.type);
     const initialValues = {
       registrationDate: moment().format('L'),
-      onlineStatus: 'OFFLINE',
-      accountStatus: 'ENABLE',
+      onlineStatus: ONLINE_STATUS[0].value,
+      accountStatus: ENABLED[0].value,
     };
 
     return (

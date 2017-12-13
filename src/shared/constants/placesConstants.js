@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { ONLINE_STATUS, PLACE_SOURCE } from './constants';
 
 export const placeColumns = [{
   title: 'Place Name',
@@ -10,13 +11,7 @@ export const placeColumns = [{
 }, {
   title: 'Status',
   dataIndex: 'status',
-  filters: [{
-    text: 'Verified',
-    value: 'Verified',
-  }, {
-    text: 'Review',
-    value: 'Review',
-  }],
+  filters: ONLINE_STATUS.map(({ label, value }) => ({ text: label, value })),
   filterMultiple: false,
   onFilter: (value, record) => record.status.indexOf(value) === 0,
   sorter: (a, b) => a.status.length - b.status.length,
@@ -32,43 +27,15 @@ export const placeColumns = [{
 }, {
   title: 'City',
   dataIndex: 'city',
-  filters: [{
-    text: 'Bangkok',
-    value: 'Bangkok',
-  }, {
-    text: 'Qaragandy',
-    value: 'Qaragandy',
-  }, {
-    text: 'Tokyo',
-    value: 'Tokyo',
-  }],
-  onFilter: (value, record) => record.city.indexOf(value) === 0,
   sorter: (a, b) => a.city - b.city,
 }, {
   title: 'Country',
   dataIndex: 'country',
   sorter: (a, b) => a.country - b.country,
-  filters: [{
-    text: 'Japan',
-    value: 'Japan',
-  }, {
-    text: 'Qazakhstan',
-    value: 'Qazakhstan',
-  }, {
-    text: 'Thailand',
-    value: 'Thailand',
-  }],
-  onFilter: (value, record) => record.country.indexOf(value) === 0,
 }, {
   title: 'Source',
   dataIndex: 'source',
   sorter: (a, b) => a.source - b.source,
-  filters: [{
-    text: 'Google',
-    value: 'Google',
-  }, {
-    text: 'OneMap',
-    value: 'OneMap',
-  }],
+  filters: PLACE_SOURCE.map(({ label, value }) => ({ text: label, value })),
   onFilter: (value, record) => record.source.indexOf(value) === 0,
 }];

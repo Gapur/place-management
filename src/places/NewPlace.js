@@ -25,8 +25,6 @@ class NewPlace extends Component {
 
   render() {
     const initialValues = {
-      createdBy: 'gkassym',
-      status: 'Verified',
     }
     return (
       <div id="new-place">
@@ -50,38 +48,31 @@ class NewPlace extends Component {
 
 const CREATE_PLACE = gql`
   mutation CreatePlace(
-      $name: String!,
-      $description: String!,
-      $address: String!,
-      $street: String,
-      $arrea: String,
-      $city: String,
-      $state: String,
-      $country: String!,
-      $placeId: String!,
-      $lat: String!,
-      $long: String!,
-      $source: String,
-      $profilePicture: String,
-      $createdBy: String!,
-      $status: String!,
+      $placeName: String!,
+      $addressAreaDistrict: String,
+      $addressCityTown: String,
+      $addressStateProvince: String,
+      $addressCountry: String,
+      $addressPostalCode: String,
+      $locationLat: Float,
+      $locationLong: Float,
+      $source: PlaceSource!,
+      $sourceId: String,
+      $pictureURL: String!,
   ) {
     createPlace(
-      name: $name
+      placeName: $placeName
       description: $description
-      address: $address
-      street: $street
-      arrea: $arrea
-      city: $city
-      state: $state
-      country: $country
-      placeId: $placeId
-      lat: $lat
-      long: $long
+      addressAreaDistrict: $addressAreaDistrict
+      addressCityTown: $addressCityTown
+      addressStateProvince: $addressStateProvince
+      addressCountry: $addressCountry
+      addressPostalCode: $addressPostalCode
+      locationLat: $locationLat
+      locationLong: $locationLong
       source: $source
-      profilePicture: $profilePicture
-      createdBy: $createdBy
-      status: $status
+      sourceId: $sourceId
+      pictureURL: $pictureURL
     ) {
       id
     }
