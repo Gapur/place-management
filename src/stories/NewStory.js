@@ -29,11 +29,6 @@ class NewStory extends Component {
       return <div className="loader-indicator" />;
     }
 
-    const initialValues = {
-      createdBy: 'test',
-      status: 'Verified',
-    };
-
     return (
       <div id="new-story">
         <Breadcrumb>
@@ -45,7 +40,6 @@ class NewStory extends Component {
           <h3>New Story</h3>
 
           <StoryForm
-            initialValues={initialValues}
             places={fetchPlaces.allPlaces}
             users={fetchUsers.allUsers}
             onSubmit={this.handleSubmit}
@@ -60,7 +54,7 @@ const FETCH_PLACES = gql`
   query FetchPlaces {
     allPlaces {
       id
-      name
+      placeName
     }
   }
 `
@@ -69,29 +63,25 @@ const FETCH_USERS = gql`
   query FetchUsers {
     allUsers {
       id
-      firstName
-      lastName
+      displayName
     }
   }
 `
 
 const CREATE_STORY = gql`
   mutation CreateStory(
-    $storyTitle: String!,
+    $title: String!,
     $story: String!,
-    $storyPicture: String,
-    $createdBy: String!,
-    $status: String!,
+    $pictureURL: [Picture!]!,
+    $hashtag: [String!]
     $placeId: ID,
     $userId: ID,
   ) {
     createStory(
-      createdBy: $createdBy
-      storyTitle: $storyTitle
+      title: $title
       story: $story
-      storyPicture: $storyPicture
-      status: $status
-      tags: []
+      pictureURL: $pictureURL
+      hashtag: $hashtag
       placeId: $placeId
       userId: $userId
     ) {

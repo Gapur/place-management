@@ -4,26 +4,26 @@ import moment from 'moment';
 
 export const storiesColumns = [{
   title: 'Story Title',
-  dataIndex: 'storyTitle',
-  sorter: (a, b) => a.storyTitle.length - b.storyTitle.length,
-  render: (text, record) => <Link to={`/stories/edit/${record.key}`}>{record.storyTitle}</Link>,
+  dataIndex: 'title',
+  sorter: (a, b) => a.title.length - b.title.length,
+  render: (text, record) => <Link to={`/stories/edit/${record.key}`}>{record.title}</Link>,
 }, {
   title: 'Place Name',
-  dataIndex: 'name',
-  sorter: (a, b) => a.name.length - b.name.length,
+  dataIndex: 'placeName',
+  sorter: (a, b) => a.placeName.length - b.placeName.length,
   render: (text, record) =>
-    <Link to={`/places/edit/${record.place.id}`}>{record.place.name}</Link>,
+    <Link to={`/places/edit/${record.place.id}`}>{record.place.placeName}</Link>,
 }, {
   title: 'Created By',
-  dataIndex: 'createdBy',
-  sorter: (a, b) => a.createdBy - b.createdBy,
+  dataIndex: 'createBy',
+  sorter: (a, b) => a.createBy - b.createBy,
 }, {
   title: 'Display Name',
   dataIndex: 'displayName',
   sorter: (a, b) => a.displayName - b.displayName,
   render: (text, record) =>
     <Link to={`/users/one-mappers/edit/${record.user.id}`}>
-      {record.user.firstName + ' ' + record.user.lastName}
+      {record.user.displayName}
     </Link>,
 }, {
   title: 'Status',
