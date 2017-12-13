@@ -33,15 +33,6 @@ class NewUser extends Component {
       registrationDate: moment().format('L'),
       onlineStatus: 'OFFLINE',
       accountStatus: 'ENABLE',
-      firstName: "Nurlan",
-      lastName: 'Test',
-      email: 'test@mail.ru',
-      password: 'asdasdasd',
-      mobile: '7753639611',
-      username: 'cris',
-      bio: 'test',
-      city: 'Qaragandy',
-      country: 'Kazakhstan',
     };
 
     return (
@@ -74,6 +65,7 @@ const CREATE_USER = gql`
       $lastName: String!,
       $email: String,
       $password: String,
+      $displayName: String
       $gender: Gender,
       $birthdate: String,
       $country: String,
@@ -85,6 +77,7 @@ const CREATE_USER = gql`
       $registrationDate: String
       $lastSeen: DateTime
       $onlineStatus: OnlineStatus!
+      $group: [UserGroup!]
       $accountStatus: Enabled!
   ) {
     createUser(
@@ -92,6 +85,7 @@ const CREATE_USER = gql`
       lastName: $lastName
       email: $email
       password: $password
+      displayName: $displayName
       gender: $gender
       birthdate: $birthdate
       country: $country
@@ -103,6 +97,7 @@ const CREATE_USER = gql`
       registrationDate: $registrationDate
       lastSeen: $lastSeen
       onlineStatus: $onlineStatus
+      group: $group
       accountStatus: $accountStatus
     ) {
       id

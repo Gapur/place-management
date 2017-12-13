@@ -80,6 +80,7 @@ const FETCH_USERS = gql`
       registrationDate
       lastSeen
       onlineStatus
+      group
     }
   }
 `

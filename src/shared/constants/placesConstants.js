@@ -4,9 +4,9 @@ import moment from 'moment';
 
 export const placeColumns = [{
   title: 'Place Name',
-  dataIndex: 'name',
-  sorter: (a, b) => a.name.length - b.name.length,
-  render: (text, record) => <Link to={`/places/edit/${record.key}`}>{record.name}</Link>,
+  dataIndex: 'placeName',
+  sorter: (a, b) => a.placeName.length - b.placeName.length,
+  render: (text, record) => <Link to={`/places/edit/${record.key}`}>{record.placeName}</Link>,
 }, {
   title: 'Status',
   dataIndex: 'status',

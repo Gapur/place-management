@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import { USER_GROUP } from './constants';
 
 export const usersColumns = (userType) => [{
   title: 'Display Name',
@@ -8,11 +9,11 @@ export const usersColumns = (userType) => [{
   sorter: (a, b) => a.displayName.length - b.displayName.length,
   render: (text, record) =>
     <Link to={`/users/one-mappers/${userType}/edit/${record.id}`}>
-      {`${record.firstName} ${record.lastName}`}
+      {record.displayName}
     </Link>,
 }, {
   title: 'Status',
-  dataIndex: 'status',
+  dataIndex: 'onlineStatus',
   filters: [{
     text: 'Verified',
     value: 'Verified',
@@ -21,60 +22,30 @@ export const usersColumns = (userType) => [{
     value: 'Review',
   }],
   filterMultiple: false,
-  onFilter: (value, record) => record.status.indexOf(value) === 0,
-  sorter: (a, b) => a.status.length - b.status.length,
+  onFilter: (value, record) => record.onlineStatus.indexOf(value) === 0,
+  sorter: (a, b) => a.onlineStatus.length - b.onlineStatus.length,
 }, {
   title: 'Last Login',
-  dataIndex: 'lastLogin',
-  sorter: (a, b) => a.lastLogin - b.lastLogin,
-  render: (text) => text ? text : 'No logined',
+  dataIndex: 'lastSeen',
+  sorter: (a, b) => a.lastSeen - b.lastSeen,
+  render: (text) => text ? moment(text).format('L') : 'No logined',
 }, {
   title: 'User Name',
-  dataIndex: 'userName',
-  sorter: (a, b) => a.userName - b.userName,
+  dataIndex: 'username',
+  sorter: (a, b) => a.username - b.username,
 }, {
   title: 'City',
   dataIndex: 'city',
-  filters: [{
-    text: 'Bangkok',
-    value: 'Bangkok',
-  }, {
-    text: 'Qaragandy',
-    value: 'Qaragandy',
-  }, {
-    text: 'Tokyo',
-    value: 'Tokyo',
-  }],
-  onFilter: (value, record) => record.city.indexOf(value) === 0,
   sorter: (a, b) => a.city - b.city,
 }, {
   title: 'Country',
   dataIndex: 'country',
   sorter: (a, b) => a.country - b.country,
-  filters: [{
-    text: 'Japan',
-    value: 'Japan',
-  }, {
-    text: 'Qazakhstan',
-    value: 'Qazakhstan',
-  }, {
-    text: 'Thailand',
-    value: 'Thailand',
-  }],
-  onFilter: (value, record) => record.country.indexOf(value) === 0,
 }, , {
   title: 'Role',
-  dataIndex: 'role',
-  sorter: (a, b) => a.role - b.role,
-  filters: [{
-    text: 'Regulars',
-    value: 'Regulars',
-  }, {
-    text: 'Partners',
-    value: 'Partners',
-  }, {
-    text: 'Bloggers',
-    value: 'Bloggers',
-  }],
-  onFilter: (value, record) => record.role.indexOf(value) === 0,
+  dataIndex: 'group',
+  sorter: (a, b) => a.group - b.group,
+  filters: USER_GROUP.map(({ label, value }) => ({ text: label, value })),
+  onFilter: (value, record) => record.group.indexOf(value) === 0,
+  render: (text) => USER_GROUP.find(group => group.value == text).label,
 }];

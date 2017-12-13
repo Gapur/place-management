@@ -12,19 +12,15 @@ import {
   renderInputUpload,
 } from '../../shared/utils/form_components';
 import { required, email, password } from '../../shared/utils/form_validations';
+import { GENDERS, USER_GROUP } from '../../shared/constants/constants';
 
 const FormItem = Form.Item;
-const genderOptions = [
-  { value: 'NOT_SPECIFIC', label: 'Not Specific' },
-  { value: 'MALE', label: 'Male' },
-  { value: 'FEMALE', label: 'Female' },
-];
 
 class UserForm extends Component {
   render() {
     const { handleSubmit, error, submitting, createdAt, createdBy, registrationDate } = this.props;
     const buttonAfter = <Button type="primary">Generate</Button>
-    console.log(createdAt);
+
     return (
       <Form onSubmit={handleSubmit}>
         <Row gutter={32}>
@@ -61,6 +57,14 @@ class UserForm extends Component {
             />
 
             <Field
+              name="displayName"
+              label="Display Name"
+              component={renderInput}
+              placeholder="Display Name"
+              validate={required}
+            />
+
+            <Field
               name="email"
               label="Email"
               component={renderInput}
@@ -81,11 +85,20 @@ class UserForm extends Component {
             </div>
 
             <Field
+              name="group"
+              label="Role"
+              component={renderSelect}
+              placeholder="Select Role"
+              options={USER_GROUP}
+              validate={required}
+            />
+
+            <Field
               name="gender"
               label="I'am"
               component={renderSelect}
               placeholder="Select Sex"
-              options={genderOptions}
+              options={GENDERS}
             />
 
             <Field

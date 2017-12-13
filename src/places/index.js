@@ -53,21 +53,17 @@ const FETCH_PLACES = gql`
     allPlaces {
       id
       createdAt
-      name
-      description
-      address
-      street
-      arrea
-      city
-      state
-      country
-      placeId
-      lat
-      long
+      placeName
+      addressAreaDistrict
+      addressCityTown
+      addressStateProvince
+      addressCountry
+      addressPostalCode
+      locationLat
+      locationLong
       source
-      profilePicture
-      createdBy
-      status
+      sourceId
+      pictureURL
     }
   }
 `

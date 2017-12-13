@@ -60,24 +60,26 @@ class EditUser extends Component {
 const FETCH_USER = gql`
   query FetchUser($id: ID!) {
     User(id: $id) {
+      createBy {
+        id
+        username
+      }
       firstName
       lastName
       email
       password
+      displayName
       gender
-      birthDate
-      country
+      birthdate
       city
-      phone
-      userName
-      picture
-      bio
+      country
+      mobile
+      username
+      photoURL
       registrationDate
-      createdBy
-      createdAt
-      lastLogin
-      status
-      role
+      lastSeen
+      onlineStatus
+      group
     }
   }
 `
@@ -88,14 +90,16 @@ const UPDATE_USER = gql`
     $lastName: String!,
     $email: String!,
     $password: String!,
-    $gender: String,
-    $birthDate: String,
+    $displayName: String
+    $gender: Gender,
+    $birthdate: String,
     $country: String,
     $city: String,
-    $phone: String,
-    $userName: String!,
-    $picture: String,
+    $mobile: String,
+    $username: String,
+    $photoURL: String,
     $bio: String,
+    $group: [UserGroup!]
   ) {
     updateUser (
       id: $id
@@ -103,33 +107,31 @@ const UPDATE_USER = gql`
       lastName: $lastName
       email: $email
       password: $password
+      displayName: $displayName
       gender: $gender
-      birthDate: $birthDate
+      birthdate: $birthdate
       country: $country
       city: $city
-      phone: $phone
-      userName: $userName
-      picture: $picture
+      mobile: $mobile
+      username: $username
+      photoURL: $photoURL
       bio: $bio
+      group: $group
     ) {
       firstName
       lastName
       email
       password
       gender
-      birthDate
+      displayName
+      birthdate
       country
       city
-      phone
-      userName
-      picture
+      mobile
+      username
+      photoURL
       bio
-      registrationDate
-      createdBy
-      createdAt
-      lastLogin
-      status
-      role
+      group
     }
   }
 `

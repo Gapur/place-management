@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, Select, DatePicker, Upload, Icon, Switch } from 'antd';
 import PlacesAutocomplete from 'react-places-autocomplete';
+import moment from 'moment';
 import _ from 'lodash';
 
 const FormItem = Form.Item;
@@ -55,11 +56,12 @@ export const renderSelect = ({ options, ...props }) => render(props, (inputProps
 });
 
 export const renderDateTime = (props) => render(props, (inputProps) => {
-  const { name, id, placeholder } = inputProps;
+  const { name, id, placeholder, value } = inputProps;
   const onChange = (date, dateString) => inputProps.onChange(dateString);
+  const props = _.omit({ name, id, placeholder, value: value ? moment(value) : null }, value ? [] : 'value');
 
   return (
-    <DatePicker name id placeholder={placeholder} onChange={onChange} />
+    <DatePicker {...props} onChange={onChange} />
   );
 });
 
