@@ -14,14 +14,10 @@ import {
 import { required, email, password } from '../../shared/utils/form_validations';
 
 const FormItem = Form.Item;
-const countryOptions = [
-  { value: 'Thailand', label: 'Thailand' },
-  { value: 'Qazakhstan', label: 'Qazakhstan' },
-  { value: 'Japan', label: 'Japan' },
-];
 const genderOptions = [
-  { value: 'male', label: 'male' },
-  { value: 'female', label: 'female' },
+  { value: 'NOT_SPECIFIC', label: 'Not Specific' },
+  { value: 'MALE', label: 'Male' },
+  { value: 'FEMALE', label: 'Female' },
 ];
 
 class UserForm extends Component {
@@ -93,7 +89,7 @@ class UserForm extends Component {
             />
 
             <Field
-              name="birthDate"
+              name="birthdate"
               label="Birthdate"
               component={renderDateTime}
               placeholder="Birth date"
@@ -109,20 +105,19 @@ class UserForm extends Component {
             <Field
               name="country"
               label="Country"
-              component={renderSelect}
-              placeholder="Select Country"
-              options={countryOptions}
+              component={renderInput}
+              placeholder="Country"
             />
 
             <Field
-              name="phone"
+              name="mobile"
               label="Mobile"
               component={renderInput}
               placeholder="Mobile Number"
             />
 
             <Field
-              name="userName"
+              name="username"
               label="User Name"
               component={renderInput}
               placeholder="@cristian"
@@ -132,7 +127,7 @@ class UserForm extends Component {
 
           <Col span={8}>
             <Field
-              name="picture"
+              name="photoURL"
               label="Profile Picture"
               component={renderInputUpload}
               placeholder="Upload Picture"

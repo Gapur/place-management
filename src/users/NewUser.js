@@ -31,9 +31,17 @@ class NewUser extends Component {
     const userType = USER_TYPES.find(type => type.value == params.type);
     const initialValues = {
       registrationDate: moment().format('L'),
-      createdBy: 'Test',
-      status: 'Review',
-      role: userType && userType.value,
+      onlineStatus: 'OFFLINE',
+      accountStatus: 'ENABLE',
+      firstName: "Nurlan",
+      lastName: 'Test',
+      email: 'test@mail.ru',
+      password: 'asdasdasd',
+      mobile: '7753639611',
+      username: 'cris',
+      bio: 'test',
+      city: 'Qaragandy',
+      country: 'Kazakhstan',
     };
 
     return (
@@ -64,21 +72,20 @@ const CREATE_USER = gql`
   mutation CreateUser(
       $firstName: String!,
       $lastName: String!,
-      $email: String!,
-      $password: String!,
-      $gender: String,
-      $birthDate: String,
+      $email: String,
+      $password: String,
+      $gender: Gender,
+      $birthdate: String,
       $country: String,
       $city: String,
-      $phone: String,
-      $userName: String!,
-      $picture: String,
+      $mobile: String,
+      $username: String,
+      $photoURL: String,
       $bio: String,
-      $registrationDate: DateTime!
-      $createdBy: String!,
-      $lastLogin: DateTime
-      $status: String!
-      $role: String!
+      $registrationDate: String
+      $lastSeen: DateTime
+      $onlineStatus: OnlineStatus!
+      $accountStatus: Enabled!
   ) {
     createUser(
       firstName: $firstName
@@ -86,19 +93,17 @@ const CREATE_USER = gql`
       email: $email
       password: $password
       gender: $gender
-      birthDate: $birthDate
+      birthdate: $birthdate
       country: $country
       city: $city
-      phone: $phone
-      userName: $userName
-      picture: $picture
+      mobile: $mobile
+      username: $username
+      photoURL: $photoURL
       bio: $bio
       registrationDate: $registrationDate
-      createdBy: $createdBy
-      lastLogin: $lastLogin
-      status: $status
-      role: $role
-      story: []
+      lastSeen: $lastSeen
+      onlineStatus: $onlineStatus
+      accountStatus: $accountStatus
     ) {
       id
     }

@@ -142,4 +142,4 @@ const EditPlaceScreen = compose(
   })
 )(EditPlace);
 
-export default connect(null, { push })(EditPlaceScreen);;
+export default connect(null, { push })(EditPlaceScreen);

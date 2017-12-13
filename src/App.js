@@ -10,7 +10,7 @@ import { store, history } from './store';
 import AppRouter from './Router';
 
 const client = new ApolloClient({
-  link: new HttpLink({ uri: 'https://api.graph.cool/simple/v1/cjb4truu92c420136q7np68ug' }),
+  link: new HttpLink({ uri: 'https://api.graph.cool/simple/v1/cjb30vkvv434c0146sjjn4d4w' }),
   cache: new InMemoryCache()
 });
 

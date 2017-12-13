@@ -46,7 +46,7 @@ export const renderInput = (props) => render(props, (inputProps) => {
 });
 
 export const renderSelect = ({ options, ...props }) => render(props, (inputProps) => {
-  const props = _.omit(inputProps, [inputProps.value ? null : 'value']);
+  const props = _.omit(inputProps, inputProps.value ? [] : ['value']);
   return (
     <Select {...props}>
       {options.map(({ value, label }) => <Option key={value} value={value}>{label}</Option>)}

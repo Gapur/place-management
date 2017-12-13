@@ -10,13 +10,12 @@ import { USER_TYPES } from '../shared/constants/constants';
 class Users extends Component {
 
   render() {
-    if (this.props.fetchUsers.loading) {
+    const { fetchUsers: { loading, allUsers }, match: { params } } = this.props;
+    if (loading) {
       return <div className="loader-indicator" />;
     }
 
-    const users = this.props.fetchUsers.allUsers;
-    const dataSource = users.map(user => ({ ...user, key: user.id }));
-    const { match: { params } } = this.props;
+    const dataSource = allUsers.map(user => ({ ...user, key: user.id }));
     const userType = USER_TYPES.find(type => type.value == params.type);
 
     return (
@@ -50,7 +49,6 @@ class Users extends Component {
             columns={usersColumns(userType.value)}
             dataSource={dataSource}
             expandedRowRender={record => <p className="no-margin">{record.description}</p>}
-            onChange={this.handleChange}
           />
         </div>
       </div>
@@ -63,22 +61,25 @@ const FETCH_USERS = gql`
     allUsers {
       id
       createdAt
+      createBy {
+        id
+        username
+      }
       firstName
       lastName
       email
       password
+      displayName
       gender
-      birthDate
+      birthdate
       city
       country
-      phone
-      userName
-      picture
+      mobile
+      username
+      photoURL
       registrationDate
-      createdBy
-      lastLogin
-      status
-      role
+      lastSeen
+      onlineStatus
     }
   }
 `
