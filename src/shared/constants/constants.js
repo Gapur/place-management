@@ -13,6 +13,11 @@ export const ENABLED = [
   { value: 'DISABLE', label: 'Disable' },
 ];
 
+export const PlACE_STATUS = [
+  { value: 'ENABLE', label: 'Enable' },
+  { value: 'DISABLE', label: 'Disable' },
+];
+
 export const GENDERS = [
   { value: 'NOT_SPECIFIC', label: 'Not Specific' },
   { value: 'MALE', label: 'Male' },

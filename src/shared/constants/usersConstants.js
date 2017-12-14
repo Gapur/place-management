@@ -7,7 +7,7 @@ export const usersColumns = (userType) => [{
   title: 'Display Name',
   dataIndex: 'displayName',
   sorter: (a, b) => a.displayName.length - b.displayName.length,
-  render: (text, record) =>
+  render: (value, record) =>
     <Link to={`/users/one-mappers/${userType}/edit/${record.id}`}>
       {record.displayName}
     </Link>,
@@ -22,7 +22,7 @@ export const usersColumns = (userType) => [{
   title: 'Last Login',
   dataIndex: 'lastSeen',
   sorter: (a, b) => a.lastSeen - b.lastSeen,
-  render: (text) => text ? moment(text).format('L') : 'No logined',
+  render: (value) => value ? moment(value).format('L') : 'No logined',
 }, {
   title: 'User Name',
   dataIndex: 'username',
@@ -41,5 +41,5 @@ export const usersColumns = (userType) => [{
   sorter: (a, b) => a.group - b.group,
   filters: USER_GROUP.map(({ label, value }) => ({ text: label, value })),
   onFilter: (value, record) => record.group.indexOf(value) === 0,
-  render: (role) => USER_GROUP.find(group => group.value == role).label,
+  render: (value) => USER_GROUP.find(group => group.value == value).label,
 }];

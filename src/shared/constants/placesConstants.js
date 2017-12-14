@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import { ONLINE_STATUS, PLACE_SOURCE } from './constants';
+import { PlACE_STATUS, PLACE_SOURCE } from './constants';
 
 export const placeColumns = [{
   title: 'Place Name',
   dataIndex: 'placeName',
   sorter: (a, b) => a.placeName.length - b.placeName.length,
-  render: (text, record) => <Link to={`/places/edit/${record.key}`}>{record.placeName}</Link>,
+  render: (value, record) => <Link to={`/places/edit/${record.key}`}>{record.placeName}</Link>,
 }, {
   title: 'Status',
   dataIndex: 'status',
-  filters: ONLINE_STATUS.map(({ label, value }) => ({ text: label, value })),
+  filters: PlACE_STATUS.map(({ label, value }) => ({ text: label, value })),
   filterMultiple: false,
   onFilter: (value, record) => record.status.indexOf(value) === 0,
   sorter: (a, b) => a.status.length - b.status.length,
@@ -19,12 +19,12 @@ export const placeColumns = [{
   title: 'Created Date',
   dataIndex: 'createdAt',
   sorter: (a, b) => a.createdAt - b.createdAt,
-  render: (text) => text && moment(text).format('L'),
+  render: (value) => value && moment(value).format('L'),
 }, {
   title: 'Created By',
-  dataIndex: 'user',
-  sorter: (a, b) => a.user.displayName - b.user.displayName,
-  render: (user) => user && user.displayName,
+  dataIndex: 'createdBy',
+  sorter: (a, b) => a.createdBy - b.createdBy,
+  render: (value, record) => record && record.user.username,
 }, {
   title: 'City',
   dataIndex: 'addressCityTown',

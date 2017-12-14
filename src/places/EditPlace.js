@@ -54,6 +54,7 @@ const FETCH_PLACE = gql`
     Place(id: $id) {
       createdAt
       placeName
+      description
       address
       addressStreet
       addressAreaDistrict
@@ -66,6 +67,7 @@ const FETCH_PLACE = gql`
       source
       sourceId
       pictureURL
+      status
     }
   }
 `
@@ -86,6 +88,7 @@ const UPDATE_PLACE = gql`
     $source: PlaceSource!,
     $sourceId: String,
     $pictureURL: [String!],
+    $status: PlaceStatus!,
   ) {
     updatePlace (
       id: $id
@@ -101,8 +104,9 @@ const UPDATE_PLACE = gql`
       locationLat: $locationLat
       locationLong: $locationLong
       source: $source
-      sourceId: $sourceId,
+      sourceId: $sourceId
       pictureURL: $pictureURL
+      status: $status
     ) {
       placeName
       description
@@ -119,7 +123,7 @@ const UPDATE_PLACE = gql`
       sourceId
       pictureURL
       createdAt
-      createdBy
+      status
     }
   }
 `

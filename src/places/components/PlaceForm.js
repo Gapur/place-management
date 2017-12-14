@@ -14,7 +14,7 @@ import {
   renderPlacesAutocomplete,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
-import { PLACE_SOURCE } from '../../shared/constants/constants';
+import { PLACE_SOURCE, ENABLED } from '../../shared/constants/constants';
 
 const FormItem = Form.Item;
 
@@ -168,6 +168,15 @@ class PlaceForm extends Component {
               placeholder="Select Source"
               options={PLACE_SOURCE}
             />
+
+            <Field
+              name="status"
+              label="Status"
+              component={renderSelect}
+              placeholder="Select Status"
+              options={ENABLED}
+              validate={required}
+            />
           </Col>
 
           <Col span={8}>
@@ -184,14 +193,6 @@ class PlaceForm extends Component {
               <Field
                 name="createdAt"
                 label="Create Date"
-                component={renderLabel}
-              />
-            }
-
-            {createdBy &&
-              <Field
-                name="createdBy"
-                label="Create by"
                 component={renderLabel}
               />
             }

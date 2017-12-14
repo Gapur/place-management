@@ -58,23 +58,24 @@ class NewPlace extends Component {
 
 const CREATE_PLACE = gql`
   mutation CreatePlace(
-      $placeName: String!,
-      $description: String,
-      $createSide: CreateSide!,
-      $address: String,
-      $addressStreet: String,
-      $addressAreaDistrict: String,
-      $addressCityTown: String,
-      $addressStateProvince: String,
-      $addressCountry: String,
-      $addressPostalCode: String,
-      $locationLat: Float,
-      $locationLong: Float,
-      $source: PlaceSource!,
-      $sourceId: String,
-      $pictureURL: [String!],
-      $userId: ID,
-      $userCheckedInId: ID,
+    $placeName: String!,
+    $description: String,
+    $createSide: CreateSide!,
+    $address: String,
+    $addressStreet: String,
+    $addressAreaDistrict: String,
+    $addressCityTown: String,
+    $addressStateProvince: String,
+    $addressCountry: String,
+    $addressPostalCode: String,
+    $locationLat: Float,
+    $locationLong: Float,
+    $source: PlaceSource!,
+    $sourceId: String,
+    $pictureURL: [String!],
+    $userId: ID,
+    $userCheckedInId: ID,
+    $status: PlaceStatus!
   ) {
     createPlace(
       placeName: $placeName
@@ -94,6 +95,7 @@ const CREATE_PLACE = gql`
       pictureURL: $pictureURL
       userId: $userId
       userCheckedInId: $userCheckedInId
+      status: $status
     ) {
       id
     }

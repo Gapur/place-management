@@ -7,12 +7,12 @@ export const storiesColumns = [{
   title: 'Story Title',
   dataIndex: 'title',
   sorter: (a, b) => a.title.length - b.title.length,
-  render: (text, record) => <Link to={`/stories/edit/${record.key}`}>{record.title}</Link>,
+  render: (value, record) => <Link to={`/stories/edit/${record.key}`}>{record.title}</Link>,
 }, {
   title: 'Place Name',
   dataIndex: 'placeName',
   sorter: (a, b) => a.placeName.length - b.placeName.length,
-  render: (text, record) =>
+  render: (value, record) =>
     <Link to={`/places/edit/${record.place.id}`}>{record.place.placeName}</Link>,
 }, {
   title: 'Created By',
@@ -22,7 +22,7 @@ export const storiesColumns = [{
   title: 'Display Name',
   dataIndex: 'displayName',
   sorter: (a, b) => a.displayName - b.displayName,
-  render: (text, record) =>
+  render: (value, record) =>
     <Link to={`/users/one-mappers/edit/${record.createdBy.id}`}>
       {record.createdBy.displayName}
     </Link>,
@@ -37,5 +37,5 @@ export const storiesColumns = [{
   title: 'Modified Date',
   dataIndex: 'updatedAt',
   sorter: (a, b) => a.updatedAt - b.updatedAt,
-  render: (text) => text && moment(text).format('L'),
+  render: (value) => value && moment(value).format('L'),
 }];
