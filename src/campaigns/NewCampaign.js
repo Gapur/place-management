@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import { Breadcrumb, Button, Icon } from 'antd';
+import { connect } from 'react-redux';
+import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
+import { push } from 'react-router-redux';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import CampaignForm from './components/CampaignForm';
+import { parseFormErrors } from '../shared/utils/form_errors';
 
 class NewCampaign extends Component {
   constructor(props) {
@@ -12,10 +17,18 @@ class NewCampaign extends Component {
   }
 
   handleSubmit(values) {
-    console.log(values);
+    const { createCampaign, push } = this.props;
+    return createCampaign({ variables: { ...values } })
+      .then(() => push('/campaigns'))
+      .catch(parseFormErrors);
   }
 
   render() {
+    const { fetchPlaces: { allPlaces, loading } } = this.props;
+    if (loading) {
+      return <div className="loader-indicator" />;
+    }
+
     return (
       <div id="new-campaign">
         <Breadcrumb>
@@ -26,11 +39,68 @@ class NewCampaign extends Component {
         <div className="container">
           <h3>New Campaign</h3>
 
-          <CampaignForm onSubmit={this.handleSubmit} />
+          <CampaignForm
+            places={allPlaces}
+            onSubmit={this.handleSubmit}
+          />
         </div>
       </div>
     );
   }
 }
 
-export default NewCampaign;
+const FETCH_PLACES = gql`
+  query FetchPlaces {
+    allPlaces {
+      id
+      placeName
+    }
+  }
+`
+
+const CREATE_CAMPAIGN = gql`
+  mutation CreateCampaign(
+    $name: String!,
+    $availableCities: [String!],
+    $description: String,
+    $defaultPlaceId: ID,
+    $active: Boolean,
+    $pushNotificationActive: Boolean,
+    $pushNotificationMsg: String,
+    $feedNotificationActive: Boolean,
+    $feedNotificationImg: String,
+    $feedNotificationMsg: String,
+  ) {
+    createCampaign(
+      name: $name
+      availableCities: $availableCities
+      description: $description
+      defaultPlaceId: $defaultPlaceId
+      active: $active
+      pushNotificationActive: $pushNotificationActive
+      pushNotificationMsg: $pushNotificationMsg
+      feedNotificationActive: $feedNotificationActive
+      feedNotificationImg: $feedNotificationImg
+      feedNotificationMsg: $feedNotificationMsg
+    ) {
+      id
+    }
+  }
+`
+
+const NewCampaignScreen = compose(
+  graphql(FETCH_PLACES, {
+    name: 'fetchPlaces',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(CREATE_CAMPAIGN, {
+    name: 'createCampaign',
+    options: {
+      fetchPolicy: 'network-only',
+    }
+  }),
+)(NewCampaign);
+
+export default connect(null, { push })(NewCampaignScreen);

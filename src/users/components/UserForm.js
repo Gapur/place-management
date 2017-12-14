@@ -12,23 +12,15 @@ import {
   renderInputUpload,
 } from '../../shared/utils/form_components';
 import { required, email, password } from '../../shared/utils/form_validations';
+import { GENDERS, USER_GROUP } from '../../shared/constants/constants';
 
 const FormItem = Form.Item;
-const countryOptions = [
-  { value: 'Thailand', label: 'Thailand' },
-  { value: 'Qazakhstan', label: 'Qazakhstan' },
-  { value: 'Japan', label: 'Japan' },
-];
-const genderOptions = [
-  { value: 'male', label: 'male' },
-  { value: 'female', label: 'female' },
-];
 
 class UserForm extends Component {
   render() {
     const { handleSubmit, error, submitting, createdAt, createdBy, registrationDate } = this.props;
     const buttonAfter = <Button type="primary">Generate</Button>
-    console.log(createdAt);
+
     return (
       <Form onSubmit={handleSubmit}>
         <Row gutter={32}>
@@ -65,6 +57,14 @@ class UserForm extends Component {
             />
 
             <Field
+              name="displayName"
+              label="Display Name"
+              component={renderInput}
+              placeholder="Display Name"
+              validate={required}
+            />
+
+            <Field
               name="email"
               label="Email"
               component={renderInput}
@@ -85,15 +85,24 @@ class UserForm extends Component {
             </div>
 
             <Field
+              name="group"
+              label="Role"
+              component={renderSelect}
+              placeholder="Select Role"
+              options={USER_GROUP}
+              validate={required}
+            />
+
+            <Field
               name="gender"
               label="I'am"
               component={renderSelect}
               placeholder="Select Sex"
-              options={genderOptions}
+              options={GENDERS}
             />
 
             <Field
-              name="birthDate"
+              name="birthdate"
               label="Birthdate"
               component={renderDateTime}
               placeholder="Birth date"
@@ -109,20 +118,19 @@ class UserForm extends Component {
             <Field
               name="country"
               label="Country"
-              component={renderSelect}
-              placeholder="Select Country"
-              options={countryOptions}
+              component={renderInput}
+              placeholder="Country"
             />
 
             <Field
-              name="phone"
+              name="mobile"
               label="Mobile"
               component={renderInput}
               placeholder="Mobile Number"
             />
 
             <Field
-              name="userName"
+              name="username"
               label="User Name"
               component={renderInput}
               placeholder="@cristian"
@@ -132,7 +140,7 @@ class UserForm extends Component {
 
           <Col span={8}>
             <Field
-              name="picture"
+              name="photoURL"
               label="Profile Picture"
               component={renderInputUpload}
               placeholder="Upload Picture"

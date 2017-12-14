@@ -7,18 +7,12 @@ import {
   renderInput,
   renderSelect,
   renderTextarea,
-  renderRangePicker,
   renderSwitch,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import CustomTags from '../../stories/components/CustomTags';
 
 const FormItem = Form.Item;
-const partnerAccounts = [
-  { value: 'AirAsia', label: 'AirAsia' },
-  { value: 'TAT_thailand', label: 'TAT Thailand' },
-  { value: 'NokAir', label: 'NokAir' }
-];
 
 class CampaignForm extends Component {
   constructor(props) {
@@ -35,7 +29,7 @@ class CampaignForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.onSubmit({ ...values, available_in_countries: this.state.tags });
+    return this.props.onSubmit({ ...values, availableCities: this.state.tags });
   }
 
   handleDeleteTag = (removedTag) => {
@@ -50,8 +44,9 @@ class CampaignForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting } = this.props;
+    const { handleSubmit, error, submitting, places } = this.props;
     const { tags, newTag } = this.state;
+    const placeOptions = places.map(({ id, placeName }) => ({ value: id, label: placeName }));
 
     return (
       <Form layout="vertical" onSubmit={handleSubmit(this.onSubmit)}>
@@ -61,30 +56,32 @@ class CampaignForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/campaigns">Cancel</Link>
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button disabled={submitting} type="primary" htmlType="submit">
                 <Icon type="save" />Save
               </Button>
             </FormItem>
           </div>
         </Row>
+
+        {error && <Row><FormItem><p className="is-danger">{error}</p></FormItem></Row>}
+
         <Row gutter={32}>
           <Col span={12}>
             <Row>
               <Col span={8} className="ant-form-item-label">
-                <label>Partner Account</label>
+                <label>Campaign Name</label>
               </Col>
               <Col span={10}>
                 <Field
-                  name="partner_account"
-                  component={renderSelect}
-                  placeholder="Partner Account"
-                  options={partnerAccounts}
+                  name="name"
+                  component={renderInput}
+                  placeholder="Campaign Name"
                   validate={required}
                 />
               </Col>
               <Col span={6} className="custom-switch">
                 <Field
-                  name="is_partner_account"
+                  name="active"
                   label="Active"
                   component={renderSwitch}
                 />
@@ -93,7 +90,7 @@ class CampaignForm extends Component {
 
             <Row>
               <Col span={8} className="ant-form-item-label">
-                <label>Available in Countries</label>
+                <label>Available in Cities</label>
               </Col>
 
               <Col span={16}>
@@ -117,31 +114,53 @@ class CampaignForm extends Component {
               placeholder="Campaign Description"
             />
 
-            <Field
-              name="from_date_to_date"
-              label="From Date To Date"
-              component={renderRangePicker}
-              validate={required}
-            />
-
             <Row>
               <Col span={8} className="ant-form-item-label">
                 <label>Push Notification</label>
               </Col>
               <Col span={10}>
                 <Field
-                  name="push_notification"
+                  name="pushNotificationMsg"
                   component={renderInput}
+                  placeholder="Message"
                 />
               </Col>
               <Col span={6} className="custom-switch">
                 <Field
-                  name="is_push_notifiaction"
+                  name="pushNotificationActive"
                   label="Active"
                   component={renderSwitch}
                 />
               </Col>
             </Row>
+
+            <Row>
+              <Col span={8} className="ant-form-item-label">
+                <label>Feed Notification</label>
+              </Col>
+              <Col span={10}>
+                <Field
+                  name="feedNotificationMsg"
+                  component={renderInput}
+                  placeholder="Message"
+                />
+              </Col>
+              <Col span={6} className="custom-switch">
+                <Field
+                  name="feedNotificationActive"
+                  label="Active"
+                  component={renderSwitch}
+                />
+              </Col>
+            </Row>
+
+            <Field
+              name="defaultPlaceId"
+              label="Place Name"
+              component={renderSelect}
+              placeholder="Place Name"
+              options={placeOptions}
+            />
           </Col>
         </Row>
       </Form>

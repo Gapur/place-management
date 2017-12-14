@@ -53,22 +53,19 @@ const FETCH_STORIES = gql`
       id
       createdAt
       updatedAt
-      createdBy
-      storyTitle
+      title
       story
-      storyPicture
-      status
-      tags {
-        name
+      pictureURL {
+        id
       }
+      hashtag
       user {
         id
-        firstName
-        lastName
+        displayName
       }
       place {
         id
-        name
+        placeName
       }
     }
   }
