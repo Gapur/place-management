@@ -6,10 +6,10 @@ import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import EventForm from './components/EventForm';
+import ConditionForm from './components/ConditionForm';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
-class EditEvent extends Component {
+class EditCondition extends Component {
   constructor(props) {
     super(props);
 
@@ -17,33 +17,34 @@ class EditEvent extends Component {
   }
 
   handleSubmit(values) {
-    const { match: { params }, updateEvent, push } = this.props;
-    return updateEvent({ variables: { ...values, id: params.campaignId } })
+    const { match: { params }, updateCondition, push } = this.props;
+    return updateCondition({ variables: { ...values, id: params.campaignId } })
       .then(() => push(`/campaigns/edit/${params.campaignId}`))
       .catch(parseFormErrors);
   }
 
   render() {
-    const { match: { params }, fetchEvent } = this.props;
-    if (fetchEvent.loading) {
+    const { match: { params }, fetchCondition } = this.props;
+
+    if (fetchCondition.loading) {
       return <div className="loader-indicator" />;
     }
 
     return (
-      <div id="edit-event">
+      <div id="edit-condition">
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/campaigns">Campaigns</Link></Breadcrumb.Item>
           <Breadcrumb.Item>
             <Link to={`/campaigns/edit/${params.campaignId || 1}`}>Edit Campaign</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>Edit Event</Breadcrumb.Item>
+          <Breadcrumb.Item>Edit Condition</Breadcrumb.Item>
         </Breadcrumb>
 
         <div className="container">
-          <h3>Edit Event</h3>
+          <h3>Edit Condition</h3>
 
-          <EventForm
-            initialValues={fetchEvent.EventTable}
+          <ConditionForm
+            initialValues={fetchCondition.Condition}
             onSubmit={this.handleSubmit}
           />
         </div>
@@ -52,38 +53,44 @@ class EditEvent extends Component {
   }
 }
 
-const FETCH_EVENT = gql`
-  query FetchEvent($id: ID!) {
-    EventTable(id: $id) {
+const FETCH_CONDITION = gql`
+  query FetchCondition($id: ID!) {
+    Condition(id: $id) {
       id
-      name
-      dateRange
+      pointReward
       active
+      badgeReward {
+        id
+        name
+        photoURL
+      }
     }
   }
 `
 
-const UPDATE_EVENT = gql`
-  mutation UpdateEvent(
+const UPDATE_CONDITION = gql`
+  mutation UpdateCondition(
     $id: ID!,
-    $name: String!,
-    $dateRange: [String!],
+    $pointReward: Int!,
     $active: Boolean,
+    $badgeRewardId: ID!,
   ) {
-    updateEvent (
+    updateCondition (
       id: $id
-      name: $name
-      dateRange: $dateRange
+      pointReward: $pointReward
       active: $active
+      badgeRewardId: $badgeRewardId
     ) {
-      id
+      firstName
+      active
+      badgeRewardId
     }
   }
 `
 
-const EditEventScreen = compose(
-  graphql(FETCH_EVENT, {
-    name: 'fetchEvent',
+const EditConditionScreen = compose(
+  graphql(FETCH_CONDITION, {
+    name: 'fetchCondition',
     options: ({ match }) => ({
       fetchPolicy: 'network-only',
       variables: {
@@ -91,12 +98,12 @@ const EditEventScreen = compose(
       },
     }),
   }),
-  graphql(UPDATE_EVENT, {
-    name: 'updateEvent',
+  graphql(UPDATE_CONDITION, {
+    name: 'updateCondition',
     options: {
       fetchPolicy: 'network-only',
     },
   })
-)(EditEvent);
+)(EditCondition);
 
-export default connect(null, { push })(EditEventScreen);
+export default connect(null, { push })(EditConditionScreen);

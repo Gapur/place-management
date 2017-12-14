@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
-import moment from 'moment';
 
 import CampaignForm from './components/CampaignForm';
 import { parseFormErrors } from '../shared/utils/form_errors';
@@ -27,14 +26,15 @@ class EditCampaign extends Component {
   }
 
   render() {
-    const { fetchCampaigns, fetchPlaces } = this.props;
+    const { fetchCampaigns, fetchPlaces, fetchUsers } = this.props;
 
-    if (fetchPlaces.loading || fetchCampaigns.loading) {
+    if (fetchPlaces.loading || fetchCampaigns.loading || fetchUsers.loading) {
       return <div className="loader-indicator" />;
     }
 
     const initialValues = {
       ...fetchCampaigns.Campaign,
+      partnerId: fetchCampaigns.Place.partner.id,
       placeId: fetchCampaigns.Place.place.id,
     };
 
@@ -51,6 +51,7 @@ class EditCampaign extends Component {
           <CampaignForm
             initialValues={initialValues}
             places={fetchPlaces.allPlaces}
+            users={fetchUsers.allUsers}
             onSubmit={this.handleSubmit}
           />
 
@@ -77,6 +78,15 @@ class EditCampaign extends Component {
   }
 }
 
+const FETCH_USERS = gql`
+  query FetchUsers {
+    allUsers {
+      id
+      displayName
+    }
+  }
+`
+
 const FETCH_PLACES = gql`
   query FetchPlaces {
     allPlaces {
@@ -85,19 +95,28 @@ const FETCH_PLACES = gql`
     }
   }
 `
-const FETCH_CAMPAIGNS = gql`
-  query FetchCampaigns {
-    allCampaigns {
+const FETCH_CAMPAIGN = gql`
+  query FetchCampaigns($id: ID!) {
+    Campaign(id: $id) {
       id
       createdAt
       name
       description
       active
+      photoUrl
+      partner {
+        id
+        displayName
+      }
       defaultPlace {
         id
         placeName
       }
       pushNotificationActive
+      pushNotificationMsg
+      feedNotificationActive
+      feedNotificationImg
+      feedNotificationMsg
     }
   }
 `
@@ -110,11 +129,13 @@ const UPDATE_CAMPAIGN = gql`
     $description: String,
     $defaultPlaceId: ID,
     $active: Boolean,
+    $partnerId: ID,
     $pushNotificationActive: Boolean,
     $pushNotificationMsg: String,
     $feedNotificationActive: Boolean,
     $feedNotificationImg: String,
     $feedNotificationMsg: String,
+    $photoUrl: String!,
   ) {
     updateCampaign (
       id: $id
@@ -123,11 +144,13 @@ const UPDATE_CAMPAIGN = gql`
       description: $description
       defaultPlaceId: $defaultPlaceId
       active: $active
+      partnerId: $partnerId
       pushNotificationActive: $pushNotificationActive
       pushNotificationMsg: $pushNotificationMsg,
       feedNotificationActive: $feedNotificationActive,
       feedNotificationImg: $feedNotificationImg,
       feedNotificationMsg: $feedNotificationMsg,
+      photoUrl: $photoUrl,
     ) {
       id
     }
@@ -141,11 +164,20 @@ const EditCampaignScreen = compose(
       fetchPolicy: 'network-only',
     },
   }),
-  graphql(FETCH_CAMPAIGNS, {
-    name: 'fetchCampaigns',
+  graphql(FETCH_USERS, {
+    name: 'fetchUsers',
     options: {
       fetchPolicy: 'network-only',
     },
+  }),
+  graphql(FETCH_CAMPAIGN, {
+    name: 'fetchCampaigns',
+    options: ({ match }) => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        id: match.params.id,
+      },
+    }),
   }),
   graphql(UPDATE_CAMPAIGN, {
     name: 'updateCampaign',

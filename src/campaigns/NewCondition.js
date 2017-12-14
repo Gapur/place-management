@@ -6,10 +6,10 @@ import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import EventForm from './components/EventForm';
+import ConditionForm from './components/ConditionForm';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
-class NewEvent extends Component {
+class NewCondition extends Component {
   constructor(props) {
     super(props);
 
@@ -17,9 +17,9 @@ class NewEvent extends Component {
   }
 
   handleSubmit(values) {
-    const { createEvent, push, match: { params } } = this.props;
+    const { createCampaign, push, match: { params } } = this.props;
     console.log(values);
-    return createEvent({ variables: { ...values } })
+    return createCampaign({ variables: { ...values } })
       .then(() => push(`/campaigns/edit/${params.campaignId}`))
       .catch(parseFormErrors);
   }
@@ -27,45 +27,45 @@ class NewEvent extends Component {
   render() {
     const { match: { params } } = this.props;
     return (
-      <div id="new-event">
+      <div id="new-condition">
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/campaigns">Campaigns</Link></Breadcrumb.Item>
           <Breadcrumb.Item>
             <Link to={`/campaigns/edit/${params.campaignId || 1}`}>Edit Campaign</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>New Event</Breadcrumb.Item>
+          <Breadcrumb.Item>New Condition</Breadcrumb.Item>
         </Breadcrumb>
 
         <div className="container">
-          <h3>New Event</h3>
+          <h3>New Condition</h3>
 
-          <EventForm onSubmit={this.handleSubmit} />
+          <ConditionForm onSubmit={this.handleSubmit} />
         </div>
       </div>
     );
   }
 }
 
-const CREATE_EVENT = gql`
-  mutation CreataEvent(
+const CREATE_CONDITION = gql`
+  mutation CreateCondition(
     $name: String!,
-    $dateRange: [String!],
+    $pointReward: Int!,
     $active: Boolean,
   ) {
-    createEventTable(
+    createCondition(
       name: $name
-      dateRange: $dateRange
+      pointReward: $pointReward
       active: $active
     ) {
       id
     }
   }
 `
-const NewEventScreen = graphql(CREATE_EVENT, {
-  name: 'createEvent',
+const NewConditionScreen = graphql(CREATE_CONDITION, {
+  name: 'createCondition',
   options: {
     fetchPolicy: 'network-only',
   },
-})(NewEvent);
+})(NewCondition);
 
-export default connect(null, { push })(NewEventScreen);
+export default connect(null, { push })(NewConditionScreen);

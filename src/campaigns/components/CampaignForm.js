@@ -8,6 +8,7 @@ import {
   renderSelect,
   renderTextarea,
   renderSwitch,
+  renderInputUpload,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import CustomTags from '../../stories/components/CustomTags';
@@ -44,9 +45,10 @@ class CampaignForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting, places } = this.props;
+    const { handleSubmit, error, submitting, places, users } = this.props;
     const { tags, newTag } = this.state;
     const placeOptions = places.map(({ id, placeName }) => ({ value: id, label: placeName }));
+    const usersOptions = users.map(({ id, displayName }) => ({ value: id, label: displayName }));
 
     return (
       <Form layout="vertical" onSubmit={handleSubmit(this.onSubmit)}>
@@ -114,6 +116,14 @@ class CampaignForm extends Component {
               placeholder="Campaign Description"
             />
 
+            <Field
+              name="partnerId"
+              label="Partner Account"
+              component={renderSelect}
+              placeholder="Select Partner"
+              options={usersOptions}
+            />
+
             <Row>
               <Col span={8} className="ant-form-item-label">
                 <label>Push Notification</label>
@@ -155,11 +165,27 @@ class CampaignForm extends Component {
             </Row>
 
             <Field
+              name="feedNotificationImg"
+              label="Feed Notification Image"
+              component={renderInputUpload}
+              placeholder="Image"
+              listType="picture-card"
+            />
+
+            <Field
               name="defaultPlaceId"
               label="Place Name"
               component={renderSelect}
               placeholder="Place Name"
               options={placeOptions}
+            />
+
+            <Field
+              name="photoUrl"
+              label="Photo"
+              component={renderInputUpload}
+              placeholder="Photo"
+              listType="picture-card"
             />
           </Col>
         </Row>

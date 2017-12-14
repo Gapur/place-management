@@ -29,7 +29,7 @@ class EventForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.onSubmit({ ...values, available_in_cities: this.state.tags });
+    this.props.onSubmit({ ...values, availableCities: this.state.tags });
   }
 
   handleDeleteTag = (removedTag) => {
@@ -69,7 +69,7 @@ class EventForm extends Component {
               </Col>
               <Col span={10}>
                 <Field
-                  name="event_name"
+                  name="name"
                   component={renderInput}
                   placeholder="Event Name"
                   validate={required}
@@ -77,7 +77,7 @@ class EventForm extends Component {
               </Col>
               <Col span={6} className="custom-switch">
                 <Field
-                  name="is_event_name"
+                  name="active"
                   label="Active"
                   component={renderSwitch}
                 />
@@ -111,7 +111,7 @@ class EventForm extends Component {
             />
 
             <Field
-              name="from_date_to_date"
+              name="dateRange"
               label="From Date To Date"
               component={renderRangePicker}
               validate={required}
@@ -123,13 +123,13 @@ class EventForm extends Component {
               </Col>
               <Col span={10}>
                 <Field
-                  name="push_notification"
+                  name="pushNotificationMsg"
                   component={renderInput}
                 />
               </Col>
               <Col span={6} className="custom-switch">
                 <Field
-                  name="is_push_notifiaction"
+                  name="pushNotificationActive"
                   label="Active"
                   component={renderSwitch}
                 />

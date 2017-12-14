@@ -18,14 +18,15 @@ class NewCampaign extends Component {
 
   handleSubmit(values) {
     const { createCampaign, push } = this.props;
+    console.log(values);
     return createCampaign({ variables: { ...values } })
       .then(() => push('/campaigns'))
       .catch(parseFormErrors);
   }
 
   render() {
-    const { fetchPlaces: { allPlaces, loading } } = this.props;
-    if (loading) {
+    const { fetchPlaces, fetchUsers } = this.props;
+    if (fetchPlaces.loading || fetchUsers.loading) {
       return <div className="loader-indicator" />;
     }
 
@@ -40,7 +41,8 @@ class NewCampaign extends Component {
           <h3>New Campaign</h3>
 
           <CampaignForm
-            places={allPlaces}
+            places={fetchPlaces.allPlaces}
+            users={fetchUsers.allUsers}
             onSubmit={this.handleSubmit}
           />
         </div>
@@ -48,6 +50,15 @@ class NewCampaign extends Component {
     );
   }
 }
+
+const FETCH_USERS = gql`
+  query FetchUsers {
+    allUsers {
+      id
+      displayName
+    }
+  }
+`
 
 const FETCH_PLACES = gql`
   query FetchPlaces {
@@ -65,11 +76,13 @@ const CREATE_CAMPAIGN = gql`
     $description: String,
     $defaultPlaceId: ID,
     $active: Boolean,
+    $partnerId: ID,
     $pushNotificationActive: Boolean,
     $pushNotificationMsg: String,
     $feedNotificationActive: Boolean,
     $feedNotificationImg: String,
     $feedNotificationMsg: String,
+    $photoUrl: String!,
   ) {
     createCampaign(
       name: $name
@@ -77,11 +90,13 @@ const CREATE_CAMPAIGN = gql`
       description: $description
       defaultPlaceId: $defaultPlaceId
       active: $active
+      partnerId: $partnerId
       pushNotificationActive: $pushNotificationActive
       pushNotificationMsg: $pushNotificationMsg
       feedNotificationActive: $feedNotificationActive
       feedNotificationImg: $feedNotificationImg
       feedNotificationMsg: $feedNotificationMsg
+      photoUrl: $photoUrl
     ) {
       id
     }
@@ -91,6 +106,12 @@ const CREATE_CAMPAIGN = gql`
 const NewCampaignScreen = compose(
   graphql(FETCH_PLACES, {
     name: 'fetchPlaces',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(FETCH_USERS, {
+    name: 'fetchUsers',
     options: {
       fetchPolicy: 'network-only',
     },

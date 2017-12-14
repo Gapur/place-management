@@ -6,6 +6,7 @@ import {
   renderInput,
   renderSelect,
   renderSwitch,
+  renderInputUpload,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import PlaceFields from './PlaceFields';
@@ -18,21 +19,12 @@ const notifications = [
 ];
 
 class RuleForm extends Component {
-  constructor(props) {
-    super(props);
-
-    this.onSubmit = this.onSubmit.bind(this);
-  }
-
-  onSubmit(values) {
-    this.props.onSubmit({ ...values });
-  }
 
   render() {
     const { handleSubmit, error, submitting } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit(this.onSubmit)}>
+      <Form onSubmit={handleSubmit}>
         <Row>
           <div className="is-right">
             <FormItem>
@@ -61,7 +53,7 @@ class RuleForm extends Component {
               </Col>
               <Col span={6} className="custom-switch">
                 <Field
-                  name="is_rule"
+                  name="active"
                   label="Active"
                   component={renderSwitch}
                 />
@@ -69,22 +61,25 @@ class RuleForm extends Component {
             </Row>
 
             <Field
-              name="point"
+              name="pointReward"
               label="Point"
               component={renderInput}
               placeholder="1000"
             />
 
             <Field
-              name="badge"
+              name="badgeReward"
               label="Badge"
-              component={renderInput}
+              component={renderInputUpload}
+              placeholder="Image"
+              listType="picture-card"
             />
 
             <Field
               name="notification"
               label="Notification"
               component={renderSelect}
+              placeholder="Select Notification"
               options={notifications}
             />
 
@@ -99,6 +94,13 @@ class RuleForm extends Component {
           <Col span={18}>
             <FieldArray
               name="places"
+              component={PlaceFields}
+            />
+          </Col>
+
+          <Col span={18}>
+            <FieldArray
+              name="dates"
               component={PlaceFields}
             />
           </Col>
