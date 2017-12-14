@@ -1,11 +1,20 @@
 import React, { Component } from 'react';
 import { Breadcrumb, Table, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
+import { graphql } from 'react-apollo';
+import gql from 'graphql-tag';
 
-import { campaignColumns, campaingData } from '../shared/constants/campaignConstants';
+import { campaignColumns } from '../shared/constants/campaignConstants';
 
 class Campaigns extends Component {
   render() {
+    const { fetchCampaigns: { loading, allCampaigns } } = this.props;
+    if (loading) {
+      return <div className="loader-indicator" />;
+    }
+
+    const dataSource = allCampaigns.map(campaign => ({ ...campaign, key: campaign.id }));
+    
     return (
       <div id="campaign">
         <Breadcrumb>
@@ -29,7 +38,7 @@ class Campaigns extends Component {
 
           <Table
             columns={campaignColumns}
-            dataSource={campaingData}
+            dataSource={dataSource}
             expandedRowRender={record => <p className="no-margin">{record.description}</p>}
           />
         </div>
@@ -38,4 +47,28 @@ class Campaigns extends Component {
   }
 }
 
-export default Campaigns;
+const FETCH_CAMPAIGNS = gql`
+  query FetchCampaigns {
+    allCampaigns {
+      id
+      createdAt
+      name
+      description
+      active
+      defaultPlace {
+        id
+        placeName
+      }
+      pushNotificationActive
+    }
+  }
+`
+
+const CampaignsScreen = graphql(FETCH_CAMPAIGNS, {
+  name: 'fetchCampaigns',
+  options: {
+    fetchPolicy: 'network-only',
+  },
+})(Campaigns);
+
+export default CampaignsScreen;

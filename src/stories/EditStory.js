@@ -62,7 +62,7 @@ const FETCH_PLACES = gql`
   query FetchPlaces {
     allPlaces {
       id
-      name
+      placeName
     }
   }
 `
@@ -71,8 +71,7 @@ const FETCH_USERS = gql`
   query FetchUsers {
     allUsers {
       id
-      firstName
-      lastName
+      displayName
     }
   }
 `
@@ -82,21 +81,20 @@ const FETCH_STORY = gql`
     Story(id: $id) {
       id
       createdAt
-      createdBy
-      storyTitle
+      updatedAt
+      title
       story
-      storyPicture
-      tags {
-        name
+      pictureURL {
+        id
       }
+      hashtag
       user {
         id
-        firstName
-        lastName
+        displayName
       }
       place {
         id
-        name
+        placeName
       }
     }
   }
@@ -104,17 +102,19 @@ const FETCH_STORY = gql`
 const UPDATE_STORY = gql`
   mutation UpdateStory(
     $id: ID!,
-    $storyTitle: String!,
+    $title: String!,
     $story: String!,
-    $storyPicture: String,
+    $pictureURL: [Picture!]!,
+    $hashtag: [String!]
     $placeId: ID,
     $userId: ID,
   ) {
     updateStory (
       id: $id
-      storyTitle: $storyTitle
+      title: $title
       story: $story
-      storyPicture: $storyPicture
+      pictureURL: $pictureURL
+      hashtag: $hashtag
       placeId: $placeId
       userId: $userId
     ) {

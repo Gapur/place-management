@@ -123,54 +123,23 @@ export const ruleData = [{
 
 export const campaignColumns = [{
   title: 'Campaign Name',
-  dataIndex: 'campaign_name',
+  dataIndex: 'name',
   sorter: (a, b) => a.campaign_name.length - b.campaign_name.length,
-  render: (text, record) => <Link to={`/campaigns/edit/${record.key}`}>{record.campaign_name}</Link>,
-},{
-  title: 'Partner Account',
-  dataIndex: 'partner_account',
-  sorter: (a, b) => a.partner_account.length - b.partner_account.length,
+  render: (campaign, record) => <Link to={`/campaigns/edit/${record.key}`}>{record.campaign_name}</Link>,
 }, {
-  title: 'From Date To Date',
-  dataIndex: 'from_date_to_date',
+  title: 'Created At',
+  dataIndex: 'createdAt',
+  sorter: (a, b) => a.createdAt.length - b.createdAt.length,
+}, {
+  title: 'Place',
+  dataIndex: 'defaultPlace',
+  render: (place) => place ? place.defaultPlace.placeName : 'Not place',
+  sorter: (a, b) => a.defaultPlace.length - b.defaultPlace.length,
+}, {
+  title: 'Active',
+  dataIndex: 'active',
+  render: (active) => active ? 'Yes' : 'No',
 }, {
   title: 'Push Notification',
-  dataIndex: 'push_notification',
-}, {
-  title: 'Available in Countries',
-  dataIndex: 'avaiable_in_countries',
-}];
-
-export const campaingData = [{
-  key: '1',
-  campaign_name: 'Air Campaign',
-  partner_account: 'AirAsia',
-  from_date_to_date: moment().format(),
-  push_notification: 'notification',
-  avaiable_in_countries: 'Thailand',
-  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
-}, {
-  key: '2',
-  campaign_name: 'Air Campaign',
-  partner_account: 'AirAsia',
-  from_date_to_date: moment().format(),
-  push_notification: 'notification',
-  avaiable_in_countries: 'Thailand',
-  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
-}, {
-  key: '3',
-  campaign_name: 'Air Campaign',
-  partner_account: 'AirAsia',
-  from_date_to_date: moment().format(),
-  push_notification: 'notification',
-  avaiable_in_countries: 'Thailand',
-  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
-}, {
-  key: '4',
-  campaign_name: 'Air Campaign',
-  partner_account: 'AirAsia',
-  from_date_to_date: moment().format(),
-  push_notification: 'notification',
-  avaiable_in_countries: 'Thailand',
-  description: '500 checked in, 40 Hearted, 69 visited, 73 stories',
+  dataIndex: 'pushNotificationActive',
 }];

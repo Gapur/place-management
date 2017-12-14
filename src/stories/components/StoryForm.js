@@ -40,7 +40,7 @@ class StoryForm extends Component {
   }
 
   onSubmit(values) {
-    return this.props.onSubmit({ ...values, tags: this.state.tags });
+    return this.props.onSubmit({ ...values, hashtag: this.state.tags });
   }
 
   handleDeleteTag = (removedTag) => {
@@ -55,12 +55,10 @@ class StoryForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting, places, users, createdAt, createdBy } = this.props;
+    const { handleSubmit, error, submitting, places, users, createdAt } = this.props;
     const { tags, newTag } = this.state;
-    const placeOptions = places.map(({ id, name }) => ({ value: id, label: name }));
-    const userOptions = users.map(
-      ({ id, firstName, lastName }) =>
-        ({ value: id, label: `${firstName} ${lastName}` }));
+    const placeOptions = places.map(({ id, placeName }) => ({ value: id, label: placeName }));
+    const userOptions = users.map(({ id, displayName }) => ({ value: id, label: displayName }));
 
     return (
       <Form onSubmit={handleSubmit(this.onSubmit)}>
@@ -100,7 +98,7 @@ class StoryForm extends Component {
             />
 
             <Field
-              name="storyTitle"
+              name="title"
               label="Story Title"
               component={renderInput}
               placeholder="Story Title"
@@ -128,7 +126,7 @@ class StoryForm extends Component {
 
           <Col span={8}>
             <Field
-              name="storyPicture"
+              name="pictureURL"
               label="Story Picture"
               component={renderInputUpload}
               placeholder="Upload Picture"
@@ -140,14 +138,6 @@ class StoryForm extends Component {
               <Field
                 name="createdAt"
                 label="Create Date"
-                component={renderLabel}
-              />
-            }
-
-            {createdBy &&
-              <Field
-                name="createdBy"
-                label="Create by"
                 component={renderLabel}
               />
             }
@@ -165,6 +155,5 @@ const selector = formValueSelector('storyForm');
 export default connect(
   state => ({
     createdAt: selector(state, 'createdAt'),
-    createdBy: selector(state, 'createdBy'),
   }),
 )(Story);

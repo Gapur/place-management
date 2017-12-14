@@ -8,7 +8,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import UserForm from './components/UserForm';
-import { USER_TYPES } from '../shared/constants/constants';
+import { USER_TYPES, ENABLED, ONLINE_STATUS } from '../shared/constants/constants';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
 class NewUser extends Component {
@@ -31,9 +31,8 @@ class NewUser extends Component {
     const userType = USER_TYPES.find(type => type.value == params.type);
     const initialValues = {
       registrationDate: moment().format('L'),
-      createdBy: 'Test',
-      status: 'Review',
-      role: userType && userType.value,
+      onlineStatus: ONLINE_STATUS[0].value,
+      accountStatus: ENABLED[0].value,
     };
 
     return (
@@ -62,43 +61,44 @@ class NewUser extends Component {
 
 const CREATE_USER = gql`
   mutation CreateUser(
-      $firstName: String!,
-      $lastName: String!,
-      $email: String!,
-      $password: String!,
-      $gender: String,
-      $birthDate: String,
-      $country: String,
-      $city: String,
-      $phone: String,
-      $userName: String!,
-      $picture: String,
-      $bio: String,
-      $registrationDate: DateTime!
-      $createdBy: String!,
-      $lastLogin: DateTime
-      $status: String!
-      $role: String!
+    $firstName: String!,
+    $lastName: String!,
+    $email: String,
+    $password: String,
+    $displayName: String
+    $gender: Gender,
+    $birthdate: String,
+    $country: String,
+    $city: String,
+    $mobile: String,
+    $username: String,
+    $photoURL: String,
+    $bio: String,
+    $registrationDate: String
+    $lastSeen: DateTime
+    $onlineStatus: OnlineStatus!
+    $group: [UserGroup!]
+    $accountStatus: Enabled!
   ) {
     createUser(
       firstName: $firstName
       lastName: $lastName
       email: $email
       password: $password
+      displayName: $displayName
       gender: $gender
-      birthDate: $birthDate
+      birthdate: $birthdate
       country: $country
       city: $city
-      phone: $phone
-      userName: $userName
-      picture: $picture
+      mobile: $mobile
+      username: $username
+      photoURL: $photoURL
       bio: $bio
       registrationDate: $registrationDate
-      createdBy: $createdBy
-      lastLogin: $lastLogin
-      status: $status
-      role: $role
-      story: []
+      lastSeen: $lastSeen
+      onlineStatus: $onlineStatus
+      group: $group
+      accountStatus: $accountStatus
     ) {
       id
     }
