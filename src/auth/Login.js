@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 import Logo from '../shared/img/logo.png';
 
 import LoginForm from './components/LoginForm';
+import { parseFormErrors } from '../shared/utils/form_errors';
 
 class Login extends Component {
   constructor(props) {
@@ -12,7 +15,8 @@ class Login extends Component {
   }
 
   handleSubmit(values) {
-    console.log(values);
+    return this.props.authenticateUserMutation({ variables: { ...values } })
+      .catch(parseFormErrors);
   }
 
   render() {
@@ -27,4 +31,30 @@ class Login extends Component {
   }
 }
 
-export default Login;
+const AUTHENTICATE_USER_MUTATION = gql`
+  mutation AuthenticateUserMutation ($email: String!, $password: String!) { 
+    authenticateUser(email: $email, password: $password) {
+      token
+    }
+  }
+`
+
+const LOGGED_IN_USER_QUERY = gql`
+  query LoggedInUserQuery {
+    loggedInUser {
+      id
+    }
+  }
+`
+
+const LoginScreen = compose(
+  graphql(AUTHENTICATE_USER_MUTATION, {
+    name: 'authenticateUserMutation',
+  }),
+  graphql(LOGGED_IN_USER_QUERY, {
+    name: 'loggedInUserQuery',
+    options: { fetchPolicy: 'network-only' }
+  })
+)(Login);
+
+export default LoginScreen;

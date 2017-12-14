@@ -17,10 +17,10 @@ class LoginForm extends Component {
         {error && <FormItem><p className="is-danger">{error}</p></FormItem>}
 
         <Field
-          name="login"
-          label="User Name"
+          name="email"
+          label="Email"
           component={renderInput}
-          placeholder="Login"
+          placeholder="email"
           validate={required}
         />
 
@@ -34,7 +34,7 @@ class LoginForm extends Component {
         />
 
         <FormItem>
-          <Button type="primary" htmlType="submit" className="login-form-button">
+          <Button type="primary" disabled={submitting} htmlType="submit" className="login-form-button">
             Log in
           </Button>
         </FormItem>
