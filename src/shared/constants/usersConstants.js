@@ -41,5 +41,5 @@ export const usersColumns = (userType) => [{
   sorter: (a, b) => a.group - b.group,
   filters: USER_GROUP.map(({ label, value }) => ({ text: label, value })),
   onFilter: (value, record) => record.group.indexOf(value) === 0,
-  render: (text) => USER_GROUP.find(group => group.value == text).label,
+  render: (role) => USER_GROUP.find(group => group.value == role).label,
 }];

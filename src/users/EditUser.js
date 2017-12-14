@@ -60,7 +60,7 @@ class EditUser extends Component {
 const FETCH_USER = gql`
   query FetchUser($id: ID!) {
     User(id: $id) {
-      createBy {
+      createdBy {
         id
         username
       }

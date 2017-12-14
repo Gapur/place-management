@@ -32,7 +32,7 @@ const PlaceMap = compose(
 
 class PlaceForm extends Component {
   render() {
-    const { handleSubmit, error, submitting, createdAt, createBy, lat, long } = this.props;
+    const { handleSubmit, error, submitting, createdAt, createdBy, lat, long } = this.props;
 
     return (
       <Form onSubmit={handleSubmit}>
@@ -77,7 +77,7 @@ class PlaceForm extends Component {
             />
 
             <Field
-              name="street"
+              name="addressStreet"
               label="Street"
               component={renderInput}
               placeholder="Street / Route"
@@ -188,9 +188,9 @@ class PlaceForm extends Component {
               />
             }
 
-            {createBy &&
+            {createdBy &&
               <Field
-                name="createBy"
+                name="createdBy"
                 label="Create by"
                 component={renderLabel}
               />

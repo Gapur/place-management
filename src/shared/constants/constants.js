@@ -36,3 +36,8 @@ export const USER_GROUP = [
   { value: 'ADMIN', label: 'Admin' },
   { value: 'PARTNER', label: 'Partner' },
 ];
+
+export const STORY_STATUS = [
+  { value: 'DRAFT', label: 'Draft' },
+  { value: 'PUBLISHED', label: 'Published' },
+];

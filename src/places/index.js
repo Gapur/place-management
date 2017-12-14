@@ -54,6 +54,9 @@ const FETCH_PLACES = gql`
       id
       createdAt
       placeName
+      description
+      address
+      addressStreet
       addressAreaDistrict
       addressCityTown
       addressStateProvince
@@ -64,6 +67,10 @@ const FETCH_PLACES = gql`
       source
       sourceId
       pictureURL
+      user {
+        id
+        displayName
+      }
     }
   }
 `

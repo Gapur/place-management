@@ -88,7 +88,7 @@ const FETCH_STORY = gql`
         id
       }
       hashtag
-      user {
+      createdBy {
         id
         displayName
       }
@@ -107,7 +107,7 @@ const UPDATE_STORY = gql`
     $pictureURL: [Picture!]!,
     $hashtag: [String!]
     $placeId: ID,
-    $userId: ID,
+    $createdById: ID,
   ) {
     updateStory (
       id: $id
@@ -116,7 +116,7 @@ const UPDATE_STORY = gql`
       pictureURL: $pictureURL
       hashtag: $hashtag
       placeId: $placeId
-      userId: $userId
+      createdById: $createdById
     ) {
       id
     }

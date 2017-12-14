@@ -80,7 +80,7 @@ class StoryForm extends Component {
         <Row gutter={32}>
           <Col span={8}>
             <Field
-              name="userId"
+              name="createdById"
               label="User Name"
               component={renderSelect}
               placeholder="User Name"

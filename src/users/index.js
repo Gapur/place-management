@@ -61,7 +61,7 @@ const FETCH_USERS = gql`
     allUsers {
       id
       createdAt
-      createBy {
+      createdBy {
         id
         username
       }

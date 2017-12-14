@@ -18,13 +18,23 @@ class NewPlace extends Component {
 
   handleSubmit(values) {
     const { push, createPlace } = this.props;
-    return createPlace({ variables: { ...values } })
+    return createPlace(
+      {
+        variables: {
+          ...values,
+          locationLat: parseFloat(values.locationLat),
+          locationLong: parseFloat(values.locationLong),
+          userId: 'cjb57nlq52vdw0146jpspmgy6',
+          userCheckedInId: 'cjb4z57mi199z0146vrszdb77',
+        }
+      })
       .then(() => push('/places'))
       .catch(parseFormErrors);
   }
 
   render() {
     const initialValues = {
+      createSide: 'FRONTEND',
     }
     return (
       <div id="new-place">
@@ -49,6 +59,10 @@ class NewPlace extends Component {
 const CREATE_PLACE = gql`
   mutation CreatePlace(
       $placeName: String!,
+      $description: String,
+      $createSide: CreateSide!,
+      $address: String,
+      $addressStreet: String,
       $addressAreaDistrict: String,
       $addressCityTown: String,
       $addressStateProvince: String,
@@ -58,11 +72,16 @@ const CREATE_PLACE = gql`
       $locationLong: Float,
       $source: PlaceSource!,
       $sourceId: String,
-      $pictureURL: String!,
+      $pictureURL: [String!],
+      $userId: ID,
+      $userCheckedInId: ID,
   ) {
     createPlace(
       placeName: $placeName
       description: $description
+      createSide: $createSide
+      address: $address
+      addressStreet: $addressStreet
       addressAreaDistrict: $addressAreaDistrict
       addressCityTown: $addressCityTown
       addressStateProvince: $addressStateProvince
@@ -73,6 +92,8 @@ const CREATE_PLACE = gql`
       source: $source
       sourceId: $sourceId
       pictureURL: $pictureURL
+      userId: $userId
+      userCheckedInId: $userCheckedInId
     ) {
       id
     }

@@ -22,16 +22,17 @@ export const placeColumns = [{
   render: (text) => text && moment(text).format('L'),
 }, {
   title: 'Created By',
-  dataIndex: 'createdBy',
-  sorter: (a, b) => a.createdBy - b.createdBy,
+  dataIndex: 'user',
+  sorter: (a, b) => a.user.displayName - b.user.displayName,
+  render: (user) => user && user.displayName,
 }, {
   title: 'City',
-  dataIndex: 'city',
-  sorter: (a, b) => a.city - b.city,
+  dataIndex: 'addressCityTown',
+  sorter: (a, b) => a.addressCityTown - b.addressCityTown,
 }, {
   title: 'Country',
-  dataIndex: 'country',
-  sorter: (a, b) => a.country - b.country,
+  dataIndex: 'addressCountry',
+  sorter: (a, b) => a.addressCountry - b.addressCountry,
 }, {
   title: 'Source',
   dataIndex: 'source',

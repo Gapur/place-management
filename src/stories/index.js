@@ -59,7 +59,7 @@ const FETCH_STORIES = gql`
         id
       }
       hashtag
-      user {
+      createdBy {
         id
         displayName
       }

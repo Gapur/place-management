@@ -54,6 +54,8 @@ const FETCH_PLACE = gql`
     Place(id: $id) {
       createdAt
       placeName
+      address
+      addressStreet
       addressAreaDistrict
       addressCityTown
       addressStateProvince
@@ -71,6 +73,9 @@ const UPDATE_PLACE = gql`
   mutation UpdatePlace(
     $id: ID!,
     $placeName: String!,
+    $description: String,
+    $address: String,
+    $addressStreet: String,
     $addressAreaDistrict: String,
     $addressCityTown: String,
     $addressStateProvince: String,
@@ -80,11 +85,14 @@ const UPDATE_PLACE = gql`
     $locationLong: Float,
     $source: PlaceSource!,
     $sourceId: String,
-    $pictureURL: String!,
+    $pictureURL: [String!],
   ) {
     updatePlace (
       id: $id
       placeName: $placeName
+      description: $description
+      address: $address
+      addressStreet: $addressStreet
       addressAreaDistrict: $addressAreaDistrict
       addressCityTown: $addressCityTown
       addressStateProvince: $addressStateProvince
@@ -99,7 +107,7 @@ const UPDATE_PLACE = gql`
       placeName
       description
       address
-      street
+      addressStreet
       addressAreaDistrict
       addressCityTown
       addressStateProvince
@@ -111,7 +119,7 @@ const UPDATE_PLACE = gql`
       sourceId
       pictureURL
       createdAt
-      createBy
+      createdBy
     }
   }
 `
