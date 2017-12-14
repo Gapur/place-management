@@ -12,6 +12,7 @@ import {
   renderInputUpload,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
+import { STORY_STATUS } from '../../shared/constants/constants';
 import CustomTags from './CustomTags';
 
 const FormItem = Form.Item;
@@ -83,7 +84,7 @@ class StoryForm extends Component {
               name="createdById"
               label="User Name"
               component={renderSelect}
-              placeholder="User Name"
+              placeholder="Select User Name"
               options={userOptions}
               validate={required}
             />
@@ -92,8 +93,17 @@ class StoryForm extends Component {
               name="placeId"
               label="Place Name"
               component={renderSelect}
-              placeholder="Place Name"
+              placeholder="Select Place Name"
               options={placeOptions}
+              validate={required}
+            />
+
+            <Field
+              name="status"
+              label="Story Status"
+              component={renderSelect}
+              placeholder="Select Status"
+              options={STORY_STATUS}
               validate={required}
             />
 

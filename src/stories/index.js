@@ -55,12 +55,14 @@ const FETCH_STORIES = gql`
       updatedAt
       title
       story
+      status
       pictureURL {
         id
       }
       hashtag
       createdBy {
         id
+        username
         displayName
       }
       place {

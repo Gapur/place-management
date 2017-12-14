@@ -32,7 +32,7 @@ class EditStory extends Component {
 
     const initialValues = {
       ...fetchStory.Story,
-      userId: fetchStory.Story.user.id,
+      createdById: fetchStory.Story.createdBy.id,
       placeId: fetchStory.Story.place.id,
     };
 
@@ -88,6 +88,7 @@ const FETCH_STORY = gql`
         id
       }
       hashtag
+      status
       createdBy {
         id
         displayName
@@ -105,7 +106,8 @@ const UPDATE_STORY = gql`
     $title: String!,
     $story: String!,
     $pictureURL: [Picture!]!,
-    $hashtag: [String!]
+    $hashtag: [String!],
+    $status: StoryStatus!,
     $placeId: ID,
     $createdById: ID,
   ) {
@@ -115,6 +117,7 @@ const UPDATE_STORY = gql`
       story: $story
       pictureURL: $pictureURL
       hashtag: $hashtag
+      status: $status
       placeId: $placeId
       createdById: $createdById
     ) {

@@ -73,6 +73,7 @@ const CREATE_STORY = gql`
     $title: String!,
     $story: String!,
     $pictureURL: [Picture!]!,
+    $status: StoryStatus!
     $hashtag: [String!]
     $placeId: ID,
     $createdById: ID,
@@ -81,6 +82,7 @@ const CREATE_STORY = gql`
       title: $title
       story: $story
       pictureURL: $pictureURL
+      status: $status
       hashtag: $hashtag
       placeId: $placeId
       createdById: $createdById

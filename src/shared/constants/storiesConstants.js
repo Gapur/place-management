@@ -18,6 +18,7 @@ export const storiesColumns = [{
   title: 'Created By',
   dataIndex: 'createdBy',
   sorter: (a, b) => a.createdBy - b.createdBy,
+  render: (value, record) => record && record.createdBy.username
 }, {
   title: 'Display Name',
   dataIndex: 'displayName',
