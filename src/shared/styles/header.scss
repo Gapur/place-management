@@ -9,9 +9,12 @@
     }
     
     .ant-menu-item {
+      border: none !important;
+    }
+
+    .ant-dropdown-trigger {
       display: flex;
       align-items: center;
-      border: none !important;
     }
   }
   

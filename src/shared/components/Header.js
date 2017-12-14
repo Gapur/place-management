@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
-import { Layout, Form, Icon, Input, Row, Col, Menu } from 'antd';
+import { Layout, Form, Icon, Input, Row, Col, Menu, Dropdown } from 'antd';
 
 const FormItem = Form.Item;
 const Header = Layout.Header;
 
 class AppHeader extends Component {
+  onLogout() {
+    localStorage.removeItem('graphcoolToken');
+    window.location.reload();
+  }
+
   render() {
     const inputSuffix = <Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />;
+
+    const profileMenu = (
+      <Menu>
+        <Menu.Item><div onClick={() => this.onLogout()}>Logout</div></Menu.Item>
+      </Menu>
+    );
 
     return (
       <Header className="header">
@@ -22,7 +33,14 @@ class AppHeader extends Component {
             <div className="profile-status is-right">
               <Menu mode="horizontal" selectable={false}>
                 <Menu.Item><Icon type="question-circle-o" />Help</Menu.Item>
-                <Menu.Item><span className="anticon circle online" />User Name</Menu.Item>
+                <Menu.Item>
+                  <Dropdown overlay={profileMenu}>
+                    <div>
+                      <span className="anticon circle online" />User Name
+                      <Icon type="down" />
+                    </div>
+                  </Dropdown>
+                </Menu.Item>
               </Menu>
             </div>
           </Col>
