@@ -102,3 +102,13 @@
 .is-danger {
   color: red;
 }
+
+.couldinary {
+  display: flex;
+  flex-wrap: wrap;
+
+  .couldinary-img {
+    width: 104px;
+    height: 104px;
+  }
+}

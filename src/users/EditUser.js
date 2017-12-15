@@ -49,6 +49,7 @@ class EditUser extends Component {
 
           <UserForm
             initialValues={User}
+            photoURL={User.photoURL}
             onSubmit={this.handleSubmit}
           />
         </div>

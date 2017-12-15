@@ -10,7 +10,6 @@ import {
   renderSelect,
   renderLabel,
   renderTextarea,
-  renderInputUpload,
   renderPlacesAutocomplete,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
@@ -31,11 +30,65 @@ const PlaceMap = compose(
 ));
 
 class PlaceForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { files: props.pictureURL || [] };
+
+    this.handleUploadWidget = this.handleUploadWidget.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.handleDeletePicture = this.handleDeletePicture.bind(this);
+  }
+
+  handleDeletePicture(pictureFile) {
+    const files = this.state.files.filter(file => file != pictureFile);
+    this.setState({ files });
+  }
+
+  handleUploadWidget() {
+    window.cloudinary.openUploadWidget(
+      { cloud_name: 'onemap-co', upload_preset: 'bztfvbid', tags: ['xmas'] },
+      (err, result) => {
+        const files = result.map(res => res.secure_url).concat(this.state.files);
+        this.setState({ files });
+      }
+    );
+  }
+
+  renderCloudinaryUpload() {
+    return (
+      <div className="couldinary">
+        {this.state.files.map(file =>
+          <div key={file} className="ant-upload-list ant-upload-list-picture-card">
+            <div className="ant-upload-list-item ant-upload-list-item-done">
+              <div className="ant-upload-list-item-info">
+                <img className="couldinary-img" src={file} alt="profile" />
+              </div>
+              <div className="ant-upload-list-item-actions">
+                <Icon type="delete" onClick={() => this.handleDeletePicture(file)} />
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="ant-upload ant-upload-select-picture-card" onClick={this.handleUploadWidget}>
+          <span className="ant-upload">
+            <Icon type="plus" />
+            <div className="ant-upload-text">Upload</div>
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  onSubmit(values) {
+    return this.props.onSubmit({ ...values, pictureURL: this.state.files });
+  }
+
   render() {
     const { handleSubmit, error, submitting, createdAt, createdBy, lat, long } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit(this.onSubmit)}>
         <Row>
           <div className="is-right">
             <FormItem>
@@ -180,14 +233,14 @@ class PlaceForm extends Component {
           </Col>
 
           <Col span={8}>
-            <Field
-              name="pictureURL"
-              label="Profile Picture"
-              component={renderInputUpload}
-              placeholder="Upload Picture"
-              multiple
-              listType="picture-card"
-            />
+            <FormItem>
+              <Col span={8} className="ant-form-item-label">
+                <label>Profile Picture</label>
+              </Col>
+              <Col span={16}>
+                {this.renderCloudinaryUpload()}
+              </Col>
+            </FormItem>
 
             {createdAt &&
               <Field

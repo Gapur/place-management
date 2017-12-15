@@ -9,7 +9,6 @@ import {
   renderDateTime,
   renderLabel,
   renderTextarea,
-  renderInputUpload,
 } from '../../shared/utils/form_components';
 import { required, email, password } from '../../shared/utils/form_validations';
 import { GENDERS, USER_GROUP } from '../../shared/constants/constants';
@@ -17,12 +16,57 @@ import { GENDERS, USER_GROUP } from '../../shared/constants/constants';
 const FormItem = Form.Item;
 
 class UserForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { file: props.photoURL || null };
+
+    this.handleUploadWidget = this.handleUploadWidget.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  handleUploadWidget() {
+    window.cloudinary.openUploadWidget(
+      { cloud_name: 'onemap-co', upload_preset: 'bztfvbid', tags: ['xmas'] },
+      (err, result) => this.setState({ file: result[0].secure_url })
+    );
+  }
+
+  renderCloudinaryUpload() {
+    return (
+      <div className="couldinary">
+        {this.state.file &&
+          <div className="ant-upload-list ant-upload-list-picture-card">
+            <div className="ant-upload-list-item ant-upload-list-item-done">
+              <div className="ant-upload-list-item-info">
+                <img className="couldinary-img" src={this.state.file} alt="profile" />
+              </div>
+              <div className="ant-upload-list-item-actions">
+                <Icon type="delete" onClick={() => this.setState({ file: null })} />
+              </div>
+            </div>
+          </div>
+        }
+        <div className="ant-upload ant-upload-select-picture-card" onClick={this.handleUploadWidget}>
+          <span className="ant-upload">
+            <Icon type="plus" />
+            <div className="ant-upload-text">Upload</div>
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  onSubmit(values) {
+    return this.props.onSubmit({ ...values, photoURL: this.state.file });
+  }
+
   render() {
     const { handleSubmit, error, submitting, createdAt, createdBy, registrationDate } = this.props;
     const buttonAfter = <Button type="primary">Generate</Button>
 
     return (
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit(this.onSubmit)}>
         <Row gutter={32}>
           <div className="is-right">
             <FormItem>
@@ -139,14 +183,14 @@ class UserForm extends Component {
           </Col>
 
           <Col span={8}>
-            <Field
-              name="photoURL"
-              label="Profile Picture"
-              component={renderInputUpload}
-              placeholder="Upload Picture"
-              multiple
-              listType="picture-card"
-            />
+            <FormItem>
+              <Col span={8} className="ant-form-item-label">
+                <label>Profile Picture</label>
+              </Col>
+              <Col span={16}>
+                {this.renderCloudinaryUpload()}
+              </Col>
+            </FormItem>
 
             <Field
               name="bio"
