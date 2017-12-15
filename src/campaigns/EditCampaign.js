@@ -34,8 +34,8 @@ class EditCampaign extends Component {
 
     const initialValues = {
       ...fetchCampaigns.Campaign,
-      partnerId: fetchCampaigns.Place.partner.id,
-      placeId: fetchCampaigns.Place.place.id,
+      partnerId: fetchCampaigns.Campaign.partner.id,
+      placeId: fetchCampaigns.Campaign.defaultPlace.id,
     };
 
     return (
@@ -52,6 +52,8 @@ class EditCampaign extends Component {
             initialValues={initialValues}
             places={fetchPlaces.allPlaces}
             users={fetchUsers.allUsers}
+            feedNotificationImg={fetchCampaigns.Campaign.feedNotificationImg}
+            photoUrl={fetchCampaigns.Campaign.photoUrl}
             onSubmit={this.handleSubmit}
           />
 

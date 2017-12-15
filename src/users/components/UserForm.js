@@ -12,6 +12,7 @@ import {
 } from '../../shared/utils/form_components';
 import { required, email, password } from '../../shared/utils/form_validations';
 import { GENDERS, USER_GROUP } from '../../shared/constants/constants';
+import CloudinaryFileUpload from '../../shared/components/CloudinaryFileUpload';
 
 const FormItem = Form.Item;
 
@@ -29,31 +30,6 @@ class UserForm extends Component {
     window.cloudinary.openUploadWidget(
       { cloud_name: 'onemap-co', upload_preset: 'bztfvbid', tags: ['xmas'] },
       (err, result) => this.setState({ file: result[0].secure_url })
-    );
-  }
-
-  renderCloudinaryUpload() {
-    return (
-      <div className="couldinary">
-        {this.state.file &&
-          <div className="ant-upload-list ant-upload-list-picture-card">
-            <div className="ant-upload-list-item ant-upload-list-item-done">
-              <div className="ant-upload-list-item-info">
-                <img className="couldinary-img" src={this.state.file} alt="profile" />
-              </div>
-              <div className="ant-upload-list-item-actions">
-                <Icon type="delete" onClick={() => this.setState({ file: null })} />
-              </div>
-            </div>
-          </div>
-        }
-        <div className="ant-upload ant-upload-select-picture-card" onClick={this.handleUploadWidget}>
-          <span className="ant-upload">
-            <Icon type="plus" />
-            <div className="ant-upload-text">Upload</div>
-          </span>
-        </div>
-      </div>
     );
   }
 
@@ -188,7 +164,11 @@ class UserForm extends Component {
                 <label>Profile Picture</label>
               </Col>
               <Col span={16}>
-                {this.renderCloudinaryUpload()}
+                <CloudinaryFileUpload
+                  file={this.state.file}
+                  onUpload={this.handleUploadWidget}
+                  onDelete={() => this.setState({ file: null })}
+                />
               </Col>
             </FormItem>
 

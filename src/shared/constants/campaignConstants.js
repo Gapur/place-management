@@ -124,17 +124,17 @@ export const ruleData = [{
 export const campaignColumns = [{
   title: 'Campaign Name',
   dataIndex: 'name',
-  sorter: (a, b) => a.campaign_name.length - b.campaign_name.length,
-  render: (campaign, record) => <Link to={`/campaigns/edit/${record.key}`}>{record.campaign_name}</Link>,
+  sorter: (a, b) => a.name.length - b.name.length,
+  render: (campaign, record) => <Link to={`/campaigns/edit/${record.key}`}>{record.name}</Link>,
 }, {
   title: 'Created At',
   dataIndex: 'createdAt',
   sorter: (a, b) => a.createdAt.length - b.createdAt.length,
 }, {
   title: 'Place',
-  dataIndex: 'defaultPlace',
+  dataIndex: 'placeName',
+  sorter: (a, b) => a.placeName.length - b.placeName.length,
   render: (place) => place ? place.defaultPlace.placeName : 'Not place',
-  sorter: (a, b) => a.defaultPlace.length - b.defaultPlace.length,
 }, {
   title: 'Active',
   dataIndex: 'active',
@@ -142,4 +142,5 @@ export const campaignColumns = [{
 }, {
   title: 'Push Notification',
   dataIndex: 'pushNotificationActive',
+  render: (pushNotifactive) => pushNotifactive ? 'Yes' : 'No',
 }];

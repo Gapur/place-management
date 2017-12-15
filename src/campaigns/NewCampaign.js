@@ -18,7 +18,6 @@ class NewCampaign extends Component {
 
   handleSubmit(values) {
     const { createCampaign, push } = this.props;
-    console.log(values);
     return createCampaign({ variables: { ...values } })
       .then(() => push('/campaigns'))
       .catch(parseFormErrors);

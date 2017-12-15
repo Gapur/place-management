@@ -53,13 +53,23 @@ const FETCH_CAMPAIGNS = gql`
       id
       createdAt
       name
+      availableCities
       description
       active
+      photoUrl
       defaultPlace {
         id
         placeName
       }
       pushNotificationActive
+      pushNotificationMsg
+      feedNotificationActive
+      feedNotificationImg
+      feedNotificationMsg
+      partner {
+        id
+        displayName
+      }
     }
   }
 `

@@ -119,5 +119,6 @@ export const renderRangePicker = (props) => render(props, (inputProps) => {
 });
 
 export const renderSwitch = (props) => render(props, (inputProps) => {
-  return <Switch defaultChecked {...inputProps} />
+  const checked = inputProps.value == '' ? false : inputProps.value;
+  return <Switch checked={checked} {...inputProps} />
 });
