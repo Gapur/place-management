@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Icon, Row, Col, Input } from 'antd';
+import { Form, Button, Row, Col, Input, Alert } from 'antd';
 import { Field, reduxForm, reset } from 'redux-form';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
@@ -77,14 +77,12 @@ class CampaignForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/campaigns">Cancel</Link>
               </Button>
-              <Button disabled={submitting} type="primary" htmlType="submit">
-                <Icon type="save" />Save
-              </Button>
+              <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
             </FormItem>
           </div>
         </Row>
 
-        {error && <Row><FormItem><p className="is-danger">{error}</p></FormItem></Row>}
+        {error && <Row><FormItem><Alert message={error} type="error" closable /></FormItem></Row>}
 
         <Row gutter={32}>
           <Col span={12}>

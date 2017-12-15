@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
 import ConditionPlaceForm from './components/ConditionPlaceForm';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
-class EditCondition extends Component {
+class EditConditionPlace extends Component {
   constructor(props) {
     super(props);
 
@@ -43,7 +43,7 @@ class EditCondition extends Component {
         <div className="container">
           <h3>Edit Condition</h3>
 
-          <ConditionForm
+          <ConditionPlaceForm
             initialValues={fetchConditionPlace.ConditionPlace}
             onSubmit={this.handleSubmit}
           />
@@ -101,7 +101,7 @@ const UPDATE_CONDITION_PLACE = gql`
   }
 `
 
-const EditConditionScreen = compose(
+const EditConditionPlaceScreen = compose(
   graphql(FETCH_CONDITION_PLACE, {
     name: 'fetchConditionPlace',
     options: ({ match }) => ({
@@ -117,6 +117,6 @@ const EditConditionScreen = compose(
       fetchPolicy: 'network-only',
     },
   })
-)(EditCondition);
+)(EditConditionPlace);
 
-export default connect(null, { push })(EditConditionScreen);
+export default connect(null, { push })(EditConditionPlaceScreen);

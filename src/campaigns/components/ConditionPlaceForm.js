@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Icon, Row, Col, Input } from 'antd';
+import { Form, Button, Row, Col, Input, Alert } from 'antd';
 import { Field, reduxForm, FieldArray } from 'redux-form';
 import { Link } from 'react-router-dom';
 import {
@@ -26,12 +26,13 @@ class ConditionPlaceForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/campaigns">Cancel</Link>
               </Button>
-              <Button type="primary" htmlType="submit">
-                <Icon type="save" />Save
-              </Button>
+              <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
             </FormItem>
           </div>
         </Row>
+
+        {error && <Row><FormItem><Alert message={error} type="error" closable /></FormItem></Row>}
+
         <Row gutter={32}>
           <Col span={12}>
             <Row>
@@ -70,13 +71,13 @@ class ConditionPlaceForm extends Component {
               listType="picture-card"
             />
 
-            <Field
+            {/* <Field
               name="notification"
               label="Notification"
               component={renderSelect}
               placeholder="Select Notification"
               options={notifications}
-            />
+            /> */}
 
             <Field
               name="distance"

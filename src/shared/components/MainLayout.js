@@ -18,8 +18,8 @@ import NewCampaignScreen from '../../campaigns/NewCampaign';
 import EditCampaignScreen from '../../campaigns/EditCampaign';
 import NewEventScreen from '../../campaigns/NewEvent';
 import EditEventScreen from '../../campaigns/EditEvent';
-import NewConditionScreen from '../../campaigns/NewCondition';
-import EditConditionScreen from '../../campaigns/EditCondition';
+import NewConditionPlaceScreen from '../../campaigns/NewConditionPlace';
+import EditConditionPlaceScreen from '../../campaigns/EditConditionPlace';
 
 const { Content } = Layout;
 
@@ -46,8 +46,8 @@ class MainLayout extends Component {
             <Route exact path="/campaigns/edit/:id" component={EditCampaignScreen} />
             <Route exact path="/campaigns/edit/:id/event/new" component={NewEventScreen} />
             <Route exact path="/campaigns/edit/:id/event/edit/:eventId" component={EditEventScreen} />
-            <Route exact path="/campaigns/edit/:id/condition/new" component={NewConditionScreen} />
-            <Route exact path="/campaigns/edit/:id/condition/edit/:conditionId" component={EditConditionScreen} />
+            <Route exact path="/campaigns/edit/:id/condition/new" compoPlacenent={NewConditionPlaceScreen} />
+            <Route exact path="/campaigns/edit/:id/condition/edit/:conditionId" component={EditConditionPlaceScreen} />
           </Content>
         </Layout>
       </Layout>

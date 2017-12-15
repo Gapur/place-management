@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Button, Icon, Row, Col } from 'antd';
+import { Form, Button, Row, Col, Alert } from 'antd';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 import { Link } from 'react-router-dom';
 import {
@@ -49,14 +49,12 @@ class UserForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/users/one-mappers/regulars">Cancel</Link>
               </Button>
-              <Button disabled={submitting} type="primary" htmlType="submit">
-                <Icon type="save" />Save
-              </Button>
+              <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
             </FormItem>
           </div>
         </Row>
 
-        {error && <Row><FormItem><p className="is-danger">{error}</p></FormItem></Row>}
+        {error && <Row><FormItem><Alert type="error" message={error} /></FormItem></Row>}
 
         <Row gutter={32}>
           <Col span={8}>

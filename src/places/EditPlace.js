@@ -28,7 +28,7 @@ class EditPlace extends Component {
     if (loading) {
       return <div className="loader-indicator" />;
     }
-console.log(Place.pictureURL);
+
     return (
       <div id="edit-place">
         <Breadcrumb>
