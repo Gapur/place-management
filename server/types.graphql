@@ -1,70 +1,246 @@
-# The following types define the data model of the example service
-# based on which the GraphQL API is generated
-
-type User @model {
-  id: ID! @isUnique
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  firstName: String!
-  lastName: String!
-  email: String!
-  password: String!
-  gender: String
-  birthDate: String
-  city: String
-  country: String
-  phone: String
-  userName: String!
-  picture: String
-  bio: String
-  registrationDate: DateTime!
-  createdBy: String!
-  lastLogin: DateTime
-  status: String!
-  role: String!
-  story: [Story!]! @relation(name: "StoryUser")
+enum CreateSide {
+  FRONTEND
+  BACKEND
 }
 
-type Story @model {
-  id: ID! @isUnique
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  createdBy: String!
-  storyTitle: String!
-  story: String!
-  storyPicture: String
-  status: String!
-  tags: [Tag!]! @relation(name: "StoryTag")
-  place: Place @relation(name: "StoryPlace")
-  user: User @relation(name: "StoryUser")
+enum Enabled {
+  ENABLE
+  DISABLE
 }
 
-type Tag @model {
+enum PlaceStatus {
+  ENABLE
+  DISABLE 
+}
+
+enum VerificationStatus {
+  NO
+  YES
+}
+
+type Keyword @model {
   id: ID! @isUnique
   createdAt: DateTime!
   updatedAt: DateTime!
-  name: String!
-  story: Story @relation(name: "StoryTag")
+  places: [Place!]! @relation(name: "PlaceOnKeyword")
+  createdBy: User! @relation(name: "UserOnkeyword")
+}
+
+enum LoginMethod {
+  FACEBOOK
+  GOOGLE
+  EMAIL
+  PHONE
+}
+
+enum OnlineStatus {
+  OFFLINE
+  ONLINE
+}
+
+enum StoryStatus {
+  DRAFT
+  PUBLISHED
+}
+
+type Picture @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  story: Story! @relation(name: "StoryOnPicture")
+  createdBy: User! @relation(name: "UserOnPicture")
 }
 
 type Place @model {
   id: ID! @isUnique
   createdAt: DateTime!
   updatedAt: DateTime!
-  name: String!
-  description: String!
-  address: String!
-  street: String
-  arrea: String
+  description: String
+  source: PlaceSource!
+  sourceId: String
+  createSide: CreateSide!
+  placeName: String
+  locationLat: Float
+  locationLong: Float
+  addressAreaDistrict: String
+  addressCityTown: String
+  addressStateProvince: String
+  addressCountry: String
+  addressPostalCode: String
+  addressStreet: String
+  address: String
+  phoneNumber: String
+  website: String
+  facebook: String
+  line: String
+  openingHrs: String
+  pictureURL: [String!]
+  status: PlaceStatus!
+  modifyBy: User @relation(name: "ModifyByUser")
+  stories: [Story!]! @relation(name: "PlaceOnStory")
+  usersLike: [User!]! @relation(name: "UserLikePlace")
+  keyword: [Keyword!]! @relation(name: "PlaceOnKeyword")
+  user: User! @relation(name: "UserOnPlace")
+  userCheckedIn: User! @relation(name: "UserCheckInPlace")
+  campaigns: [Campaign!]! @relation(name: "PlaceOnCampaign")
+  conditions: [Condition!]! @relation(name: "PlaceOnCondition")
+  conditionPlaces: [ConditionPlace!]! @relation(name: "PlaceOnConditonPlace")
+}
+
+enum PlaceSource {
+  GOOGLE_PLACE
+  ONEMAP
+}
+
+enum Gender {
+  NOT_SPECIFIC
+  MALE
+  FEMAIL
+}
+
+type Story @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  story: String!
+  hashtag: [String!]
+  pictureURL: [Picture!]! @relation(name: "StoryOnPicture")
+  place: Place! @relation(name: "PlaceOnStory")
+  usersLike: [User!]! @relation(name: "UserLikeStory")
+  createdBy: User! @relation(name: "UserOnStory")  @rename(oldName: "user")
+  status: StoryStatus!
+}
+
+type User @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  facebookUserId: String @isUnique
+  email: String
+  password: String
+  username: String @isUnique
+  firstName: String
+  lastName: String
+  displayName: String
+  bio: String
+  gender: Gender
+  birthdate: String
+  mobile: String
+  mobileVerification: Boolean
   city: String
-  state: String
-  country: String!
-  placeId: String!
-  lat: String!
-  long: String!
-  source: String
-  profilePicture: String
-  createdBy: String!
-  status: String!
-  story: [Story!]! @relation(name: "StoryPlace") 
+  country: String
+  photoURL: String
+  loginMethod: [LoginMethod!]
+  registrationDate: String
+  group: [UserGroup!]
+  accountStatus: Enabled!
+  accountVerification: VerificationStatus
+  createdBy: User @relation(name: "CreateByUser")  @rename(oldName: "createBy")
+  lastSeen: DateTime
+  onlineStatus: OnlineStatus!
+  modifiedPlace: [Place!]! @relation(name: "ModifyByUser")
+  places: [Place!]! @relation(name: "UserOnPlace")
+  stories: [Story!]! @relation(name: "UserOnStory")
+  followers: [User!]! @relation(name: "UserFollowUser")
+  likePlaces: [Place!]! @relation(name: "UserLikePlace")
+  likeStories: [Story!]! @relation(name: "UserLikeStory")
+  keywords: [Keyword!]! @relation(name: "UserOnkeyword")
+  checkedIn: [Place!]! @relation(name: "UserCheckInPlace")
+  picture: [Picture!]! @relation(name: "UserOnPicture")
+  campaigns: [Campaign!]! @relation(name: "PartnerOnCampaign")
+}
+
+enum UserGroup {
+  USER
+  ADMIN
+  PARTNER
+}
+
+type Badge @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  photoURL: String!
+  conditions: [Condition!]! @relation(name: "BadgeOnCondition")
+}
+
+type Campaign @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  photoUrl: String!
+  description: String
+  defaultPlace: Place! @relation(name: "PlaceOnCampaign")
+  defaultStartDate: String
+  defaultEndDate: String
+  defaultStartTime: String
+  defaultEndTime: String
+  active: Boolean
+  feedNotificationActive: Boolean
+  feedNotificationImg: String
+  feedNotificationMsg: String
+  pushNotificationActive: Boolean
+  pushNotificationMsg: String
+  availableCities: [String!]
+  partner: User! @relation(name: "PartnerOnCampaign")
+}
+
+type EventTable @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  dateRange: [String!]!
+  description: String
+}
+
+enum ConditionTypes {
+  CHECK_IN
+  WRITE_STORY
+}
+
+enum ConditionNotification {
+  NO
+  NEAR_BY
+  AWAY_FROM
+}
+
+type Condition @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  type: ConditionTypes!
+  startTime: String
+  endTime: String
+  startDate: String
+  endDate: String
+  defaultPlace: Place! @relation(name: "PlaceOnCondition") @rename(oldName: "place")
+  places: [ConditionPlace!]! @relation(name: "ConditionOnPlaceList")
+  notificationMessage: String
+  checkedInRange: Int
+  badgeReward: Badge! @relation(name: "BadgeOnCondition")
+  pointReward: Int!
+  active: Boolean
+}
+
+enum ConditionPlaceEventTypes {
+  HEART
+  CHECK_IN
+  UN_HEART
+}
+
+type ConditionPlace @model {
+  id: ID! @isUnique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  condition: Condition! @relation(name: "ConditionOnPlaceList")
+  place: Place! @relation(name: "PlaceOnConditonPlace")  
+  distance: Int!
+  fromDate: String!
+  event: ConditionPlaceEventTypes!
+  toDate: String!
+  fromTime: String
+  toTime: String
 }
