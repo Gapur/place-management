@@ -36,7 +36,7 @@ class AppRouter extends Component {
       </Switch>
     );
 
-    return !this.onLoggedIn() ? appRouter : authRouter;
+    return this.onLoggedIn() ? appRouter : authRouter;
   }
 }
 

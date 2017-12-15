@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import Logo from '../shared/img/logo.png';
 
@@ -16,6 +16,10 @@ class Login extends Component {
 
   handleSubmit(values) {
     return this.props.authenticateUserMutation({ variables: { ...values } })
+      .then((res) => {
+        localStorage.setItem('graphcoolToken', res.data.authenticateUser.token);
+        window.location.href = "/";
+      })
       .catch(parseFormErrors);
   }
 
@@ -39,22 +43,11 @@ const AUTHENTICATE_USER_MUTATION = gql`
   }
 `
 
-const LOGGED_IN_USER_QUERY = gql`
-  query LoggedInUserQuery {
-    loggedInUser {
-      id
-    }
+const LoginScreen = graphql(AUTHENTICATE_USER_MUTATION, {
+  name: 'authenticateUserMutation',
+  options: {
+    fetchPolicy: 'network-only',
   }
-`
-
-const LoginScreen = compose(
-  graphql(AUTHENTICATE_USER_MUTATION, {
-    name: 'authenticateUserMutation',
-  }),
-  graphql(LOGGED_IN_USER_QUERY, {
-    name: 'loggedInUserQuery',
-    options: { fetchPolicy: 'network-only' }
-  })
-)(Login);
+})(Login);
 
 export default LoginScreen;
