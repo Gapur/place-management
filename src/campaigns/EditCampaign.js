@@ -75,7 +75,7 @@ class EditCampaign extends Component {
             dataSource={ruleData}
           />
         </div>
-      </div>
+      </div>    
     );
   }
 }

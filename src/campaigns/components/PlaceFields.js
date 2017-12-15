@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Form, Button, Icon, Row, Col, Input } from 'antd';
 import { renderInput, renderSelect } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
+import { CONDITION_PLACE_EVENT_TYPES } from '../../shared/constants/constants';
 
 const FormItem = Form.Item;
 const events = [

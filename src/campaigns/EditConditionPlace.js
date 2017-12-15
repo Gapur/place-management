@@ -6,7 +6,7 @@ import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import ConditionForm from './components/ConditionForm';
+import ConditionPlaceForm from './components/ConditionPlaceForm';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
 class EditCondition extends Component {
@@ -17,16 +17,16 @@ class EditCondition extends Component {
   }
 
   handleSubmit(values) {
-    const { match: { params }, updateCondition, push } = this.props;
-    return updateCondition({ variables: { ...values, id: params.campaignId } })
+    const { match: { params }, updateConditionPlace, push } = this.props;
+    return updateConditionPlace({ variables: { ...values, id: params.campaignId } })
       .then(() => push(`/campaigns/edit/${params.campaignId}`))
       .catch(parseFormErrors);
   }
 
   render() {
-    const { match: { params }, fetchCondition } = this.props;
+    const { match: { params }, fetchConditionPlace } = this.props;
 
-    if (fetchCondition.loading) {
+    if (fetchConditionPlace.loading) {
       return <div className="loader-indicator" />;
     }
 
@@ -44,7 +44,7 @@ class EditCondition extends Component {
           <h3>Edit Condition</h3>
 
           <ConditionForm
-            initialValues={fetchCondition.Condition}
+            initialValues={fetchConditionPlace.ConditionPlace}
             onSubmit={this.handleSubmit}
           />
         </div>
@@ -53,12 +53,17 @@ class EditCondition extends Component {
   }
 }
 
-const FETCH_CONDITION = gql`
-  query FetchCondition($id: ID!) {
-    Condition(id: $id) {
+const FETCH_CONDITION_PLACE = gql`
+  query FetchConditionPlace($id: ID!) {
+    ConditionPlace(id: $id) {
       id
       pointReward
       active
+      distance
+      fromDate
+      toDate
+      fromTime
+      toTime
       badgeReward {
         id
         name
@@ -68,29 +73,37 @@ const FETCH_CONDITION = gql`
   }
 `
 
-const UPDATE_CONDITION = gql`
-  mutation UpdateCondition(
+const UPDATE_CONDITION_PLACE = gql`
+  mutation UpdateConditionPlace(
     $id: ID!,
     $pointReward: Int!,
     $active: Boolean,
     $badgeRewardId: ID!,
+    $distance: Int!,
+    $fromDate: String!,
+    $toDate: String!,
+    $fromTime: String,
+    $toTime: String
   ) {
-    updateCondition (
+    updateConditionPlace (
       id: $id
       pointReward: $pointReward
       active: $active
+      distance: $distance
+      fromDate: $fromDate
+      toDate: $toDate
+      fromTime: $fromTime
+      toTime: $toTime
       badgeRewardId: $badgeRewardId
     ) {
-      firstName
-      active
-      badgeRewardId
+      id
     }
   }
 `
 
 const EditConditionScreen = compose(
-  graphql(FETCH_CONDITION, {
-    name: 'fetchCondition',
+  graphql(FETCH_CONDITION_PLACE, {
+    name: 'fetchConditionPlace',
     options: ({ match }) => ({
       fetchPolicy: 'network-only',
       variables: {
@@ -98,8 +111,8 @@ const EditConditionScreen = compose(
       },
     }),
   }),
-  graphql(UPDATE_CONDITION, {
-    name: 'updateCondition',
+  graphql(UPDATE_CONDITION_PLACE, {
+    name: 'updateConditionPlace',
     options: {
       fetchPolicy: 'network-only',
     },

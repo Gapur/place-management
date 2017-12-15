@@ -46,3 +46,9 @@ export const STORY_STATUS = [
   { value: 'DRAFT', label: 'Draft' },
   { value: 'PUBLISHED', label: 'Published' },
 ];
+
+export const CONDITION_PLACE_EVENT_TYPES = [
+  { value: 'HEART', label: 'Heart' },
+  { value: 'CHECK_IN', label: 'Check In' },
+  { value: 'UN_HEART', label: 'Un Heart' },
+]

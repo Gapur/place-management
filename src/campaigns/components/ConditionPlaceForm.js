@@ -12,13 +12,8 @@ import { required } from '../../shared/utils/form_validations';
 import PlaceFields from './PlaceFields';
 
 const FormItem = Form.Item;
-const notifications = [
-  { value: 'No', label: 'No' },
-  { value: 'Near_by', label: 'Near by' },
-  { value: 'Away_from', label: 'Away from' }
-];
 
-class RuleForm extends Component {
+class ConditionPlaceForm extends Component {
 
   render() {
     const { handleSubmit, error, submitting } = this.props;
@@ -110,4 +105,4 @@ class RuleForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'ruleForm' })(RuleForm);
+export default reduxForm({ form: 'ConditionPlaceForm' })(ConditionPlaceForm);

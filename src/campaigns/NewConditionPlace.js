@@ -6,10 +6,10 @@ import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import ConditionForm from './components/ConditionForm';
+import ConditionPlaceForm from './components/ConditionPlaceForm';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
-class NewCondition extends Component {
+class NewConditionPlace extends Component {
   constructor(props) {
     super(props);
 
@@ -18,7 +18,6 @@ class NewCondition extends Component {
 
   handleSubmit(values) {
     const { createCampaign, push, match: { params } } = this.props;
-    console.log(values);
     return createCampaign({ variables: { ...values } })
       .then(() => push(`/campaigns/edit/${params.campaignId}`))
       .catch(parseFormErrors);
@@ -27,19 +26,19 @@ class NewCondition extends Component {
   render() {
     const { match: { params } } = this.props;
     return (
-      <div id="new-condition">
+      <div id="new-condition-place">
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/campaigns">Campaigns</Link></Breadcrumb.Item>
           <Breadcrumb.Item>
             <Link to={`/campaigns/edit/${params.campaignId || 1}`}>Edit Campaign</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>New Condition</Breadcrumb.Item>
+          <Breadcrumb.Item>New Condition Place</Breadcrumb.Item>
         </Breadcrumb>
 
         <div className="container">
-          <h3>New Condition</h3>
+          <h3>New Condition Place</h3>
 
-          <ConditionForm onSubmit={this.handleSubmit} />
+          <ConditionPlaceForm onSubmit={this.handleSubmit} />
         </div>
       </div>
     );
@@ -47,25 +46,35 @@ class NewCondition extends Component {
 }
 
 const CREATE_CONDITION = gql`
-  mutation CreateCondition(
+  mutation CreateConditionPlace(
     $name: String!,
     $pointReward: Int!,
     $active: Boolean,
+    $distance: Int!,
+    $fromDate: String!,
+    $toDate: String!,
+    $fromTime: String,
+    $toTime: String
   ) {
     createCondition(
       name: $name
       pointReward: $pointReward
       active: $active
+      distance: $distance
+      fromDate: $fromDate
+      toDate: $toDate
+      fromTime: $fromTime
+      toTime: $toTime
     ) {
       id
     }
   }
 `
-const NewConditionScreen = graphql(CREATE_CONDITION, {
-  name: 'createCondition',
+const NewConditionPlaceScreen = graphql(CREATE_CONDITION, {
+  name: 'createConditionPlace',
   options: {
     fetchPolicy: 'network-only',
   },
-})(NewCondition);
+})(NewConditionPlace);
 
-export default connect(null, { push })(NewConditionScreen);
+export default connect(null, { push })(NewConditionPlaceScreen);
