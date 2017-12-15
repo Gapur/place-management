@@ -27,6 +27,7 @@ export const usersColumns = (userType) => [{
   title: 'User Name',
   dataIndex: 'username',
   sorter: (a, b) => a.username - b.username,
+  render: (value) => value ? value : 'No User Name',
 }, {
   title: 'City',
   dataIndex: 'city',
@@ -41,5 +42,8 @@ export const usersColumns = (userType) => [{
   sorter: (a, b) => a.group - b.group,
   filters: USER_GROUP.map(({ label, value }) => ({ text: label, value })),
   onFilter: (value, record) => record.group.indexOf(value) === 0,
-  render: (value) => USER_GROUP.find(group => group.value == value).label,
+  render: (value) => {
+    const user = USER_GROUP.find(group => group.value == value);
+    return user ? user.label : 'No User Group';
+  },
 }];

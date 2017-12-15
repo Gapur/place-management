@@ -24,7 +24,7 @@ export const placeColumns = [{
   title: 'Created By',
   dataIndex: 'createdBy',
   sorter: (a, b) => a.createdBy - b.createdBy,
-  render: (value, record) => record && record.user.username,
+  render: (value, record) => record && record.createdBy.username,
 }, {
   title: 'City',
   dataIndex: 'addressCityTown',

@@ -68,7 +68,7 @@ const FETCH_PLACES = gql`
       sourceId
       pictureURL
       status
-      user {
+      createdBy {
         id
         username
       }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import PlaceForm from './components/PlaceForm';
@@ -17,15 +17,14 @@ class NewPlace extends Component {
   }
 
   handleSubmit(values) {
-    const { push, createPlace } = this.props;
+    const { push, createPlace, loggedInUserQuery: { loggedInUser } } = this.props;
     return createPlace(
       {
         variables: {
           ...values,
           locationLat: parseFloat(values.locationLat),
           locationLong: parseFloat(values.locationLong),
-          userId: 'cjb57nlq52vdw0146jpspmgy6',
-          userCheckedInId: 'cjb4z57mi199z0146vrszdb77',
+          createdById: loggedInUser && loggedInUser.id,
         }
       })
       .then(() => push('/places'))
@@ -56,6 +55,14 @@ class NewPlace extends Component {
   }
 }
 
+const LOGGED_IN_USER_QUERY = gql`
+  query LoggedInUserQuery {
+    loggedInUser {
+      id
+    }
+  }
+`
+
 const CREATE_PLACE = gql`
   mutation CreatePlace(
     $placeName: String!,
@@ -73,8 +80,7 @@ const CREATE_PLACE = gql`
     $source: PlaceSource!,
     $sourceId: String,
     $pictureURL: [String!],
-    $userId: ID,
-    $userCheckedInId: ID,
+    $createdById: ID,
     $status: PlaceStatus!
   ) {
     createPlace(
@@ -93,8 +99,7 @@ const CREATE_PLACE = gql`
       source: $source
       sourceId: $sourceId
       pictureURL: $pictureURL
-      userId: $userId
-      userCheckedInId: $userCheckedInId
+      createdById: $createdById
       status: $status
     ) {
       id
@@ -102,11 +107,19 @@ const CREATE_PLACE = gql`
   }
 `
 
-const NewPlaceScreen = graphql(CREATE_PLACE, {
-  name: 'createPlace',
-  options: {
-    fetchPolicy: 'network-only',
-  },
-})(NewPlace);
+const NewPlaceScreen = compose(
+  graphql(LOGGED_IN_USER_QUERY, {
+    name: 'loggedInUserQuery',
+    options: {
+      fetchPolicy: 'network-only',
+    }
+  }),
+  graphql(CREATE_PLACE, {
+    name: 'createPlace',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+)(NewPlace);
 
 export default connect(null, { push })(NewPlaceScreen);
