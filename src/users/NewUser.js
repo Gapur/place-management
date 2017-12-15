@@ -6,6 +6,8 @@ import { push } from 'react-router-redux';
 import moment from 'moment';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { CloudinaryContext, Transformation, Image } from 'cloudinary-react';
+import axios from 'axios';
 
 import UserForm from './components/UserForm';
 import { USER_TYPES, ENABLED, ONLINE_STATUS } from '../shared/constants/constants';
@@ -15,7 +17,17 @@ class NewUser extends Component {
   constructor(props) {
     super(props);
 
+    this.state = { gallery: [] };
+
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('http://res.cloudinary.com/onemap-co/image/upload/')
+      .then(res => {
+        console.log(res.data.resources);
+        this.setState({ gallery: res.data.resources });
+      });
   }
 
   handleSubmit(values) {
@@ -24,6 +36,13 @@ class NewUser extends Component {
     return createUser({ variables: { ...values } })
       .then(() => push(`/users/one-mappers/${userType.value}`))
       .catch(parseFormErrors);
+  }
+
+  uploadWidget() {
+    window.cloudinary.openUploadWidget({ cloud_name: 'onemap-co', upload_preset: 'bztfvbid', tags: ['xmas'] },
+      function (error, result) {
+        console.log(result);
+      });
   }
 
   render() {
@@ -48,6 +67,15 @@ class NewUser extends Component {
 
         <div className="container">
           <h3>New User</h3>
+
+          <div className="upload">
+            <button onClick={this.uploadWidget.bind(this)} className="upload-button">
+              Add Image
+            </button>
+          </div>
+          <CloudinaryContext cloudName="onemap-co">
+            <Image publicId="irp8crwpdkwjwqykxacv.png"></Image>
+          </CloudinaryContext>
 
           <UserForm
             initialValues={initialValues}
