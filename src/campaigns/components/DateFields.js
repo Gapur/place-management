@@ -1,9 +1,8 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import { Form, Button, Icon, Row, Col, Input } from 'antd';
-import { renderInput, renderSelect } from '../../shared/utils/form_components';
+import { renderDateTime } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
-import { CONDITION_PLACE_EVENT_TYPES } from '../../shared/constants/constants';
 
 const FormItem = Form.Item;
 
@@ -13,36 +12,25 @@ const PlaceFields = ({ fields, label }) => {
 
   return (
     <div className="form-fields">
-      {fields.map((place, index, fields) => {
+      {fields.map((date, index, fields) => {
         return (
-          <Row key={place} gutter={8}>
-            <Col span={6}>
+          <Row key={date} gutter={8}>
+            <Col span={10}>
               <Field
-                name={`${place}.place`}
-                component={renderInput}
-                label="Place(s)"
-                placeholder="Place(s)"
+                name={`${date}.fromDateTime`}
+                label="From DateTime"
+                component={renderDateTime}
+                placeholder="from"
                 validate={index == lastIdx ? null : required}
               />
             </Col>
 
-            <Col span={6}>
+            <Col span={10}>
               <Field
-                name={`${place}.event`}
-                label="Event"
-                component={renderSelect}
-                options={CONDITION_PLACE_EVENT_TYPES}
-                placeholder="Select Event"
-                validate={index == lastIdx ? null : required}
-              />
-            </Col>
-
-            <Col span={8}>
-              <Field
-                name={`${place}.distance`}
-                label="Distance(m)"
-                component={renderInput}
-                placeholder="Distance"
+                name={`${date}.toDateTime`}
+                label="To DateTime"
+                component={renderDateTime}
+                placeholder="To"
                 validate={index == lastIdx ? null : required}
               />
             </Col>

@@ -38,7 +38,7 @@ class CampaignForm extends Component {
       (err, result) => {
         if (err) {
           console.error(err.message);
-        } else {
+        } else if (result) {
           this.setState({ [fieldName]: result[0].secure_url });
         }
       }

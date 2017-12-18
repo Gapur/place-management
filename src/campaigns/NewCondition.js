@@ -6,10 +6,10 @@ import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import ConditionPlaceForm from './components/ConditionPlaceForm';
+import ConditionForm from './components/ConditionForm';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
-class NewConditionPlace extends Component {
+class NewCondition extends Component {
   constructor(props) {
     super(props);
 
@@ -17,8 +17,8 @@ class NewConditionPlace extends Component {
   }
 
   handleSubmit(values) {
-    const { createCampaign, push, match: { params } } = this.props;
-    return createCampaign({ variables: { ...values } })
+    const { createCondition, push, match: { params } } = this.props;
+    return createCondition({ variables: { ...values } })
       .then(() => push(`/campaigns/edit/${params.id}`))
       .catch(parseFormErrors);
   }
@@ -26,19 +26,19 @@ class NewConditionPlace extends Component {
   render() {
     const { match: { params } } = this.props;
     return (
-      <div id="new-condition-place">
+      <div id="new-condition">
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/campaigns">Campaigns</Link></Breadcrumb.Item>
           <Breadcrumb.Item>
             <Link to={`/campaigns/edit/${params.id || 1}`}>Edit Campaign</Link>
           </Breadcrumb.Item>
-          <Breadcrumb.Item>New Condition Place</Breadcrumb.Item>
+          <Breadcrumb.Item>New Condition</Breadcrumb.Item>
         </Breadcrumb>
 
         <div className="container">
-          <h3>New Condition Place</h3>
+          <h3>New Condition</h3>
 
-          <ConditionPlaceForm onSubmit={this.handleSubmit} />
+          <ConditionForm onSubmit={this.handleSubmit} />
         </div>
       </div>
     );
@@ -46,15 +46,13 @@ class NewConditionPlace extends Component {
 }
 
 const CREATE_CONDITION = gql`
-  mutation CreateConditionPlace(
+  mutation CreateCondition(
     $name: String!,
     $pointReward: Int!,
     $active: Boolean,
     $distance: Int!,
     $fromDate: String!,
     $toDate: String!,
-    $fromTime: String,
-    $toTime: String
   ) {
     createCondition(
       name: $name
@@ -63,18 +61,16 @@ const CREATE_CONDITION = gql`
       distance: $distance
       fromDate: $fromDate
       toDate: $toDate
-      fromTime: $fromTime
-      toTime: $toTime
     ) {
       id
     }
   }
 `
-const NewConditionPlaceScreen = graphql(CREATE_CONDITION, {
-  name: 'createConditionPlace',
+const NewConditionScreen = graphql(CREATE_CONDITION, {
+  name: 'createCondition',
   options: {
     fetchPolicy: 'network-only',
   },
-})(NewConditionPlace);
+})(NewCondition);
 
-export default connect(null, { push })(NewConditionPlaceScreen);
+export default connect(null, { push })(NewConditionScreen);

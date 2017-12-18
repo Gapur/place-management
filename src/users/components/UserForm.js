@@ -29,7 +29,7 @@ class UserForm extends Component {
   handleUploadWidget() {
     window.cloudinary.openUploadWidget(
       { cloud_name: 'onemap-co', upload_preset: 'bztfvbid', tags: ['xmas'] },
-      (err, result) => this.setState({ file: result[0].secure_url })
+      (err, result) => result && this.setState({ file: result[0].secure_url })
     );
   }
 

@@ -50,8 +50,10 @@ class PlaceForm extends Component {
     window.cloudinary.openUploadWidget(
       { cloud_name: 'onemap-co', upload_preset: 'bztfvbid', tags: ['xmas'] },
       (err, result) => {
-        const files = result.map(res => res.secure_url).concat(this.state.files);
-        this.setState({ files });
+        if (result) {
+          const files = result.map(res => res.secure_url).concat(this.state.files);
+          this.setState({ files });
+        }
       }
     );
   }

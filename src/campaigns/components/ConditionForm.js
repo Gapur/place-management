@@ -10,16 +10,37 @@ import {
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import PlaceFields from './PlaceFields';
+import DateFields from './DateFields';
+import CloudinaryFileUpload from '../../shared/components/CloudinaryFileUpload';
 
 const FormItem = Form.Item;
 
-class ConditionPlaceForm extends Component {
+class ConditionForm extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = { file: props.badgeReward || null };
+
+    this.handleUploadWidget = this.handleUploadWidget.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  handleUploadWidget() {
+    window.cloudinary.openUploadWidget(
+      { cloud_name: 'onemap-co', upload_preset: 'bztfvbid', tags: ['xmas'] },
+      (err, result) => result && this.setState({ file: result[0].secure_url })
+    );
+  }
+
+  onSubmit(values) {
+    return this.props.onSubmit({ ...values, badgeReward: this.state.file });
+  }
 
   render() {
     const { handleSubmit, error, submitting } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit}>
+      <Form layout="vertical" onSubmit={handleSubmit}>
         <Row>
           <div className="is-right">
             <FormItem>
@@ -35,7 +56,7 @@ class ConditionPlaceForm extends Component {
 
         <Row gutter={32}>
           <Col span={12}>
-            <Row>
+            <FormItem>
               <Col span={8} className="ant-form-item-label">
                 <label>Rule #</label>
               </Col>
@@ -54,7 +75,7 @@ class ConditionPlaceForm extends Component {
                   component={renderSwitch}
                 />
               </Col>
-            </Row>
+            </FormItem>
 
             <Field
               name="pointReward"
@@ -63,13 +84,18 @@ class ConditionPlaceForm extends Component {
               placeholder="1000"
             />
 
-            <Field
-              name="badgeReward"
-              label="Badge"
-              component={renderInputUpload}
-              placeholder="Image"
-              listType="picture-card"
-            />
+            <FormItem>
+              <Col span={8} className="ant-form-item-label">
+                <label>Badge</label>
+              </Col>
+              <Col span={16}>
+                <CloudinaryFileUpload
+                  file={this.state.file}
+                  onUpload={this.handleUploadWidget}
+                  onDelete={() => this.setState({ file: null })}
+                />
+              </Col>
+            </FormItem>
 
             {/* <Field
               name="notification"
@@ -97,7 +123,7 @@ class ConditionPlaceForm extends Component {
           <Col span={18}>
             <FieldArray
               name="dates"
-              component={PlaceFields}
+              component={DateFields}
             />
           </Col>
         </Row>
@@ -106,4 +132,4 @@ class ConditionPlaceForm extends Component {
   }
 }
 
-export default reduxForm({ form: 'ConditionPlaceForm' })(ConditionPlaceForm);
+export default reduxForm({ form: 'ConditionForm' })(ConditionForm);

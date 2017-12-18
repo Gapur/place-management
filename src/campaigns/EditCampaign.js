@@ -65,7 +65,7 @@ class EditCampaign extends Component {
               <Button.Group size="small">
                 <Button>
                   <Link to={`/campaigns/edit/${params.id}/event/new`}>
-                    <Icon type="plus" />New Condition
+                    <Icon type="plus" />New Event
                   </Link>
                 </Button>
                 <Button>
