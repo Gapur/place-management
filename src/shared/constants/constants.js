@@ -1,9 +1,3 @@
-export const USER_TYPES = [
-  { value: 'regulars', label: 'Regulars' },
-  { value: 'bloggers', label: 'Bloggers' },
-  { value: 'partners', label: 'Partners' },
-];
-
 export const CONDITION_TYPES = ['CHECK_IN', 'WRITE_STORY'];
 
 export const CREATE_SIDE = ['FRONTEND', 'BACKEND'];
@@ -39,6 +33,7 @@ export const PLACE_SOURCE = [
 export const USER_GROUP = [
   { value: 'USER', label: 'User' },
   { value: 'ADMIN', label: 'Admin' },
+  { value: 'OFFICIAL', label: 'Official' },
   { value: 'PARTNER', label: 'Partner' },
 ];
 

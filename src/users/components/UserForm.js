@@ -10,7 +10,7 @@ import {
   renderLabel,
   renderTextarea,
 } from '../../shared/utils/form_components';
-import { required, email, password } from '../../shared/utils/form_validations';
+import { required, email, password, username } from '../../shared/utils/form_validations';
 import { GENDERS, USER_GROUP } from '../../shared/constants/constants';
 import CloudinaryFileUpload from '../../shared/components/CloudinaryFileUpload';
 
@@ -47,7 +47,7 @@ class UserForm extends Component {
           <div className="is-right">
             <FormItem>
               <Button style={{ marginRight: 5 }}>
-                <Link to="/users/one-mappers/regulars">Cancel</Link>
+                <Link to="/users/admin">Cancel</Link>
               </Button>
               <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
             </FormItem>
@@ -152,7 +152,7 @@ class UserForm extends Component {
               label="User Name"
               component={renderInput}
               placeholder="@cristian"
-              validate={required}
+              validate={[required, username]}
             />
           </Col>
 

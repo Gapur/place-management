@@ -1,5 +1,6 @@
 const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
 const PHONE_NUMBER_REGEX = /^\(*\+*[1-9]{0,3}\)*-*[1-9]{0,3}[-. /]*\(*[2-9]\d{2}\)*[-. /]*\d{3}[-. /]*\d{4} *e*x*t*\.* *\d{0,4}$/;
+const USERNAME_REGEX = /[^a-z|^A-Z|@]/;
 
 export const required = (value) => value || value === 0 ? undefined : 'Required';
 
@@ -26,3 +27,6 @@ export const confirmation = (field, message = 'don\'t match') => (value, allValu
   value && value != allValues[field] ? message : undefined;
 
 export const isEmail = (value) => value && EMAIL_REGEX.test(value);
+
+export const username = (value) =>
+  value && USERNAME_REGEX.test(value) ? 'Invalid username' : undefined;

@@ -8,7 +8,7 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import UserForm from './components/UserForm';
-import { USER_TYPES, ENABLED, ONLINE_STATUS } from '../shared/constants/constants';
+import { USER_GROUP, ENABLED, ONLINE_STATUS } from '../shared/constants/constants';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
 class NewUser extends Component {
@@ -20,29 +20,29 @@ class NewUser extends Component {
 
   handleSubmit(values) {
     const { match: { params }, updateUser, signupUser, push } = this.props;
-    const userType = USER_TYPES.find(type => type.value == params.type);
+    const userType = USER_GROUP.find(group => group.value.toLowerCase() == params.type);
     return signupUser({ variables: { ...values } })
       .then((res) => updateUser({ variables: { ...values, id: res.data.signupUser.id } }))
-      .then(() => push(`/users/one-mappers/${userType.value}`))
+      .then(() => push(`/users/${userType.value}`))
       .catch(parseFormErrors);
   }
 
   render() {
     const { match: { params } } = this.props;
-    const userType = USER_TYPES.find(type => type.value == params.type);
+    const userType = USER_GROUP.find(group => group.value.toLowerCase() == params.type);
     const initialValues = {
       registrationDate: moment().format('L'),
       onlineStatus: ONLINE_STATUS[0].value,
       accountStatus: ENABLED[0].value,
+      username: "@",
     };
 
     return (
       <div id="new-place">
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/users">Users</Link></Breadcrumb.Item>
-          <Breadcrumb.Item>OneMappers</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to={`/users/one-mappers/${userType.value}`}>{userType.label}</Link>
+            <Link to={`/users/${userType.value.toLowerCase()}`}>{userType.label}</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>New User</Breadcrumb.Item>
         </Breadcrumb>

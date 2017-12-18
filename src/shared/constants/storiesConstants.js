@@ -17,14 +17,14 @@ export const storiesColumns = [{
 }, {
   title: 'Created By',
   dataIndex: 'createdBy',
-  sorter: (a, b) => a.createdBy - b.createdBy,
+  sorter: (a, b) => a.createdBy.length - b.createdBy.length,
   render: (value, record) => record && record.createdBy.username
 }, {
   title: 'Display Name',
   dataIndex: 'displayName',
-  sorter: (a, b) => a.displayName - b.displayName,
+  sorter: (a, b) => a.displayName.length - b.displayName.length,
   render: (value, record) =>
-    <Link to={`/users/one-mappers/edit/${record.createdBy.id}`}>
+    <Link to={`/users/admin/edit/${record.createdBy.id}`}>
       {record.createdBy.displayName}
     </Link>,
 }, {
@@ -37,6 +37,5 @@ export const storiesColumns = [{
 }, {
   title: 'Modified Date',
   dataIndex: 'updatedAt',
-  sorter: (a, b) => a.updatedAt - b.updatedAt,
   render: (value) => value && moment(value).format('L'),
 }];

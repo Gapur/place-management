@@ -7,7 +7,7 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import UserForm from './components/UserForm';
-import { USER_TYPES } from '../shared/constants/constants';
+import { USER_GROUP } from '../shared/constants/constants';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
 class EditUser extends Component {
@@ -19,15 +19,15 @@ class EditUser extends Component {
 
   handleSubmit(values) {
     const { match: { params }, updateUser, push } = this.props;
-    const userType = USER_TYPES.find(type => type.value == params.type);
+    const userType = USER_GROUP.find(group => group.value.toLowerCase() == params.type);
     return updateUser({ variables: { ...values, id: params.id } })
-      .then(() => push(`/users/one-mappers/${userType.value}`))
+      .then(() => push(`/users/${userType.value}`))
       .catch(parseFormErrors);
   }
 
   render() {
     const { match: { params }, fetchUser: { loading, User } } = this.props;
-    const userType = USER_TYPES.find(type => type.value == params.type);
+    const userType = USER_GROUP.find(group => group.value.toLowerCase() == params.type);
 
     if (loading) {
       return <div className="loader-indicator" />;
@@ -37,9 +37,8 @@ class EditUser extends Component {
       <div id="edit-place">
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/users">Users</Link></Breadcrumb.Item>
-          <Breadcrumb.Item>OneMappers</Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to={`/users/one-mappers/${userType.value}`}>{userType.label}</Link>
+            <Link to={`/users/${userType.value.toLowerCase()}`}>{userType.label}</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>Edit User</Breadcrumb.Item>
         </Breadcrumb>

@@ -8,7 +8,7 @@ export const usersColumns = (userType) => [{
   dataIndex: 'displayName',
   sorter: (a, b) => a.displayName.length - b.displayName.length,
   render: (value, record) =>
-    <Link to={`/users/one-mappers/${userType}/edit/${record.id}`}>
+    <Link to={`/users/${userType}/edit/${record.id}`}>
       {record.displayName || record.email}
     </Link>,
 }, {
@@ -21,21 +21,17 @@ export const usersColumns = (userType) => [{
 }, {
   title: 'Last Login',
   dataIndex: 'lastSeen',
-  sorter: (a, b) => a.lastSeen - b.lastSeen,
   render: (value) => value ? moment(value).format('L') : 'No logined',
 }, {
   title: 'User Name',
   dataIndex: 'username',
-  sorter: (a, b) => a.username - b.username,
   render: (value) => value ? value : 'No User Name',
 }, {
   title: 'City',
   dataIndex: 'city',
-  sorter: (a, b) => a.city - b.city,
 }, {
   title: 'Country',
   dataIndex: 'country',
-  sorter: (a, b) => a.country - b.country,
 }, , {
   title: 'Role',
   dataIndex: 'group',

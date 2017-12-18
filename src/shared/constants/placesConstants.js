@@ -18,25 +18,22 @@ export const placeColumns = [{
 }, {
   title: 'Created Date',
   dataIndex: 'createdAt',
-  sorter: (a, b) => a.createdAt - b.createdAt,
+  sorter: (a, b) => a.createdAt.length - b.createdAt.length,
   render: (value) => value && moment(value).format('L'),
 }, {
   title: 'Created By',
   dataIndex: 'createdBy',
-  sorter: (a, b) => a.createdBy - b.createdBy,
+  sorter: (a, b) => a.createdBy.length - b.createdBy.length,
   render: (value, record) => record && record.createdBy.username,
 }, {
   title: 'City',
   dataIndex: 'addressCityTown',
-  sorter: (a, b) => a.addressCityTown - b.addressCityTown,
 }, {
   title: 'Country',
   dataIndex: 'addressCountry',
-  sorter: (a, b) => a.addressCountry - b.addressCountry,
 }, {
   title: 'Source',
   dataIndex: 'source',
-  sorter: (a, b) => a.source - b.source,
   filters: PLACE_SOURCE.map(({ label, value }) => ({ text: label, value })),
   onFilter: (value, record) => record.source.indexOf(value) === 0,
 }];

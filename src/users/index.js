@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import { usersColumns } from '../shared/constants/usersConstants';
-import { USER_TYPES } from '../shared/constants/constants';
+import { USER_GROUP } from '../shared/constants/constants';
 
 class Users extends Component {
 
@@ -15,14 +15,15 @@ class Users extends Component {
       return <div className="loader-indicator" />;
     }
 
-    const dataSource = allUsers.map(user => ({ ...user, key: user.id }));
-    const userType = USER_TYPES.find(type => type.value == params.type);
+    const dataSource = allUsers
+      .filter(user => (user.group || []).includes((params.type || '').toUpperCase()))
+      .map(user => ({ ...user, key: user.id }));
+    const userType = USER_GROUP.find(group => group.value.toLowerCase() == params.type);
 
     return (
       <div id="users">
         <Breadcrumb>
           <Breadcrumb.Item>Users</Breadcrumb.Item>
-          <Breadcrumb.Item>OneMappers</Breadcrumb.Item>
           <Breadcrumb.Item>
             {userType && userType.label}
           </Breadcrumb.Item>
@@ -34,7 +35,7 @@ class Users extends Component {
             <div className="is-right">
               <Button.Group size="small">
                 <Button>
-                  <Link to={`/users/one-mappers/${userType.value}/new`}>
+                  <Link to={`/users/${userType.value.toLowerCase()}/new`}>
                     <Icon type="plus" />New User
                   </Link>
                 </Button>
@@ -46,7 +47,7 @@ class Users extends Component {
           </h4>
 
           <Table
-            columns={usersColumns(userType.value)}
+            columns={usersColumns(userType.value.toLowerCase())}
             dataSource={dataSource}
             expandedRowRender={record => <p className="no-margin">{record.description}</p>}
           />

@@ -16,34 +16,25 @@ const Sidebar = () => {
         <Link to="/" className="ic-logo" />
       </div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={['1']}>
-        <SubMenu
-          key="dashboard"
-          title={<span><Icon type="dashboard" /><span>Dashboard</span></span>}
-        >
-          <Menu.Item key="1">Option 1</Menu.Item>
-          <Menu.Item key="2">Option 2</Menu.Item>
-        </SubMenu>
+        <Menu.Item key="dashboard">
+          <Link to="/"><Icon type="dashboard" />Dashboard</Link>
+        </Menu.Item>
         <SubMenu
           key="users"
           title={<span><Icon type="user" /><span>Users</span></span>}
         >
-          <Menu.Item key="admins">
-            Admins
+          <Menu.Item key="admin">
+            <Link to="/users/admin">Admin</Link>
           </Menu.Item>
-          <SubMenu
-            key="onemappers"
-            title={<span>OneMappers</span>}
-          >
-            <Menu.Item key="bloggers">
-              <Link to="/users/one-mappers/bloggers">Bloggers</Link>
-            </Menu.Item>
-            <Menu.Item key="regulars">
-              <Link to="/users/one-mappers/regulars">Regulars</Link>
-            </Menu.Item>
-            <Menu.Item key="partners">
-              <Link to="/users/one-mappers/partners">Partners</Link>
-            </Menu.Item>
-          </SubMenu>
+          <Menu.Item key="users">
+            <Link to="/users/user">Users</Link>
+          </Menu.Item>
+          <Menu.Item key="official">
+            <Link to="/users/official">Officials</Link>
+          </Menu.Item>
+          <Menu.Item key="partner">
+            <Link to="/users/partner">Partners</Link>
+          </Menu.Item>
         </SubMenu>
         <Menu.Item key="places">
           <Link to="/places"><Icon type="book" />Places</Link>
