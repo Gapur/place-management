@@ -72,7 +72,7 @@ const CREATE_STORY = gql`
   mutation CreateStory(
     $title: String!,
     $story: String!,
-    $pictureURL: [Picture!]!,
+    $pictureURL: [String!],
     $status: StoryStatus!
     $hashtag: [String!]
     $placeId: ID,

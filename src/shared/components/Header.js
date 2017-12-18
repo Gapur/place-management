@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Layout, Form, Icon, Input, Row, Col, Menu, Dropdown } from 'antd';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 
 const FormItem = Form.Item;
 const Header = Layout.Header;
@@ -11,6 +13,9 @@ class AppHeader extends Component {
   }
 
   render() {
+    const { loggedInUserQuery, fetchUser } = this.props;
+    if (loggedInUserQuery.loading || fetchUser.loading) return null;
+
     const inputSuffix = <Icon type="search" style={{ color: 'rgba(0,0,0,.25)' }} />;
 
     const profileMenu = (
@@ -36,7 +41,8 @@ class AppHeader extends Component {
                 <Menu.Item>
                   <Dropdown overlay={profileMenu}>
                     <div>
-                      <span className="anticon circle online" />User Name
+                      <span className="anticon circle online" />
+                      {fetchUser.User ? fetchUser.User.displayName : fetchUser.User.email}
                       <Icon type="down" />
                     </div>
                   </Dropdown>
@@ -50,4 +56,39 @@ class AppHeader extends Component {
   }
 }
 
-export default AppHeader;
+const LOGGED_IN_USER_QUERY = gql`
+  query LoggedInUserQuery {
+    loggedInUser {
+      id
+    }
+  }
+`
+
+const FETCH_USER = gql`
+  query FetchUser($id: ID!) {
+    User(id: $id) {
+      displayName
+      email
+    }
+  }
+`
+
+const AppHeaderComponent = compose(
+  graphql(LOGGED_IN_USER_QUERY, {
+    name: 'loggedInUserQuery',
+    options: {
+      fetchPolicy: 'network-only',
+    }
+  }),
+  graphql(FETCH_USER, {
+    name: 'fetchUser',
+    options: (props) => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        id: props.loggedInUserQuery.loggedInUser.id,
+      },
+    })
+  }),
+)(AppHeader);
+
+export default AppHeaderComponent;

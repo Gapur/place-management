@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Button } from 'antd';
+import { Form, Button, Alert } from 'antd';
 import { Field, reduxForm } from 'redux-form';
 import { renderInput } from '../../shared/utils/form_components';
 import { required, password } from '../../shared/utils/form_validations';
@@ -14,7 +14,7 @@ class LoginForm extends Component {
     return (
       <Form layout="vertical" className="login-form" onSubmit={handleSubmit}>
 
-        {error && <FormItem><p className="is-danger">{error}</p></FormItem>}
+        {error && <FormItem><Alert type="error" message={error} closable /></FormItem>}
 
         <Field
           name="email"
@@ -34,7 +34,7 @@ class LoginForm extends Component {
         />
 
         <FormItem>
-          <Button type="primary" disabled={submitting} htmlType="submit" className="login-form-button">
+          <Button type="primary" loading={submitting} htmlType="submit" className="login-form-button">
             Log in
           </Button>
         </FormItem>

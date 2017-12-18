@@ -50,6 +50,7 @@ class EditStory extends Component {
             initialValues={initialValues}
             users={fetchUsers.allUsers}
             places={fetchPlaces.allPlaces}
+            hashtags={fetchStory.Story.hashtag}
             onSubmit={this.handleSubmit}
           />
         </div>
@@ -84,9 +85,7 @@ const FETCH_STORY = gql`
       updatedAt
       title
       story
-      pictureURL {
-        id
-      }
+      pictureURL
       hashtag
       status
       createdBy {
@@ -105,7 +104,7 @@ const UPDATE_STORY = gql`
     $id: ID!,
     $title: String!,
     $story: String!,
-    $pictureURL: [Picture!]!,
+    $pictureURL: [String!],
     $hashtag: [String!],
     $status: StoryStatus!,
     $placeId: ID,

@@ -31,7 +31,7 @@ class StoryForm extends Component {
     super(props);
 
     this.state = {
-      tags: [],
+      tags: props.hashtags || [],
       newTag: null,
       files: props.pictureURL || [],
     };

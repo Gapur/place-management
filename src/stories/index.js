@@ -56,9 +56,7 @@ const FETCH_STORIES = gql`
       title
       story
       status
-      pictureURL {
-        id
-      }
+      pictureURL
       hashtag
       createdBy {
         id
