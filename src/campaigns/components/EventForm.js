@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Button, Icon, Row, Col, Input } from 'antd';
+import { Form, Button, Icon, Row, Col, Input, Alert } from 'antd';
 import { Field, reduxForm } from 'redux-form';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
@@ -11,6 +11,7 @@ import {
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import CustomTags from '../../stories/components/CustomTags';
+import CloudinaryFileUpload from '../../shared/components/CloudinaryFileUpload';
 
 const FormItem = Form.Item;
 
@@ -20,16 +21,23 @@ class EventForm extends Component {
 
     this.state = {
       tags: [],
+      file: props.feedNotificationImg || null,
+      availableCities: [],
       newTag: null,
     };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.handleDeleteTag = this.handleDeleteTag.bind(this);
     this.handleUpdateTags = this.handleUpdateTags.bind(this);
+    this.handleUploadWidget = this.handleUploadWidget.bind(this);
   }
 
   onSubmit(values) {
-    this.props.onSubmit({ ...values, availableCities: this.state.tags });
+    this.props.onSubmit({
+      ...values,
+      availableCities: this.state.tags,
+      feedNotificationImg: this.state.file,
+    });
   }
 
   handleDeleteTag = (removedTag) => {
@@ -43,6 +51,13 @@ class EventForm extends Component {
     this.setState({ tags: newTags, newTag: null });
   }
 
+  handleUploadWidget() {
+    window.cloudinary.openUploadWidget(
+      { cloud_name: 'onemap-co', upload_preset: 'bztfvbid', tags: ['xmas'] },
+      (err, result) => result && this.setState({ file: result[0].secure_url })
+    );
+  }
+
   render() {
     const { handleSubmit, error, submitting } = this.props;
     const { tags, newTag } = this.state;
@@ -53,17 +68,20 @@ class EventForm extends Component {
           <div className="is-right">
             <FormItem>
               <Button style={{ marginRight: 5 }}>
-                <Link to="/campaigns">Cancel</Link>
+                <Link to="/campaigns/">Cancel</Link>
               </Button>
-              <Button type="primary" htmlType="submit">
-                <Icon type="save" />Save
+              <Button type="primary" loading={submitting} htmlType="submit">
+                Save
               </Button>
             </FormItem>
           </div>
         </Row>
+
+        {error && <Row><FormItem><Alert message={error} type="error" closable /></FormItem></Row>}
+
         <Row gutter={32}>
           <Col span={12}>
-            <Row>
+            <FormItem>
               <Col span={8} className="ant-form-item-label">
                 <label>Event Name</label>
               </Col>
@@ -82,13 +100,12 @@ class EventForm extends Component {
                   component={renderSwitch}
                 />
               </Col>
-            </Row>
+            </FormItem>
 
-            <Row>
+            <FormItem>
               <Col span={8} className="ant-form-item-label">
                 <label>Available in Cities</label>
               </Col>
-
               <Col span={16}>
                 <FormItem>
                   <CustomTags
@@ -101,7 +118,7 @@ class EventForm extends Component {
                   />
                 </FormItem>
               </Col>
-            </Row>
+            </FormItem>
 
             <Field
               name="description"
@@ -117,7 +134,20 @@ class EventForm extends Component {
               validate={required}
             />
 
-            <Row>
+            <FormItem>
+              <Col span={8} className="ant-form-item-label">
+                <label>Feed Notification Image</label>
+              </Col>
+              <Col span={16}>
+                <CloudinaryFileUpload
+                  file={this.state.file}
+                  onUpload={this.handleUploadWidget}
+                  onDelete={() => this.setState({ file: null })}
+                />
+              </Col>
+            </FormItem>
+
+            <FormItem>
               <Col span={8} className="ant-form-item-label">
                 <label>Push Notification</label>
               </Col>
@@ -125,6 +155,7 @@ class EventForm extends Component {
                 <Field
                   name="pushNotificationMsg"
                   component={renderInput}
+                  placeholder="Push Notification"
                 />
               </Col>
               <Col span={6} className="custom-switch">
@@ -134,7 +165,7 @@ class EventForm extends Component {
                   component={renderSwitch}
                 />
               </Col>
-            </Row>
+            </FormItem>
           </Col>
         </Row>
       </Form>

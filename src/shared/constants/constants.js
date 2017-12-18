@@ -51,4 +51,10 @@ export const CONDITION_PLACE_EVENT_TYPES = [
   { value: 'HEART', label: 'Heart' },
   { value: 'CHECK_IN', label: 'Check In' },
   { value: 'UN_HEART', label: 'Un Heart' },
-]
+];
+
+export const NOTIFICATION_TYPES = [
+  { value: 'NO', label: 'No' },
+  { value: 'NEAR_BY', label: 'Near By' },
+  { value: 'AWAY_FROM', label: 'Away From' },
+];

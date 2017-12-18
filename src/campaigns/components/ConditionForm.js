@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import { Form, Button, Row, Col, Input, Alert } from 'antd';
 import { Field, reduxForm, FieldArray } from 'redux-form';
 import { Link } from 'react-router-dom';
-import {
-  renderInput,
-  renderSelect,
-  renderSwitch,
-  renderInputUpload,
-} from '../../shared/utils/form_components';
+import { renderInput, renderSelect, renderSwitch } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import PlaceFields from './PlaceFields';
 import DateFields from './DateFields';
 import CloudinaryFileUpload from '../../shared/components/CloudinaryFileUpload';
+import { NOTIFICATION_TYPES } from '../../shared/constants/constants';
 
 const FormItem = Form.Item;
 
@@ -97,13 +93,13 @@ class ConditionForm extends Component {
               </Col>
             </FormItem>
 
-            {/* <Field
+            <Field
               name="notification"
               label="Notification"
               component={renderSelect}
               placeholder="Select Notification"
-              options={notifications}
-            /> */}
+              options={NOTIFICATION_TYPES}
+            />
 
             <Field
               name="distance"

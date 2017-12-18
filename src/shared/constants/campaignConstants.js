@@ -70,9 +70,6 @@ export const ruleColumns = [{
   title: 'Point',
   dataIndex: 'point',
 }, {
-  title: 'Badge',
-  dataIndex: 'badge',
-}, {
   title: 'Active',
   dataIndex: 'active',
   render: (text, record) => <span>{record.active ? 'Yes' : 'No'}</span>
@@ -86,7 +83,6 @@ export const ruleData = [{
   event: 'Check in 30s',
   datetime: 'Any',
   point: '100',
-  badge: 'offline',
   active: true,
 }, {
   key: '2',
@@ -96,7 +92,6 @@ export const ruleData = [{
   event: 'Sognkran',
   datetime: moment().format(),
   point: '200',
-  badge: 'online',
   active: false,
 }, {
   key: '3',
@@ -106,7 +101,6 @@ export const ruleData = [{
   event: 'Naurys',
   datetime: moment().format(),
   point: '500',
-  badge: 'online',
   active: true,
 }, {
   key: '4',
@@ -116,7 +110,6 @@ export const ruleData = [{
   event: 'Toy',
   datetime: moment().format(),
   point: '500',
-  badge: 'online',
   active: true,
 }];
 

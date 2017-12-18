@@ -18,9 +18,10 @@ class NewCondition extends Component {
 
   handleSubmit(values) {
     const { createCondition, push, match: { params } } = this.props;
-    return createCondition({ variables: { ...values } })
-      .then(() => push(`/campaigns/edit/${params.id}`))
-      .catch(parseFormErrors);
+    console.log(values);
+    // return createCondition({ variables: { ...values } })
+    //   .then(() => push(`/campaigns/edit/${params.id}`))
+    //   .catch(parseFormErrors);
   }
 
   render() {

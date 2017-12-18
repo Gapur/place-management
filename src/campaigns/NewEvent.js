@@ -19,9 +19,9 @@ class NewEvent extends Component {
   handleSubmit(values) {
     const { createEvent, push, match: { params } } = this.props;
     console.log(values);
-    return createEvent({ variables: { ...values } })
-      .then(() => push(`/campaigns/edit/${params.campaignId}`))
-      .catch(parseFormErrors);
+    // return createEvent({ variables: { ...values } })
+    //   .then(() => push(`/campaigns/edit/${params.campaignId}`))
+    //   .catch(parseFormErrors);
   }
 
   render() {
