@@ -9,11 +9,11 @@ import {
   renderSelect,
   renderLabel,
   renderTextarea,
-  renderInputUpload,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import { STORY_STATUS } from '../../shared/constants/constants';
 import CustomTags from './CustomTags';
+import CloudinaryFilesUpload from '../../shared/components/CloudinaryFilesUpload';
 
 const FormItem = Form.Item;
 
@@ -33,15 +33,34 @@ class StoryForm extends Component {
     this.state = {
       tags: [],
       newTag: null,
+      files: props.pictureURL || [],
     };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.handleDeleteTag = this.handleDeleteTag.bind(this);
     this.handleUpdateTags = this.handleUpdateTags.bind(this);
+    this.handleDeletePicture = this.handleDeletePicture.bind(this);
+    this.handleUploadWidget = this.handleUploadWidget.bind(this);
+  }
+
+  handleDeletePicture(pictureFile) {
+    const files = this.state.files.filter(file => file != pictureFile);
+    this.setState({ files });
+  }
+
+  handleUploadWidget() {
+    window.cloudinary.openUploadWidget(
+      { cloud_name: 'onemap-co', upload_preset: 'bztfvbid', tags: ['xmas'] },
+      (err, result) => {
+        const files = result.map(res => res.secure_url).concat(this.state.files);
+        this.setState({ files });
+      }
+    );
   }
 
   onSubmit(values) {
-    return this.props.onSubmit({ ...values, hashtag: this.state.tags });
+    const { files, tags } = this.state;
+    return this.props.onSubmit({ ...values, hashtag: tags, pictureURL: files });
   }
 
   handleDeleteTag = (removedTag) => {
@@ -133,14 +152,18 @@ class StoryForm extends Component {
           </Col>
 
           <Col span={8}>
-            <Field
-              name="pictureURL"
-              label="Story Picture"
-              component={renderInputUpload}
-              placeholder="Upload Picture"
-              multiple
-              listType="picture-card"
-            />
+            <FormItem>
+              <Col span={8} className="ant-form-item-label">
+                <label>Story Picture</label>
+              </Col>
+              <Col span={16}>
+                <CloudinaryFilesUpload
+                  files={this.state.files}
+                  onUpload={this.handleUploadWidget}
+                  onDelete={(file) => this.handleDeletePicture(file)}
+                />
+              </Col>
+            </FormItem>
 
             {createdAt &&
               <Field

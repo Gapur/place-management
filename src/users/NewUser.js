@@ -4,7 +4,7 @@ import { Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import moment from 'moment';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import UserForm from './components/UserForm';
@@ -19,9 +19,10 @@ class NewUser extends Component {
   }
 
   handleSubmit(values) {
-    const { match: { params }, createUser, push } = this.props;
+    const { match: { params }, updateUser, signupUser, push } = this.props;
     const userType = USER_TYPES.find(type => type.value == params.type);
-    return createUser({ variables: { ...values } })
+    return signupUser({ variables: { ...values } })
+      .then((res) => updateUser({ variables: { ...values, id: res.data.signupUser.id } }))
       .then(() => push(`/users/one-mappers/${userType.value}`))
       .catch(parseFormErrors);
   }
@@ -59,19 +60,17 @@ class NewUser extends Component {
   }
 }
 
-const CREATE_USER = gql`
-  mutation CreateUser(
+const UPDATE_USER = gql`
+  mutation UpdateUser(
+    $id: ID!,
     $firstName: String!,
     $lastName: String!,
-    $email: String,
-    $password: String,
     $displayName: String
     $gender: Gender,
     $birthdate: String,
     $country: String,
     $city: String,
     $mobile: String,
-    $username: String,
     $photoURL: String,
     $bio: String,
     $registrationDate: String
@@ -80,18 +79,16 @@ const CREATE_USER = gql`
     $group: [UserGroup!]
     $accountStatus: Enabled!
   ) {
-    createUser(
+    updateUser(
+      id: $id
       firstName: $firstName
       lastName: $lastName
-      email: $email
-      password: $password
       displayName: $displayName
       gender: $gender
       birthdate: $birthdate
       country: $country
       city: $city
       mobile: $mobile
-      username: $username
       photoURL: $photoURL
       bio: $bio
       registrationDate: $registrationDate
@@ -105,11 +102,27 @@ const CREATE_USER = gql`
   }
 `
 
-const NewUserScreen = graphql(CREATE_USER, {
-  name: 'createUser',
-  options: {
-    fetchPolicy: 'network-only',
-  },
-})(NewUser);
+const SIGN_UP = gql`
+  mutation SignUp($email: String!, $password: String!){
+    signupUser(email: $email, password: $password) {
+      id
+    }
+  }
+`
+
+const NewUserScreen = compose(
+  graphql(UPDATE_USER, {
+    name: 'updateUser',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(SIGN_UP, {
+    name: 'signupUser',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+)(NewUser);
 
 export default connect(null, { push })(NewUserScreen);

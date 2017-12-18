@@ -14,6 +14,7 @@ import {
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import { PLACE_SOURCE, ENABLED } from '../../shared/constants/constants';
+import CloudinaryFilesUpload from '../../shared/components/CloudinaryFilesUpload';
 
 const FormItem = Form.Item;
 
@@ -52,31 +53,6 @@ class PlaceForm extends Component {
         const files = result.map(res => res.secure_url).concat(this.state.files);
         this.setState({ files });
       }
-    );
-  }
-
-  renderCloudinaryUpload() {
-    return (
-      <div className="couldinary">
-        {this.state.files.map(file =>
-          <div key={file} className="ant-upload-list ant-upload-list-picture-card">
-            <div className="ant-upload-list-item ant-upload-list-item-done">
-              <div className="ant-upload-list-item-info">
-                <img className="couldinary-img" src={file} alt="profile" />
-              </div>
-              <div className="ant-upload-list-item-actions">
-                <Icon type="delete" onClick={() => this.handleDeletePicture(file)} />
-              </div>
-            </div>
-          </div>
-        )}
-        <div className="ant-upload ant-upload-select-picture-card" onClick={this.handleUploadWidget}>
-          <span className="ant-upload">
-            <Icon type="plus" />
-            <div className="ant-upload-text">Upload</div>
-          </span>
-        </div>
-      </div>
     );
   }
 
@@ -236,7 +212,11 @@ class PlaceForm extends Component {
                 <label>Profile Picture</label>
               </Col>
               <Col span={16}>
-                {this.renderCloudinaryUpload()}
+                <CloudinaryFilesUpload
+                  files={this.state.files}
+                  onUpload={this.handleUploadWidget}
+                  onDelete={(file) => this.handleDeletePicture(file)}
+                />
               </Col>
             </FormItem>
 

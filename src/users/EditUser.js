@@ -119,20 +119,7 @@ const UPDATE_USER = gql`
       bio: $bio
       group: $group
     ) {
-      firstName
-      lastName
-      email
-      password
-      gender
-      displayName
-      birthdate
-      country
-      city
-      mobile
-      username
-      photoURL
-      bio
-      group
+      id
     }
   }
 `

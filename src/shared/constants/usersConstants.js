@@ -9,7 +9,7 @@ export const usersColumns = (userType) => [{
   sorter: (a, b) => a.displayName.length - b.displayName.length,
   render: (value, record) =>
     <Link to={`/users/one-mappers/${userType}/edit/${record.id}`}>
-      {record.displayName}
+      {record.displayName || record.email}
     </Link>,
 }, {
   title: 'Status',
