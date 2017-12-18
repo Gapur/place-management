@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Breadcrumb, Divider, Table } from 'antd';
+import { Breadcrumb, Divider, Table, Button, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import { push } from 'react-router-redux';
 import { graphql, compose } from 'react-apollo';
@@ -26,7 +26,7 @@ class EditCampaign extends Component {
   }
 
   render() {
-    const { fetchCampaigns, fetchPlaces, fetchUsers } = this.props;
+    const { fetchCampaigns, fetchPlaces, fetchUsers, match: { params } } = this.props;
 
     if (fetchPlaces.loading || fetchCampaigns.loading || fetchUsers.loading) {
       return <div className="loader-indicator" />;
@@ -59,7 +59,21 @@ class EditCampaign extends Component {
 
           <Divider />
 
-          <h4>Events Calendar</h4>
+          <h4>
+            Events Calendar
+            <div className="is-right">
+              <Button.Group size="small">
+                <Button>
+                  <Link to={`/campaigns/edit/${params.id}/event/new`}>
+                    <Icon type="plus" />New Condition
+                  </Link>
+                </Button>
+                <Button>
+                  Report<Icon type="down" />
+                </Button>
+              </Button.Group>
+            </div>
+          </h4>
 
           <Table
             columns={eventColumns}
@@ -68,14 +82,28 @@ class EditCampaign extends Component {
 
           <Divider />
 
-          <h4>Rules</h4>
+          <h4>
+            Condition
+            <div className="is-right">
+              <Button.Group size="small">
+                <Button>
+                  <Link to={`/campaigns/edit/${params.id}/condition/new`}>
+                    <Icon type="plus" />New Condition
+                  </Link>
+                </Button>
+                <Button>
+                  Report<Icon type="down" />
+                </Button>
+              </Button.Group>
+            </div>
+          </h4>
 
           <Table
             columns={ruleColumns}
             dataSource={ruleData}
           />
         </div>
-      </div>    
+      </div>
     );
   }
 }

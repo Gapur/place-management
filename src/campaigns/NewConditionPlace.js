@@ -19,7 +19,7 @@ class NewConditionPlace extends Component {
   handleSubmit(values) {
     const { createCampaign, push, match: { params } } = this.props;
     return createCampaign({ variables: { ...values } })
-      .then(() => push(`/campaigns/edit/${params.campaignId}`))
+      .then(() => push(`/campaigns/edit/${params.id}`))
       .catch(parseFormErrors);
   }
 
@@ -30,7 +30,7 @@ class NewConditionPlace extends Component {
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/campaigns">Campaigns</Link></Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to={`/campaigns/edit/${params.campaignId || 1}`}>Edit Campaign</Link>
+            <Link to={`/campaigns/edit/${params.id || 1}`}>Edit Campaign</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>New Condition Place</Breadcrumb.Item>
         </Breadcrumb>

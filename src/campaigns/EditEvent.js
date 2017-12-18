@@ -18,8 +18,8 @@ class EditEvent extends Component {
 
   handleSubmit(values) {
     const { match: { params }, updateEvent, push } = this.props;
-    return updateEvent({ variables: { ...values, id: params.campaignId } })
-      .then(() => push(`/campaigns/edit/${params.campaignId}`))
+    return updateEvent({ variables: { ...values, id: params.id } })
+      .then(() => push(`/campaigns/edit/${params.id}`))
       .catch(parseFormErrors);
   }
 
@@ -34,7 +34,7 @@ class EditEvent extends Component {
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/campaigns">Campaigns</Link></Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to={`/campaigns/edit/${params.campaignId || 1}`}>Edit Campaign</Link>
+            <Link to={`/campaigns/edit/${params.id || 1}`}>Edit Campaign</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>Edit Event</Breadcrumb.Item>
         </Breadcrumb>

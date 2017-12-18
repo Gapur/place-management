@@ -46,7 +46,7 @@ class MainLayout extends Component {
             <Route exact path="/campaigns/edit/:id" component={EditCampaignScreen} />
             <Route exact path="/campaigns/edit/:id/event/new" component={NewEventScreen} />
             <Route exact path="/campaigns/edit/:id/event/edit/:eventId" component={EditEventScreen} />
-            <Route exact path="/campaigns/edit/:id/condition/new" compoPlacenent={NewConditionPlaceScreen} />
+            <Route exact path="/campaigns/edit/:id/condition/new" component={NewConditionPlaceScreen} />
             <Route exact path="/campaigns/edit/:id/condition/edit/:conditionId" component={EditConditionPlaceScreen} />
           </Content>
         </Layout>

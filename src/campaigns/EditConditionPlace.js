@@ -35,7 +35,7 @@ class EditConditionPlace extends Component {
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/campaigns">Campaigns</Link></Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to={`/campaigns/edit/${params.campaignId || 1}`}>Edit Campaign</Link>
+            <Link to={`/campaigns/edit/${params.id || 1}`}>Edit Campaign</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>Edit Condition</Breadcrumb.Item>
         </Breadcrumb>
