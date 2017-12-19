@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Select, DatePicker, Upload, Icon, Switch } from 'antd';
+import { Form, Input, Select, DatePicker, Upload, Icon, Switch, InputNumber } from 'antd';
 import PlacesAutocomplete from 'react-places-autocomplete';
 import moment from 'moment';
 import _ from 'lodash';
@@ -46,9 +46,15 @@ export const renderInput = (props) => render(props, (inputProps) => {
   );
 });
 
+export const renderInputNumber = (props) => render(props, (inputProps) => {
+  return (
+    <InputNumber min={0} max={1000000} {...inputProps} />
+  );
+});
+
 export const renderSelect = ({ options, ...props }) => render(props, ({ value, ...inputProps }) => {
   return (
-    <Select {...props} value={value || undefined}>
+    <Select {...inputProps} value={value || undefined}>
       {options.map(({ value, label }) => <Option key={value} value={value}>{label}</Option>)}
     </Select>
   );

@@ -22,72 +22,23 @@ export const eventColumns = (campaignId) => [{
   render: (value, record) => <span>{record.active ? 'Yes' : 'No'}</span>
 }];
 
-export const ruleColumns = [{
-  title: 'Rule',
-  dataIndex: 'rule',
-  render: (text, record) => <Link to={`/campaigns/edit/${record.key}/rule/edit/${record.key}`}>{record.rule}</Link>,
-}, {
-  title: 'Place(s)',
-  dataIndex: 'place',
-  sorter: (a, b) => a.place.length - b.place.length,
+export const conditionColumns = (campaignId) => [{
+  title: 'Condition Name',
+  dataIndex: 'name',
+  render: (text, record) =>
+    <Link to={`/campaigns/edit/${campaignId}/condition/edit/${record.key}`}>{record.name}</Link>,
 }, {
   title: 'Notification',
-  dataIndex: 'notification',
-  sorter: (a, b) => a.notification.length - b.notification.length,
-}, {
-  title: 'Event',
-  dataIndex: 'event',
-  sorter: (a, b) => a.event.length - b.event.length,
-}, {
-  title: 'Date Time',
-  dataIndex: 'datetime',
+  dataIndex: 'notificationType',
+  sorter: (a, b) => a.notificationType.length - b.notificationType.length,
 }, {
   title: 'Point',
-  dataIndex: 'point',
+  dataIndex: 'pointReward',
 }, {
   title: 'Active',
   dataIndex: 'active',
   render: (text, record) => <span>{record.active ? 'Yes' : 'No'}</span>
 }];
-
-export const ruleData = [{
-  key: '1',
-  rule: '#RO1234',
-  place: 'Startup Cafe, Chiang Mai',
-  notification: 'Nearby 300m',
-  event: 'Check in 30s',
-  datetime: 'Any',
-  point: '100',
-  active: true,
-}, {
-  key: '2',
-  rule: '#RO1234',
-  place: 'Startup Cafe, Chiang Mai',
-  notification: 'Nearby 300m',
-  event: 'Sognkran',
-  datetime: moment().format(),
-  point: '200',
-  active: false,
-}, {
-  key: '3',
-  rule: '#RO1234',
-  place: 'Startup Cafe, Chiang Mai',
-  notification: 'Nearby 300m',
-  event: 'Naurys',
-  datetime: moment().format(),
-  point: '500',
-  active: true,
-}, {
-  key: '4',
-  rule: '#RO1234',
-  place: 'Startup Cafe, Chiang Mai',
-  notification: 'Nearby 300m',
-  event: 'Toy',
-  datetime: moment().format(),
-  point: '500',
-  active: true,
-}];
-
 
 export const campaignColumns = [{
   title: 'Campaign Name',

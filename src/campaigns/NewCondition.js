@@ -18,14 +18,17 @@ class NewCondition extends Component {
 
   handleSubmit(values) {
     const { createCondition, push, match: { params } } = this.props;
-    console.log(values);
-    // return createCondition({ variables: { ...values } })
-    //   .then(() => push(`/campaigns/edit/${params.id}`))
-    //   .catch(parseFormErrors);
+    return createCondition({ variables: { ...values, type: "CHECK_IN", campaignId: params.id } })
+      .then(() => push(`/campaigns/edit/${params.id}`))
+      .catch(parseFormErrors);
   }
 
   render() {
-    const { match: { params } } = this.props;
+    const { match: { params }, fetchPlaces } = this.props;
+    if (fetchPlaces.loading) {
+      return <div className="loader-indicator" />;
+    }
+
     return (
       <div id="new-condition">
         <Breadcrumb>
@@ -39,12 +42,24 @@ class NewCondition extends Component {
         <div className="container">
           <h3>New Condition</h3>
 
-          <ConditionForm onSubmit={this.handleSubmit} />
+          <ConditionForm
+            places={fetchPlaces.allPlaces}
+            onSubmit={this.handleSubmit}
+          />
         </div>
       </div>
     );
   }
 }
+
+const FETCH_PLACES = gql`
+  query FetchPlaces {
+    allPlaces {
+      id
+      placeName
+    }
+  }
+`
 
 const CREATE_CONDITION = gql`
   mutation CreateCondition(
@@ -52,26 +67,46 @@ const CREATE_CONDITION = gql`
     $pointReward: Int!,
     $active: Boolean,
     $distance: Int!,
-    $fromDate: String!,
-    $toDate: String!,
+    $notificationType: NotificatiionType,
+    $type: ConditionTypes!,
+    $badgeReward: String!,
+    $places: [ConditionplacesConditionPlace!]!,
+    $dates: [ConditiondatesConditionDate!]!,
+    $campaignId: ID,
   ) {
     createCondition(
       name: $name
       pointReward: $pointReward
       active: $active
       distance: $distance
-      fromDate: $fromDate
-      toDate: $toDate
+      notificationType: $notificationType
+      type: $type
+      badgeReward: {
+        name: "badge",
+        photoURL: $badgeReward
+      }
+      places: $places
+      dates: $dates
+      campaignId: $campaignId
     ) {
       id
     }
   }
 `
-const NewConditionScreen = graphql(CREATE_CONDITION, {
-  name: 'createCondition',
-  options: {
-    fetchPolicy: 'network-only',
-  },
-})(NewCondition);
+
+const NewConditionScreen = compose(
+  graphql(FETCH_PLACES, {
+    name: 'fetchPlaces',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(CREATE_CONDITION, {
+    name: 'createCondition',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+)(NewCondition);
 
 export default connect(null, { push })(NewConditionScreen);

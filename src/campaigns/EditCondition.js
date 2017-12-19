@@ -18,17 +18,24 @@ class EditCondition extends Component {
 
   handleSubmit(values) {
     const { match: { params }, updateCondition, push } = this.props;
-    return updateCondition({ variables: { ...values, id: params.id } })
+    console.log(values);
+    return updateCondition({ variables: { ...values, id: params.conditionId } })
       .then(() => push(`/campaigns/edit/${params.id}`))
       .catch(parseFormErrors);
   }
 
   render() {
-    const { match: { params }, fetchCondition } = this.props;
+    const { match: { params }, fetchCondition, fetchPlaces } = this.props;
 
-    if (fetchCondition.loading) {
+    if (fetchCondition.loading || fetchPlaces.loading) {
       return <div className="loader-indicator" />;
     }
+
+    const initialValues = {
+      ...fetchCondition.Condition,
+      places: fetchCondition.Condition.places.map(place => ({ placeId: place.place.id, event: place.event, distance: place.distance })),
+      dates: fetchCondition.Condition.dates.map(({ fromDateTime, toDateTime }) => ({ fromDateTime, toDateTime })),
+    };
 
     return (
       <div id="edit-condition">
@@ -44,7 +51,9 @@ class EditCondition extends Component {
           <h3>Edit Condition</h3>
 
           <ConditionForm
-            initialValues={fetchCondition.Condition}
+            initialValues={initialValues}
+            places={fetchPlaces.allPlaces}
+            badgeReward={fetchCondition.Condition.badgeReward.photoURL}
             onSubmit={this.handleSubmit}
           />
         </div>
@@ -53,19 +62,40 @@ class EditCondition extends Component {
   }
 }
 
+const FETCH_PLACES = gql`
+  query FetchPlaces {
+    allPlaces {
+      id
+      placeName
+    }
+  }
+`
+
 const FETCH_CONDITION = gql`
   query FetchCondition($id: ID!) {
     Condition(id: $id) {
       id
+      name
+      notificationType
       pointReward
       active
       distance
-      fromDateTime
-      toDateTime
       badgeReward {
         id
         name
         photoURL
+      }
+      places {
+        place {
+          id
+          placeName
+        }
+        event
+        distance
+      }
+      dates {
+        fromDateTime
+        toDateTime
       }
     }
   }
@@ -74,21 +104,24 @@ const FETCH_CONDITION = gql`
 const UPDATE_CONDITION = gql`
   mutation UpdateCondition(
     $id: ID!,
+    $name: String!,
     $pointReward: Int!,
     $active: Boolean,
-    $badgeRewardId: ID!,
     $distance: Int!,
-    $fromDateTime: DateTime!,
-    $toDateTime: DateTime!,
+    $notificationType: NotificatiionType,
+    $badgeReward: String!,
   ) {
     updateCondition (
       id: $id
+      name: $name
       pointReward: $pointReward
       active: $active
       distance: $distance
-      fromDateTime: $fromDateTime
-      toDateTime: $toDateTime
-      badgeRewardId: $badgeRewardId
+      notificationType: $notificationType
+      badgeReward: {
+        name: "badge",
+        photoURL: $badgeReward
+      }
     ) {
       id
     }
@@ -96,12 +129,18 @@ const UPDATE_CONDITION = gql`
 `
 
 const EditConditionScreen = compose(
+  graphql(FETCH_PLACES, {
+    name: 'fetchPlaces',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
   graphql(FETCH_CONDITION, {
     name: 'fetchCondition',
     options: ({ match }) => ({
       fetchPolicy: 'network-only',
       variables: {
-        id: match.params.campaignId,
+        id: match.params.conditionId,
       },
     }),
   }),

@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
 import CampaignForm from './components/CampaignForm';
 import { parseFormErrors } from '../shared/utils/form_errors';
 
-import { ruleColumns, ruleData, eventColumns, eventData } from '../shared/constants/campaignConstants';
+import { conditionColumns, eventColumns } from '../shared/constants/campaignConstants';
 
 class EditCampaign extends Component {
   constructor(props) {
@@ -26,9 +26,10 @@ class EditCampaign extends Component {
   }
 
   render() {
-    const { fetchCampaign, fetchPlaces, fetchUsers, fetchEventTables, match: { params } } = this.props;
+    const { fetchCampaign, fetchPlaces, fetchUsers, fetchEventTables, fetchConditions, match: { params } } = this.props;
 
-    if (fetchPlaces.loading || fetchCampaign.loading || fetchUsers.loading || fetchEventTables.loading) {
+    if (fetchPlaces.loading || fetchCampaign.loading || fetchUsers.loading
+      || fetchEventTables.loading || fetchConditions.loading) {
       return <div className="loader-indicator" />;
     }
 
@@ -40,6 +41,8 @@ class EditCampaign extends Component {
 
     const dataSourceEvent = fetchEventTables.allEventTables.map(eventTable =>
       ({ key: eventTable.id, ...eventTable }));
+    const dataSourceCondition = fetchConditions.allConditions.map(condition =>
+      ({ key: condition.id, ...condition }));
 
     return (
       <div id="edit-campaign">
@@ -102,8 +105,8 @@ class EditCampaign extends Component {
           </h4>
 
           <Table
-            columns={ruleColumns}
-            dataSource={ruleData}
+            columns={conditionColumns(params.id)}
+            dataSource={dataSourceCondition}
           />
         </div>
       </div>
@@ -170,6 +173,22 @@ const FETCH_EVENT_TABLES = gql`
   }
 `
 
+const FETCH_CONDITIONS = gql`
+  query FetchConditions($campaignId: ID) {
+    allConditions(filter: {
+      campaign: {
+        id: $campaignId
+      }
+    }) {
+      id
+      name
+      notificationType
+      pointReward
+      active
+    }
+  }
+`
+
 const UPDATE_CAMPAIGN = gql`
   mutation UpdateCampaign(
     $id: ID!,
@@ -230,6 +249,15 @@ const EditCampaignScreen = compose(
   }),
   graphql(FETCH_EVENT_TABLES, {
     name: 'fetchEventTables',
+    options: ({ match }) => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        id: match.params.id,
+      },
+    }),
+  }),
+  graphql(FETCH_CONDITIONS, {
+    name: 'fetchConditions',
     options: ({ match }) => ({
       fetchPolicy: 'network-only',
       variables: {

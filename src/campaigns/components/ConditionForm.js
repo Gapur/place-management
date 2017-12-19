@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button, Row, Col, Input, Alert } from 'antd';
 import { Field, reduxForm, FieldArray } from 'redux-form';
 import { Link } from 'react-router-dom';
-import { renderInput, renderSelect, renderSwitch } from '../../shared/utils/form_components';
+import { renderInput, renderSelect, renderSwitch, renderInputNumber } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import PlaceFields from './PlaceFields';
 import DateFields from './DateFields';
@@ -33,19 +33,17 @@ class ConditionForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting } = this.props;
+    const { handleSubmit, error, submitting, places } = this.props;
 
     return (
-      <Form layout="vertical" onSubmit={handleSubmit}>
-        <Row>
-          <div className="is-right">
-            <FormItem>
-              <Button style={{ marginRight: 5 }}>
-                <Link to="/campaigns">Cancel</Link>
-              </Button>
-              <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
-            </FormItem>
-          </div>
+      <Form layout="vertical" onSubmit={handleSubmit(this.onSubmit)}>
+        <Row type="flex" justify="end">
+          <FormItem>
+            <Button style={{ marginRight: 5 }}>
+              <Link to="/campaigns">Cancel</Link>
+            </Button>
+            <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
+          </FormItem>
         </Row>
 
         {error && <Row><FormItem><Alert message={error} type="error" closable /></FormItem></Row>}
@@ -54,13 +52,13 @@ class ConditionForm extends Component {
           <Col span={12}>
             <FormItem>
               <Col span={8} className="ant-form-item-label">
-                <label>Rule #</label>
+                <label>Name</label>
               </Col>
               <Col span={10}>
                 <Field
-                  name="rule"
+                  name="name"
                   component={renderInput}
-                  placeholder="#RO1234"
+                  placeholder="Condition Name"
                   validate={required}
                 />
               </Col>
@@ -76,8 +74,9 @@ class ConditionForm extends Component {
             <Field
               name="pointReward"
               label="Point"
-              component={renderInput}
+              component={renderInputNumber}
               placeholder="1000"
+              normalize={val => parseInt(val)}
             />
 
             <FormItem>
@@ -94,7 +93,7 @@ class ConditionForm extends Component {
             </FormItem>
 
             <Field
-              name="notification"
+              name="notificationType"
               label="Notification"
               component={renderSelect}
               placeholder="Select Notification"
@@ -104,13 +103,15 @@ class ConditionForm extends Component {
             <Field
               name="distance"
               label="Distance (m)"
-              component={renderInput}
+              component={renderInputNumber}
               placeholder="3000"
+              normalize={val => parseInt(val)}
             />
           </Col>
 
           <Col span={18}>
             <FieldArray
+              places={places}
               name="places"
               component={PlaceFields}
             />

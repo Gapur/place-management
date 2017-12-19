@@ -1,15 +1,16 @@
 import React from 'react';
 import { Field } from 'redux-form';
 import { Form, Button, Icon, Row, Col, Input } from 'antd';
-import { renderInput, renderSelect } from '../../shared/utils/form_components';
+import { renderInput, renderSelect, renderInputNumber } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import { CONDITION_PLACE_EVENT_TYPES } from '../../shared/constants/constants';
 
 const FormItem = Form.Item;
 
-const PlaceFields = ({ fields, label }) => {
+const PlaceFields = ({ fields, label, places }) => {
   if (fields.length == 0) fields.push({});
   const lastIdx = fields.length - 1;
+  const placeOptions = places.map(place => ({ value: place.id, label: place.placeName }));
 
   return (
     <div className="form-fields">
@@ -18,9 +19,10 @@ const PlaceFields = ({ fields, label }) => {
           <Row key={place} gutter={8}>
             <Col span={6}>
               <Field
-                name={`${place}.place`}
-                component={renderInput}
+                name={`${place}.placeId`}
+                component={renderSelect}
                 label="Place(s)"
+                options={placeOptions}
                 placeholder="Place(s)"
                 validate={index == lastIdx ? null : required}
               />
@@ -41,9 +43,10 @@ const PlaceFields = ({ fields, label }) => {
               <Field
                 name={`${place}.distance`}
                 label="Distance(m)"
-                component={renderInput}
+                component={renderInputNumber}
                 placeholder="Distance"
                 validate={index == lastIdx ? null : required}
+                normalize={val => parseInt(val)}
               />
             </Col>
 
