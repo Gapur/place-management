@@ -26,17 +26,20 @@ class EditCampaign extends Component {
   }
 
   render() {
-    const { fetchCampaigns, fetchPlaces, fetchUsers, match: { params } } = this.props;
+    const { fetchCampaign, fetchPlaces, fetchUsers, fetchEventTables, match: { params } } = this.props;
 
-    if (fetchPlaces.loading || fetchCampaigns.loading || fetchUsers.loading) {
+    if (fetchPlaces.loading || fetchCampaign.loading || fetchUsers.loading || fetchEventTables.loading) {
       return <div className="loader-indicator" />;
     }
 
     const initialValues = {
-      ...fetchCampaigns.Campaign,
-      partnerId: fetchCampaigns.Campaign.partner.id,
-      placeId: fetchCampaigns.Campaign.defaultPlace.id,
+      ...fetchCampaign.Campaign,
+      partnerId: fetchCampaign.Campaign.partner.id,
+      placeId: fetchCampaign.Campaign.defaultPlace.id,
     };
+
+    const dataSourceEvent = fetchEventTables.allEventTables.map(eventTable =>
+      ({ key: eventTable.id, ...eventTable }));
 
     return (
       <div id="edit-campaign">
@@ -52,8 +55,8 @@ class EditCampaign extends Component {
             initialValues={initialValues}
             places={fetchPlaces.allPlaces}
             users={fetchUsers.allUsers}
-            feedNotificationImg={fetchCampaigns.Campaign.feedNotificationImg}
-            photoUrl={fetchCampaigns.Campaign.photoUrl}
+            feedNotificationImg={fetchCampaign.Campaign.feedNotificationImg}
+            photoUrl={fetchCampaign.Campaign.photoUrl}
             onSubmit={this.handleSubmit}
           />
 
@@ -76,8 +79,8 @@ class EditCampaign extends Component {
           </h4>
 
           <Table
-            columns={eventColumns}
-            dataSource={eventData}
+            columns={eventColumns(params.id)}
+            dataSource={dataSourceEvent}
           />
 
           <Divider />
@@ -126,7 +129,7 @@ const FETCH_PLACES = gql`
   }
 `
 const FETCH_CAMPAIGN = gql`
-  query FetchCampaigns($id: ID!) {
+  query FetchCampaign($id: ID!) {
     Campaign(id: $id) {
       id
       createdAt
@@ -147,6 +150,22 @@ const FETCH_CAMPAIGN = gql`
       feedNotificationActive
       feedNotificationImg
       feedNotificationMsg
+    }
+  }
+`
+
+const FETCH_EVENT_TABLES = gql`
+  query FetchEventTables($campaignId: ID) {
+    allEventTables(filter: {
+      campaign: {
+        id: $campaignId
+      }
+    }) {
+      id
+      name
+      fromDateTime
+      toDateTime
+      active
     }
   }
 `
@@ -201,7 +220,16 @@ const EditCampaignScreen = compose(
     },
   }),
   graphql(FETCH_CAMPAIGN, {
-    name: 'fetchCampaigns',
+    name: 'fetchCampaign',
+    options: ({ match }) => ({
+      fetchPolicy: 'network-only',
+      variables: {
+        id: match.params.id,
+      },
+    }),
+  }),
+  graphql(FETCH_EVENT_TABLES, {
+    name: 'fetchEventTables',
     options: ({ match }) => ({
       fetchPolicy: 'network-only',
       variables: {

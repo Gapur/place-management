@@ -6,8 +6,8 @@ import _ from 'lodash';
 import {
   renderInput,
   renderTextarea,
-  renderRangePicker,
   renderSwitch,
+  renderDateTime,
 } from '../../shared/utils/form_components';
 import { required } from '../../shared/utils/form_validations';
 import CustomTags from '../../stories/components/CustomTags';
@@ -33,7 +33,7 @@ class EventForm extends Component {
   }
 
   onSubmit(values) {
-    this.props.onSubmit({
+    return this.props.onSubmit({
       ...values,
       availableCities: this.state.tags,
       feedNotificationImg: this.state.file,
@@ -128,9 +128,18 @@ class EventForm extends Component {
             />
 
             <Field
-              name="dateRange"
-              label="From Date To Date"
-              component={renderRangePicker}
+              name="fromDateTime"
+              label="From DateTime"
+              placeholder="From Date Time"
+              component={renderDateTime}
+              validate={required}
+            />
+
+            <Field
+              name="toDateTime"
+              label="To DateTime"
+              placeholder="To Date Time"
+              component={renderDateTime}
               validate={required}
             />
 

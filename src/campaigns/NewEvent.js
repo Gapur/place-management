@@ -17,11 +17,10 @@ class NewEvent extends Component {
   }
 
   handleSubmit(values) {
-    const { createEvent, push, match: { params } } = this.props;
-    console.log(values);
-    // return createEvent({ variables: { ...values } })
-    //   .then(() => push(`/campaigns/edit/${params.campaignId}`))
-    //   .catch(parseFormErrors);
+    const { createEventTable, push, match: { params } } = this.props;
+    return createEventTable({ variables: { ...values, campaignId: params.id } })
+      .then(() => push(`/campaigns/edit/${params.id}`))
+      .catch(parseFormErrors);
   }
 
   render() {
@@ -46,23 +45,29 @@ class NewEvent extends Component {
   }
 }
 
-const CREATE_EVENT = gql`
-  mutation CreataEvent(
+const CREATE_EVENT_TABLE = gql`
+  mutation CreataEventTable(
     $name: String!,
-    $dateRange: [String!],
-    $active: Boolean,
+    $fromDateTime: DateTime,
+    $toDateTime: DateTime,
+    $active: Enabled,
+    $description: String,
+    $campaignId: ID,
   ) {
     createEventTable(
       name: $name
-      dateRange: $dateRange
+      fromDateTime: $fromDateTime
+      toDateTime: $toDateTime
       active: $active
+      description: $description
+      campaignId: $campaignId
     ) {
       id
     }
   }
 `
-const NewEventScreen = graphql(CREATE_EVENT, {
-  name: 'createEvent',
+const NewEventScreen = graphql(CREATE_EVENT_TABLE, {
+  name: 'createEventTable',
   options: {
     fetchPolicy: 'network-only',
   },

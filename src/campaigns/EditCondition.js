@@ -18,8 +18,8 @@ class EditCondition extends Component {
 
   handleSubmit(values) {
     const { match: { params }, updateCondition, push } = this.props;
-    return updateCondition({ variables: { ...values, id: params.campaignId } })
-      .then(() => push(`/campaigns/edit/${params.campaignId}`))
+    return updateCondition({ variables: { ...values, id: params.id } })
+      .then(() => push(`/campaigns/edit/${params.id}`))
       .catch(parseFormErrors);
   }
 

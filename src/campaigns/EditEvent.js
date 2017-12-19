@@ -17,15 +17,15 @@ class EditEvent extends Component {
   }
 
   handleSubmit(values) {
-    const { match: { params }, updateEvent, push } = this.props;
-    return updateEvent({ variables: { ...values, id: params.id } })
+    const { match: { params }, updateEventTable, push } = this.props;
+    return updateEventTable({ variables: { ...values, id: params.id } })
       .then(() => push(`/campaigns/edit/${params.id}`))
       .catch(parseFormErrors);
   }
 
   render() {
-    const { match: { params }, fetchEvent } = this.props;
-    if (fetchEvent.loading) {
+    const { match: { params }, fetchEventTable } = this.props;
+    if (fetchEventTable.loading) {
       return <div className="loader-indicator" />;
     }
 
@@ -34,7 +34,7 @@ class EditEvent extends Component {
         <Breadcrumb>
           <Breadcrumb.Item><Link to="/campaigns">Campaigns</Link></Breadcrumb.Item>
           <Breadcrumb.Item>
-            <Link to={`/campaigns/edit/${params.id || 1}`}>Edit Campaign</Link>
+            <Link to={`/campaigns/edit/${params.id}`}>Edit Campaign</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>Edit Event</Breadcrumb.Item>
         </Breadcrumb>
@@ -43,7 +43,7 @@ class EditEvent extends Component {
           <h3>Edit Event</h3>
 
           <EventForm
-            initialValues={fetchEvent.EventTable}
+            initialValues={fetchEventTable.EventTable}
             onSubmit={this.handleSubmit}
           />
         </div>
@@ -52,29 +52,35 @@ class EditEvent extends Component {
   }
 }
 
-const FETCH_EVENT = gql`
-  query FetchEvent($id: ID!) {
+const FETCH_EVENT_TABLE = gql`
+  query FetchEventTable($id: ID!) {
     EventTable(id: $id) {
       id
       name
-      dateRange
+      fromDateTime
+      toDateTime
       active
+      description
     }
   }
 `
 
-const UPDATE_EVENT = gql`
-  mutation UpdateEvent(
+const UPDATE_EVENT_TABLE = gql`
+  mutation UpdateEventTable(
     $id: ID!,
     $name: String!,
-    $dateRange: [String!],
-    $active: Boolean,
+    $fromDateTime: DateTime,
+    $toDateTime: DateTime,
+    $active: Enabled,
+    $description: String,
   ) {
-    updateEvent (
+    updateEventTable (
       id: $id
       name: $name
-      dateRange: $dateRange
+      fromDateTime: $fromDateTime
+      toDateTime: $toDateTime
       active: $active
+      description: $description
     ) {
       id
     }
@@ -82,17 +88,17 @@ const UPDATE_EVENT = gql`
 `
 
 const EditEventScreen = compose(
-  graphql(FETCH_EVENT, {
-    name: 'fetchEvent',
+  graphql(FETCH_EVENT_TABLE, {
+    name: 'fetchEventTable',
     options: ({ match }) => ({
       fetchPolicy: 'network-only',
       variables: {
-        id: match.params.campaignId,
+        id: match.params.eventId,
       },
     }),
   }),
-  graphql(UPDATE_EVENT, {
-    name: 'updateEvent',
+  graphql(UPDATE_EVENT_TABLE, {
+    name: 'updateEventTable',
     options: {
       fetchPolicy: 'network-only',
     },

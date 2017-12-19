@@ -2,15 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-export const eventColumns = [{
-  title: 'Date (to Date)',
-  dataIndex: 'date',
-  sorter: (a, b) => a.date.length - b.date.length,
+export const eventColumns = (campaignId) => [{
+  title: 'From DateTime',
+  dataIndex: 'dateTime',
+  sorter: (a, b) => a.dateTime.length - b.dateTime.length,
+  render: (value, record) => `${moment(record.fromDateTime).format('L')} - ${moment(record.toDateTime).format('L')}`
 }, {
   title: 'Event Name',
-  dataIndex: 'event_name',
-  sorter: (a, b) => a.event_name.length - b.event_name.length,
-  render: (text, record) => <Link to={`/campaigns/edit/${record.key}/event/edit/${record.key}`}>{record.event_name}</Link>,
+  dataIndex: 'name',
+  sorter: (a, b) => a.name.length - b.name.length,
+  render: (value, record) => <Link to={`/campaigns/edit/${campaignId}/event/edit/${record.key}`}>{record.name}</Link>,
 }, {
   title: 'City',
   dataIndex: 'city',
@@ -18,33 +19,7 @@ export const eventColumns = [{
 }, {
   title: 'Active',
   dataIndex: 'active',
-  render: (text, record) => <span>{record.active ? 'Yes' : 'No'}</span>
-}];
-
-export const eventData = [{
-  key: '1',
-  date: moment().format(),
-  event_name: 'New Year Party',
-  city: 'Bangkok',
-  active: true,
-}, {
-  key: '2',
-  date: moment().format(),
-  event_name: 'Sognkran',
-  city: 'Chiang Mai',
-  active: false,
-}, {
-  key: '3',
-  date: moment().format(),
-  event_name: 'Naurys',
-  city: 'Qaragandy',
-  active: true,
-}, {
-  key: '4',
-  date: moment().format(),
-  event_name: 'Toy',
-  city: 'Astana',
-  active: true,
+  render: (value, record) => <span>{record.active ? 'Yes' : 'No'}</span>
 }];
 
 export const ruleColumns = [{
