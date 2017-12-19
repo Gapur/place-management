@@ -16,6 +16,7 @@ class EditCampaign extends Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleSubmit(values) {
@@ -23,6 +24,12 @@ class EditCampaign extends Component {
     return updateCampaign({ variables: { ...values, id: params.id } })
       .then(() => push('/campaigns'))
       .catch(parseFormErrors);
+  }
+
+  handleDelete() {
+    const { match: { params }, deleteCampaign, push } = this.props;
+    deleteCampaign({ variables: { id: params.id } })
+      .then(() => push('/campaigns'));
   }
 
   render() {
@@ -61,6 +68,7 @@ class EditCampaign extends Component {
             feedNotificationImg={fetchCampaign.Campaign.feedNotificationImg}
             photoUrl={fetchCampaign.Campaign.photoUrl}
             onSubmit={this.handleSubmit}
+            onDelete={this.handleDelete}
           />
 
           <Divider />
@@ -113,6 +121,14 @@ class EditCampaign extends Component {
     );
   }
 }
+
+const DELETE_CAMPAIGN = gql`
+  mutation DeleteCampaign($id: ID!) {
+    deleteCampaign(id: $id) {
+      id
+    }
+  }
+`
 
 const FETCH_USERS = gql`
   query FetchUsers {
@@ -267,6 +283,12 @@ const EditCampaignScreen = compose(
   }),
   graphql(UPDATE_CAMPAIGN, {
     name: 'updateCampaign',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(DELETE_CAMPAIGN, {
+    name: 'deleteCampaign',
     options: {
       fetchPolicy: 'network-only',
     },

@@ -14,6 +14,7 @@ class EditPlace extends Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleSubmit(values) {
@@ -21,6 +22,12 @@ class EditPlace extends Component {
     return updatePlace({ variables: { ...values, id: params.id } })
       .then(() => push('/places'))
       .catch(parseFormErrors);
+  }
+
+  handleDelete() {
+    const { match: { params }, deletePlace, push } = this.props;
+    deletePlace({ variables: { id: params.id } })
+      .then(() => push('/places'));
   }
 
   render() {
@@ -43,12 +50,21 @@ class EditPlace extends Component {
             initialValues={Place}
             pictureURL={Place.pictureURL}
             onSubmit={this.handleSubmit}
+            onDelete={this.handleDelete}
           />
         </div>
       </div>
     );
   }
 }
+
+const DELETE_PLACE = gql`
+  mutation DeletePlace($id: ID!) {
+    deletePlace(id: $id) {
+      id
+    }
+  }
+`
 
 const FETCH_PLACE = gql`
   query FetchPlace($id: ID!) {
@@ -141,6 +157,12 @@ const EditPlaceScreen = compose(
   }),
   graphql(UPDATE_PLACE, {
     name: 'updatePlace',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(DELETE_PLACE, {
+    name: 'deletePlace',
     options: {
       fetchPolicy: 'network-only',
     },

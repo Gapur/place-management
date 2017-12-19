@@ -64,7 +64,7 @@ class CampaignForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting, places, users } = this.props;
+    const { handleSubmit, error, submitting, places, users, onDelete } = this.props;
     const { availableCities, newAvailableCity } = this.state;
     const placeOptions = places.map(({ id, placeName }) => ({ value: id, label: placeName }));
     const usersOptions = users.map(({ id, displayName }) => ({ value: id, label: displayName }));
@@ -77,6 +77,11 @@ class CampaignForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/campaigns">Cancel</Link>
               </Button>
+              {onDelete &&
+                <Button type="danger" ghost onClick={onDelete} style={{ marginRight: 5 }}>
+                  Delete
+                </Button>
+              }
               <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
             </FormItem>
           </div>

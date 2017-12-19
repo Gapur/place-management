@@ -38,7 +38,7 @@ class UserForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting, createdAt, createdBy, registrationDate } = this.props;
+    const { handleSubmit, error, submitting, createdAt, createdBy, registrationDate, onDelete } = this.props;
     const buttonAfter = <Button type="primary">Generate</Button>
 
     return (
@@ -49,6 +49,11 @@ class UserForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/users/admin">Cancel</Link>
               </Button>
+              {onDelete &&
+                <Button type="danger" ghost onClick={onDelete} style={{ marginRight: 5 }}>
+                  Delete
+                </Button>
+              }
               <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
             </FormItem>
           </div>

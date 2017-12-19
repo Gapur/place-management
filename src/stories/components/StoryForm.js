@@ -77,7 +77,7 @@ class StoryForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting, places, users, createdAt } = this.props;
+    const { handleSubmit, error, submitting, places, users, createdAt, onDelete } = this.props;
     const { tags, newTag } = this.state;
     const placeOptions = places.map(({ id, placeName }) => ({ value: id, label: placeName }));
     const userOptions = users.map(({ id, displayName }) => ({ value: id, label: displayName }));
@@ -90,6 +90,11 @@ class StoryForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/stories">Cancel</Link>
               </Button>
+              {onDelete &&
+                <Button type="danger" ghost onClick={onDelete} style={{ marginRight: 5 }}>
+                  Delete
+                </Button>
+              }
               <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
             </FormItem>
           </div>

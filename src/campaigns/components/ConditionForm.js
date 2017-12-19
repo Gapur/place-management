@@ -33,7 +33,7 @@ class ConditionForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting, places } = this.props;
+    const { handleSubmit, error, submitting, places, onDelete } = this.props;
 
     return (
       <Form layout="vertical" onSubmit={handleSubmit(this.onSubmit)}>
@@ -42,6 +42,11 @@ class ConditionForm extends Component {
             <Button style={{ marginRight: 5 }}>
               <Link to="/campaigns">Cancel</Link>
             </Button>
+            {onDelete &&
+              <Button type="danger" ghost onClick={onDelete} style={{ marginRight: 5 }}>
+                Delete
+              </Button>
+            }
             <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
           </FormItem>
         </Row>

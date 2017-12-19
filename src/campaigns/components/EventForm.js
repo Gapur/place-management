@@ -59,7 +59,7 @@ class EventForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting } = this.props;
+    const { handleSubmit, error, submitting, onDelete } = this.props;
     const { tags, newTag } = this.state;
 
     return (
@@ -70,6 +70,11 @@ class EventForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/campaigns/">Cancel</Link>
               </Button>
+              {onDelete &&
+                <Button type="danger" ghost onClick={onDelete} style={{ marginRight: 5 }}>
+                  Delete
+                </Button>
+              }
               <Button type="primary" loading={submitting} htmlType="submit">
                 Save
               </Button>

@@ -15,14 +15,22 @@ class EditUser extends Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleSubmit(values) {
     const { match: { params }, updateUser, push } = this.props;
     const userType = USER_GROUP.find(group => group.value.toLowerCase() == params.type);
     return updateUser({ variables: { ...values, id: params.id } })
-      .then(() => push(`/users/${userType.value}`))
+      .then(() => push(`/users/${userType.value.toLowerCase()}`))
       .catch(parseFormErrors);
+  }
+
+  handleDelete() {
+    const { match: { params }, deleteUser, push } = this.props;
+    const userType = USER_GROUP.find(group => group.value.toLowerCase() == params.type);
+    deleteUser({ variables: { id: params.id } })
+      .then(() => push(`/users/${userType.value.toLowerCase()}`));
   }
 
   render() {
@@ -50,6 +58,7 @@ class EditUser extends Component {
             initialValues={User}
             photoURL={User.photoURL}
             onSubmit={this.handleSubmit}
+            onDelete={this.handleDelete}
           />
         </div>
       </div>
@@ -123,6 +132,14 @@ const UPDATE_USER = gql`
   }
 `
 
+const DELETE_USER = gql`
+  mutation DeleteUser($id: ID!) {
+    deleteUser(id: $id) {
+      id
+    }
+  }
+`
+
 const EditUserScreen = compose(
   graphql(FETCH_USER, {
     name: 'fetchUser',
@@ -135,6 +152,12 @@ const EditUserScreen = compose(
   }),
   graphql(UPDATE_USER, {
     name: 'updateUser',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(DELETE_USER, {
+    name: 'deleteUser',
     options: {
       fetchPolicy: 'network-only',
     },

@@ -63,7 +63,7 @@ class PlaceForm extends Component {
   }
 
   render() {
-    const { handleSubmit, error, submitting, createdAt, createdBy, lat, long } = this.props;
+    const { handleSubmit, error, submitting, createdAt, createdBy, lat, long, onDelete } = this.props;
 
     return (
       <Form onSubmit={handleSubmit(this.onSubmit)}>
@@ -73,6 +73,11 @@ class PlaceForm extends Component {
               <Button style={{ marginRight: 5 }}>
                 <Link to="/places">Cancel</Link>
               </Button>
+              {onDelete &&
+                <Button type="danger" ghost onClick={onDelete} style={{ marginRight: 5 }}>
+                  Delete
+                </Button>
+              }
               <Button loading={submitting} type="primary" htmlType="submit">Save</Button>
             </FormItem>
           </div>

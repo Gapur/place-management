@@ -14,6 +14,7 @@ class EditStory extends Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleSubmit(values) {
@@ -21,6 +22,12 @@ class EditStory extends Component {
     return updateStory({ variables: { ...values, id: params.id } })
       .then(() => push('/stories'))
       .catch(parseFormErrors);
+  }
+
+  handleDelete() {
+    const { match: { params }, deleteStory, push } = this.props;
+    deleteStory({ variables: { id: params.id } })
+      .then(() => push('/stories'));
   }
 
   render() {
@@ -52,6 +59,7 @@ class EditStory extends Component {
             places={fetchPlaces.allPlaces}
             hashtags={fetchStory.Story.hashtag}
             onSubmit={this.handleSubmit}
+            onDelete={this.handleDelete}
           />
         </div>
       </div>
@@ -73,6 +81,14 @@ const FETCH_USERS = gql`
     allUsers {
       id
       displayName
+    }
+  }
+`
+
+const DELETE_STORY = gql`
+  mutation DeleteStory($id: ID!) {
+    deleteStory(id: $id) {
+      id
     }
   }
 `
@@ -149,6 +165,12 @@ const EditStoryScreen = compose(
   }),
   graphql(UPDATE_STORY, {
     name: 'updateStory',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(DELETE_STORY, {
+    name: 'deleteStory',
     options: {
       fetchPolicy: 'network-only',
     },

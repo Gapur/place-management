@@ -14,6 +14,7 @@ class EditCondition extends Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleSubmit(values) {
@@ -22,6 +23,12 @@ class EditCondition extends Component {
     return updateCondition({ variables: { ...values, id: params.conditionId } })
       .then(() => push(`/campaigns/edit/${params.id}`))
       .catch(parseFormErrors);
+  }
+
+  handleDelete() {
+    const { match: { params }, deleteCondition, push } = this.props;
+    deleteCondition({ variables: { id: params.conditionId } })
+      .then(() => push(`/campaigns/edit/${params.id}`));
   }
 
   render() {
@@ -55,6 +62,7 @@ class EditCondition extends Component {
             places={fetchPlaces.allPlaces}
             badgeReward={fetchCondition.Condition.badgeReward.photoURL}
             onSubmit={this.handleSubmit}
+            onDelete={this.handleDelete}
           />
         </div>
       </div>
@@ -128,6 +136,14 @@ const UPDATE_CONDITION = gql`
   }
 `
 
+const DELETE_CONDITION = gql`
+  mutation DeleteCondition($id: ID!) {
+    deleteCondition(id: $id) {
+      id
+    }
+  }
+`
+
 const EditConditionScreen = compose(
   graphql(FETCH_PLACES, {
     name: 'fetchPlaces',
@@ -146,6 +162,12 @@ const EditConditionScreen = compose(
   }),
   graphql(UPDATE_CONDITION, {
     name: 'updateCondition',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(DELETE_CONDITION, {
+    name: 'deleteCondition',
     options: {
       fetchPolicy: 'network-only',
     },

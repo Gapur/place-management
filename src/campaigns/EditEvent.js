@@ -14,13 +14,20 @@ class EditEvent extends Component {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleSubmit(values) {
     const { match: { params }, updateEventTable, push } = this.props;
-    return updateEventTable({ variables: { ...values, id: params.id } })
+    return updateEventTable({ variables: { ...values, id: params.eventId } })
       .then(() => push(`/campaigns/edit/${params.id}`))
       .catch(parseFormErrors);
+  }
+
+  handleDelete() {
+    const { match: { params }, deleteEventTable, push } = this.props;
+    deleteEventTable({ variables: { id: params.eventId } })
+      .then(() => push(`/campaigns/edit/${params.id}`));
   }
 
   render() {
@@ -45,6 +52,7 @@ class EditEvent extends Component {
           <EventForm
             initialValues={fetchEventTable.EventTable}
             onSubmit={this.handleSubmit}
+            onDelete={this.handleDelete}
           />
         </div>
       </div>
@@ -87,6 +95,14 @@ const UPDATE_EVENT_TABLE = gql`
   }
 `
 
+const DELETE_EVENT_TABLE = gql`
+  mutation DeleteEventTable($id: ID!) {
+    deleteEventTable(id: $id) {
+      id
+    }
+  }
+`
+
 const EditEventScreen = compose(
   graphql(FETCH_EVENT_TABLE, {
     name: 'fetchEventTable',
@@ -99,6 +115,12 @@ const EditEventScreen = compose(
   }),
   graphql(UPDATE_EVENT_TABLE, {
     name: 'updateEventTable',
+    options: {
+      fetchPolicy: 'network-only',
+    },
+  }),
+  graphql(DELETE_EVENT_TABLE, {
+    name: 'deleteEventTable',
     options: {
       fetchPolicy: 'network-only',
     },
