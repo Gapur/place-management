@@ -7,6 +7,13 @@ const FormItem = Form.Item;
 const Header = Layout.Header;
 
 class AppHeader extends Component {
+  componentWillReceiveProps(newProps) {
+    console.log(newProps);
+    if (!newProps.data) {
+      
+    }
+  }
+
   onLogout() {
     localStorage.removeItem('graphcoolToken');
     window.location.reload();

@@ -19,7 +19,6 @@ class EditCondition extends Component {
 
   handleSubmit(values) {
     const { match: { params }, updateCondition, push } = this.props;
-    console.log(values);
     return updateCondition({ variables: { ...values, id: params.conditionId } })
       .then(() => push(`/campaigns/edit/${params.id}`))
       .catch(parseFormErrors);
@@ -37,8 +36,6 @@ class EditCondition extends Component {
     if (fetchCondition.loading || fetchPlaces.loading) {
       return <div className="loader-indicator" />;
     }
-
-    console.log(fetchCondition.Condition);
 
     const initialValues = {
       ...fetchCondition.Condition,
