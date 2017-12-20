@@ -38,6 +38,8 @@ class EditCondition extends Component {
       return <div className="loader-indicator" />;
     }
 
+    console.log(fetchCondition.Condition);
+
     const initialValues = {
       ...fetchCondition.Condition,
       places: fetchCondition.Condition.places.map(place => ({ placeId: place.place.id, event: place.event, distance: place.distance })),
@@ -94,6 +96,7 @@ const FETCH_CONDITION = gql`
         photoURL
       }
       places {
+        id
         place {
           id
           placeName
@@ -118,6 +121,8 @@ const UPDATE_CONDITION = gql`
     $distance: Int!,
     $notificationType: NotificatiionType,
     $badgeReward: String!,
+    $dates: [ConditiondatesConditionDate!]!,
+    $places: [ConditionplacesConditionPlace!]!,
   ) {
     updateCondition (
       id: $id
@@ -130,6 +135,8 @@ const UPDATE_CONDITION = gql`
         name: "badge",
         photoURL: $badgeReward
       }
+      dates: $dates
+      places: $places
     ) {
       id
     }
