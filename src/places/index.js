@@ -7,6 +7,56 @@ import gql from 'graphql-tag';
 import { placeColumns } from '../shared/constants/placesConstants';
 
 class Places extends Component {
+  componentDidMount() {
+    this.updateUserSubscription = this.props.fetchPlaces.subscribeToMore({
+      document: gql`
+        subscription {
+          Place(filter: {
+            mutation_in: [CREATED, UPDATED, DELETED]
+          }) {
+            mutation
+            node {
+              id
+              createdAt
+              placeName
+              description
+              addressCityTown
+              addressCountry
+              source
+              status
+              createdBy {
+                id
+                username
+              }
+            }
+            previousValues {
+              id
+            }
+          }
+        }
+      `,
+      updateQuery: (previousState, { subscriptionData }) => {
+        const { node, mutation, previousValues } = subscriptionData.data.Place;
+        switch (mutation) {
+          case 'CREATED': {
+            return { allPlaces: previousState.allPlaces.concat(node) };
+          }
+          case 'UPDATED': {
+            return {
+              allPlaces: previousState.allPlaces
+                .map(place => place.id == node.id ? node : place)
+            };
+          }
+          case 'DELETED': {
+            return { allPlaces: previousState.allPlaces.filter(place => place.id != previousValues.id) };
+          };
+          default:
+            return previousState;
+        }
+      },
+      onError: (err) => console.error(err),
+    });
+  }
 
   render() {
     const { fetchPlaces: { loading, allPlaces } } = this.props;
@@ -55,18 +105,9 @@ const FETCH_PLACES = gql`
       createdAt
       placeName
       description
-      address
-      addressStreet
-      addressAreaDistrict
       addressCityTown
-      addressStateProvince
       addressCountry
-      addressPostalCode
-      locationLat
-      locationLong
       source
-      sourceId
-      pictureURL
       status
       createdBy {
         id

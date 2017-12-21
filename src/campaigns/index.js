@@ -7,6 +7,55 @@ import gql from 'graphql-tag';
 import { campaignColumns } from '../shared/constants/campaignConstants';
 
 class Campaigns extends Component {
+  componentDidMount() {
+    this.updateUserSubscription = this.props.fetchCampaigns.subscribeToMore({
+      document: gql`
+        subscription {
+          Campaign(filter: {
+            mutation_in: [CREATED, UPDATED, DELETED]
+          }) {
+            mutation
+            node {
+              id
+              createdAt
+              name
+              description
+              active
+              defaultPlace {
+                id
+                placeName
+              }
+              pushNotificationActive
+            }
+            previousValues {
+              id
+            }
+          }
+        }
+      `,
+      updateQuery: (previousState, { subscriptionData }) => {
+        const { node, mutation, previousValues } = subscriptionData.data.Campaign;
+        switch (mutation) {
+          case 'CREATED': {
+            return { allCampaigns: previousState.allCampaigns.concat(node) };
+          }
+          case 'UPDATED': {
+            return {
+              allCampaigns: previousState.allCampaigns
+                .map(campaign => campaign.id == node.id ? node : campaign)
+            };
+          }
+          case 'DELETED': {
+            return { allCampaigns: previousState.allCampaigns.filter(campaign => campaign.id != previousValues.id) };
+          };
+          default:
+            return previousState;
+        }
+      },
+      onError: (err) => console.error(err),
+    });
+  }
+
   render() {
     const { fetchCampaigns: { loading, allCampaigns } } = this.props;
     if (loading) {
@@ -53,23 +102,13 @@ const FETCH_CAMPAIGNS = gql`
       id
       createdAt
       name
-      availableCities
       description
       active
-      photoUrl
       defaultPlace {
         id
         placeName
       }
       pushNotificationActive
-      pushNotificationMsg
-      feedNotificationActive
-      feedNotificationImg
-      feedNotificationMsg
-      partner {
-        id
-        displayName
-      }
     }
   }
 `
