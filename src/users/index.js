@@ -25,6 +25,7 @@ class Users extends Component {
               lastSeen
               onlineStatus
               group
+              photoURL
             }
             previousValues {
               id
@@ -114,6 +115,7 @@ const FETCH_USERS = gql`
       lastSeen
       onlineStatus
       group
+      photoURL
     }
   }
 `
