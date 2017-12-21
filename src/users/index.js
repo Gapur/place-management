@@ -8,6 +8,52 @@ import { usersColumns } from '../shared/constants/usersConstants';
 import { USER_GROUP } from '../shared/constants/constants';
 
 class Users extends Component {
+  componentDidMount() {
+    this.updateUserSubscription = this.props.fetchUsers.subscribeToMore({
+      document: gql`
+        subscription {
+          User(filter: {
+            mutation_in: [CREATED, UPDATED, DELETED]
+          }) {
+            mutation
+            node {
+              id
+              displayName
+              city
+              country
+              username
+              lastSeen
+              onlineStatus
+              group
+            }
+            previousValues {
+              id
+            }
+          }
+        }
+      `,
+      updateQuery: (previousState, { subscriptionData }) => {
+        const { node, mutation, previousValues } = subscriptionData.data.User;
+        switch (mutation) {
+          case 'CREATED': {
+            return { allUsers: previousState.allUsers.concat(node) };
+          }
+          case 'UPDATED': {
+            return {
+              allUsers: previousState.allUsers
+                .map(user => user.id == node.id ? node : user)
+            };
+          }
+          case 'DELETED': {
+            return { allUsers: previousState.allUsers.filter(user => user.id != previousValues.id) };
+          };
+          default:
+            return previousState;
+        }
+      },
+      onError: (err) => console.error(err),
+    });
+  }
 
   render() {
     const { fetchUsers: { loading, allUsers }, match: { params } } = this.props;
@@ -61,24 +107,10 @@ const FETCH_USERS = gql`
   query FetchUsers {
     allUsers {
       id
-      createdAt
-      createdBy {
-        id
-        username
-      }
-      firstName
-      lastName
-      email
-      password
       displayName
-      gender
-      birthdate
       city
       country
-      mobile
       username
-      photoURL
-      registrationDate
       lastSeen
       onlineStatus
       group

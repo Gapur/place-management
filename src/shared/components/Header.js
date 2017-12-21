@@ -7,11 +7,31 @@ const FormItem = Form.Item;
 const Header = Layout.Header;
 
 class AppHeader extends Component {
-  componentWillReceiveProps(newProps) {
-    console.log(newProps);
-    if (!newProps.data) {
-      
-    }
+  componentDidMount() {
+    this.updateUserSubscription = this.props.fetchUser.subscribeToMore({
+      document: gql`
+        subscription {
+          User(filter: {
+            mutation_in: [UPDATED]
+          }) {
+            mutation
+            node {
+              id
+              displayName
+              email
+            }
+          }
+        }
+      `,
+      updateQuery: (previousState, { subscriptionData }) => {
+        const user = subscriptionData.data.User.node;
+        if (previousState.User.id == user.id) {
+          return { User: user };
+        }
+        return previousState;
+      },
+      onError: (err) => console.error(err),
+    });
   }
 
   onLogout() {
@@ -74,6 +94,7 @@ const LOGGED_IN_USER_QUERY = gql`
 const FETCH_USER = gql`
   query FetchUser($id: ID!) {
     User(id: $id) {
+      id
       displayName
       email
     }

@@ -23,7 +23,7 @@ class NewUser extends Component {
     const userType = USER_GROUP.find(group => group.value.toLowerCase() == params.type);
     return signupUser({ variables: { ...values } })
       .then((res) => updateUser({ variables: { ...values, id: res.data.signupUser.id } }))
-      .then(() => push(`/users/${userType.value}`))
+      .then(() => push(`/users/${userType.value.toLowerCase()}`))
       .catch(parseFormErrors);
   }
 
